@@ -1721,3 +1721,12 @@ a {
 .w3-border-pale-blue, .w3-hover-border-pale-blue:hover {
     border-color: #e7ffff !important
 }
+
+#map {
+    width: 960px;
+    height: 500px;
+}
+
+#main {
+    margin-top: 56px;
+}
