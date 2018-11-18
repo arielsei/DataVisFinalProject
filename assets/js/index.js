@@ -1,3 +1,6 @@
+let option1Selected = true;
+let option2Selected = false;
+
 window.onload = () => {
     const map = new L.map("map", {
         center: [-6, -60],
@@ -14,9 +17,17 @@ window.onload = () => {
         onAdd: function(map) {
             let container = L.DomUtil.get("option1");
             container.onclick = () => {
-                document.getElementById("testContent").innerHTML =
-                    "This is description for Option 1";
-                document.getElementById("descriptions").style.display = "block";
+                option1Selected = !option1Selected;
+
+                if (option1Selected)
+                    document
+                        .getElementById("option1")
+                        .classList.add("selected");
+                else
+                    document
+                        .getElementById("option1")
+                        .classList.remove("selected");
+                setPopupContent();
             };
             return container;
         }
@@ -28,10 +39,19 @@ window.onload = () => {
 
         onAdd: function(map) {
             let container = L.DomUtil.get("option2");
+
             container.onclick = () => {
-                document.getElementById("testContent").innerHTML =
-                    "You selected Option 2";
-                document.getElementById("descriptions").style.display = "block";
+                option2Selected = !option2Selected;
+                if (option2Selected)
+                    document
+                        .getElementById("option2")
+                        .classList.add("selected");
+                else
+                    document
+                        .getElementById("option2")
+                        .classList.remove("selected");
+
+                setPopupContent();
             };
             return container;
         }
@@ -51,4 +71,26 @@ window.onload = () => {
     );
     map.addControl(new customOption2());
     map.addControl(new customOption1());
+    document.getElementById("option1").classList.add("selected");
+    setPopupContent();
 };
+
+function setPopupContent() {
+    console.log("test");
+    if (option1Selected && option2Selected) {
+        document.getElementById("descriptions").style.display = "block";
+        document.getElementById("testContent").innerHTML =
+            "This is description for both selected";
+    } else if (option1Selected) {
+        document.getElementById("descriptions").style.display = "block";
+
+        document.getElementById("testContent").innerHTML =
+            "This is description for Option 1";
+    } else if (option2Selected) {
+        document.getElementById("descriptions").style.display = "block";
+        document.getElementById("testContent").innerHTML =
+            "This is description for Option 2";
+    } else {
+        document.getElementById("descriptions").style.display = "none";
+    }
+}
