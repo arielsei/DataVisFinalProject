@@ -2,9 +2,14 @@ let option1Selected = true;
 let option2Selected = false;
 
 window.onload = () => {
+    const maxBounds = [
+        [13.390290, -16.332470], //Southwest
+        [-59.450451, -109.474930]  //Northeast
+    ];
     const map = new L.map("map", {
-        center: [-6, -60],
-        zoom: 5
+        center: [-6, -55],
+        zoom: 5,
+        maxBounds: maxBounds
     });
     const layerOptions = {
         maxZoom: 7,
@@ -77,7 +82,6 @@ window.onload = () => {
 };
 
 function setPopupContent() {
-    console.log("test");
     if (option1Selected && option2Selected) {
         document.getElementById("descriptions").style.display = "block";
         document.getElementById("testContent").innerHTML =
