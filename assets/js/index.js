@@ -7,7 +7,8 @@ window.onload = () => {
         zoom: 5
     });
     const layerOptions = {
-        maxZoom: 7
+        maxZoom: 7,
+        minZoom: 4
     };
     const customOption1 = L.Control.extend({
         options: {
