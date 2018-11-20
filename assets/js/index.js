@@ -96,7 +96,7 @@ window.onload = () => {
       });
     const topoLayer = new L.TopoJSON();
 
-    readJsonFile("assets/data/mineria_short.geojson.json", function(text){
+    readJsonFile("assets/data/mineria_1985.geojson.json", function(text){
         console.log(text);
         var data = JSON.parse(text);
         console.log(data);
