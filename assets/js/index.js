@@ -7,13 +7,14 @@ window.onload = () => {
         [-59.450451, -109.474930]  //Northeast
     ];
     const map = new L.map("map", {
-        center: [-6, -55],
-        zoom: 5,
-        maxBounds: maxBounds
+        center: [-12.8, -69.5],
+        zoom: 9,
+        maxBounds: maxBounds,
+        maxBoundsViscosity: 1.0
     });
     const layerOptions = {
-        maxZoom: 7,
-        minZoom: 4
+        maxZoom: 12,
+        minZoom: 5
     };
     const customOption1 = L.Control.extend({
         options: {
@@ -79,6 +80,36 @@ window.onload = () => {
     map.addControl(new customOption1());
     document.getElementById("option1").classList.add("selected");
     setPopupContent();
+
+    L.TopoJSON = L.GeoJSON.extend({  
+        addData: function(jsonData) {    
+          if (jsonData.type === 'Topology') {
+            for (key in jsonData.objects) {
+              geojson = topojson.feature(jsonData, jsonData.objects[key]);
+              L.GeoJSON.prototype.addData.call(this, geojson);
+            }
+          }    
+          else {
+            L.GeoJSON.prototype.addData.call(this, jsonData);
+          }
+        }  
+      });
+    const topoLayer = new L.TopoJSON();
+
+    readJsonFile("assets/data/mineria_short.geojson.json", function(text){
+        console.log(text);
+        var data = JSON.parse(text);
+        console.log(data);
+        topoLayer.addData(data);
+        topoLayer.addTo(map);
+    });
+
+    // readJsonFile("assets/data/geojson/mineria_short.geojson", function(text){
+    //     console.log(text);
+    //     var data = JSON.parse(text);
+    //     console.log(data);
+    //     L.geoJSON(data).addTo(map);
+    // });
 };
 
 function setPopupContent() {
@@ -98,4 +129,16 @@ function setPopupContent() {
     } else {
         document.getElementById("descriptions").style.display = "none";
     }
+}
+
+function readJsonFile(filename, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", filename, true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    }
+    rawFile.send(null);
 }
