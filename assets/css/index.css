@@ -2063,3 +2063,11 @@ a {
 #testContent {
     color: blue;
 }
+
+#slider {
+    position: absolute;
+    z-index: 2000;
+    width: 300px;
+    bottom: 10px;
+    left:30px;
+}

@@ -1,5 +1,6 @@
 let option1Selected = true;
 let option2Selected = false;
+let sliderElement;
 
 window.onload = () => {
     const maxBounds = [
@@ -97,9 +98,7 @@ window.onload = () => {
     const topoLayer = new L.TopoJSON();
 
     readJsonFile("assets/data/mineria_1985.geojson.json", function(text){
-        console.log(text);
         var data = JSON.parse(text);
-        console.log(data);
         topoLayer.addData(data);
         topoLayer.addTo(map);
     });
@@ -110,6 +109,7 @@ window.onload = () => {
     //     console.log(data);
     //     L.geoJSON(data).addTo(map);
     // });
+    initializeSlider();
 };
 
 function setPopupContent() {
@@ -141,4 +141,19 @@ function readJsonFile(filename, callback) {
         }
     }
     rawFile.send(null);
+}
+
+function initializeSlider() {
+    sliderElement = document.getElementById('slider');
+		noUiSlider.create(sliderElement, {
+			start: 1985,
+			step: 8,
+			range: {
+				min: 1985,
+				max: 2017
+			}
+        });
+    sliderElement.noUiSlider.on('update', function( values ) {
+        console.log(values);
+    });
 }
