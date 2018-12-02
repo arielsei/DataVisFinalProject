@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# Add your imports here
 import pandas as pd
 import geojson
+import shapefile
 
 from pyproj import Proj, transform
 
@@ -14,15 +14,13 @@ COLUMNS = ['Area_ha', 'MiningType', 'Year', 'Sector', 'coords']
 # ALL_INFO = True
 
 
-def change_to_latlon(point_list):
-    result = []
+def change_to_latlon(s):
     inproj = Proj(init='epsg:32719')
     outproj = Proj(init='epsg:4326')
 
-    for point in point_list[0]:
-        x2, y2 = transform(inproj, outproj, point[0], point[1])
-        result.append((x2, y2))
-    return [[result]]
+    for index, point in enumerate(s.points):
+        s.points[index] = transform(inproj, outproj, point[0], point[1])
+    return s
 
 
 def read_shapefile(shp_path):
@@ -30,7 +28,6 @@ def read_shapefile(shp_path):
     Read a shapefile into a Pandas dataframe with a 'coords' column holding
     the geometry information. This uses the pyshp package
     """
-    import shapefile
 
     # read file, parse out the records and shapes
     sf = shapefile.Reader(shp_path)
@@ -39,7 +36,7 @@ def read_shapefile(shp_path):
 
     list_records = [record[0:] for record in records]
 
-    shps = [change_to_latlon(s.__geo_interface__['coordinates']) for s in sf.shapes()]
+    shps = [[change_to_latlon(s).__geo_interface__['coordinates']] for s in sf.shapes()]
 
     # write into a dataframe
     df = pd.DataFrame(columns=fields, data=list_records)
