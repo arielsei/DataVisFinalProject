@@ -2062,6 +2062,7 @@ a {
     border: 1px solid gray;
     z-index: 1000;
     display:none;
+    overflow-y: scroll;
 }
 #testContent {
     color: blue;
@@ -2073,4 +2074,99 @@ a {
     width: 300px;
     bottom: 10px;
     left:30px;
+}
+.description * {
+    margin: 0;
+    padding: 0;
+}
+
+.description body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #eee;
+}
+
+.description #container {
+    width: 1000px;
+    margin: 25px auto 25px auto;
+    padding: 50px 50px 50px 50px;
+    background-color: white;
+    box-shadow: 0 0 20px #ccc;
+}
+
+.description h1 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.description h2 {
+    margin-top: 30px;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.description p {
+    margin-bottom: 25px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.description button {
+    padding: 15px;
+}
+
+.description #footer p {
+    margin-top: 50px;
+    margin-bottom: 0;
+    font-size: 10px;
+    line-height: 14px;
+    color: gray;
+}
+
+.description #footer p a {
+    color: gray;
+}
+
+/* Chart styles */
+
+.description svg {
+    display: block;
+    margin-bottom: 10px;
+    background-color: gray;
+}
+
+.description .area {
+    stroke: black;
+    cursor: pointer;
+}
+
+.description .area:hover {
+    fill: rgb(175, 240, 91);
+}
+
+.description #backButton {
+    cursor: pointer;
+}
+
+.description #backButton rect {
+    fill: rgb(175, 240, 91);
+}
+
+.description #backButton text {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    fill: black;
+}
+
+.description #backButton:hover rect {
+    fill: rgb(26, 199, 194);
+}
+
+.description #backButton:hover text {
+    fill: white;
+}
+
+.description .unclickable {
+    pointer-events: none;
 }
