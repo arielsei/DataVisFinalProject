@@ -13,7 +13,7 @@ LU_CLASS = {1: 'Bosque inundable', 2: 'Bosque no inundable', 3: 'Vegetacion secu
             9: 'Pasto', 10: 'Pasto-Agricultura', 11: 'Agricultura', 12: 'Agua', 13: 'Urbano', 14: 'Mineria',
             15: 'Suelo desnudo', 16: 'Aguajales'}
 
-DATA_FOLDER = '../assets/data/'
+DATA_FOLDER = '../data/'
 TIF_FOLDER = '{}tif/'.format(DATA_FOLDER)
 with rasterio.open('{}LU_MAP_final_rec01.tif'.format(TIF_FOLDER)) as src:
     # Read the dataset's valid data mask as a ndarray.
