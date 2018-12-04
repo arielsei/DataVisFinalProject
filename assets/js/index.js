@@ -103,7 +103,7 @@ window.onload = () => {
         topoLayer.addTo(map);
     });
 
-    // readJsonFile("assets/data/geojson/mineria_short.geojson", function(text){
+    // readJsonFile("assets/data/mineria_1985.geojson", function(text){
     //     console.log(text);
     //     var data = JSON.parse(text);
     //     console.log(data);
@@ -132,14 +132,14 @@ function setPopupContent() {
 }
 
 function readJsonFile(filename, callback) {
-    var rawFile = new XMLHttpRequest();
+    let rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", filename, true);
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
             callback(rawFile.responseText);
         }
-    }
+    };
     rawFile.send(null);
 }
 
@@ -151,7 +151,15 @@ function initializeSlider() {
 			range: {
 				min: 1985,
 				max: 2017
-			}
+			},
+            // For Scale
+            // pips: {
+			//     mode: 'steps',
+            //     density: 3,
+            //     format: wNumb({
+            //         decimals: 0
+            //     }),
+            // }
         });
     sliderElement.noUiSlider.on('update', function( values ) {
         console.log(values);
