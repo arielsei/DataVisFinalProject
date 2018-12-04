@@ -6,7 +6,7 @@ import shapefile
 from pyproj import Proj, transform
 
 
-DATA_FOLDER = '../data'
+DATA_FOLDER = '../assets/data'
 SAVE_TO = 0
 INTERVALS = ['1985-1993', '1993-2001', '2001-2009', '2009-2017']
 SPLIT_POINTS = [1985, 1993, 2001, 2009, 2017]
