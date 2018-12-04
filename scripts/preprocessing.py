@@ -36,7 +36,14 @@ def read_shapefile(shp_path):
 
     list_records = [record[0:] for record in records]
 
-    shps = [[change_to_latlon(s).__geo_interface__['coordinates']] for s in sf.shapes()]
+    shps = []
+
+    for s in sf.shapes():
+        coord = change_to_latlon(s).__geo_interface__['coordinates']
+        if len(coord) == 1:
+            shps.append([coord])
+        else:
+            shps.append(coord)
 
     # write into a dataframe
     df = pd.DataFrame(columns=fields, data=list_records)
