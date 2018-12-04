@@ -2049,7 +2049,9 @@ a {
     background-image: url("../static/soil-use-icon-selected.png");
 }
 
-#descriptions {
+#descriptionsCombined,
+#descriptionsOption1,
+#descriptionsOption2 {
     width: 25%;
     height: 100%;
     background: rgba(255, 255, 255, 0.7);
@@ -2059,6 +2061,7 @@ a {
     padding: 5px;
     border: 1px solid gray;
     z-index: 1000;
+    display:none;
 }
 #testContent {
     color: blue;

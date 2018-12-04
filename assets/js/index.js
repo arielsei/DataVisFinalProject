@@ -114,20 +114,21 @@ window.onload = () => {
 
 function setPopupContent() {
     if (option1Selected && option2Selected) {
-        document.getElementById("descriptions").style.display = "block";
-        document.getElementById("testContent").innerHTML =
-            "This is description for both selected";
+        document.getElementById("descriptionsCombined").style.display = "block";
+        document.getElementById("descriptionsOption1").style.display = "none";
+        document.getElementById("descriptionsOption2").style.display = "none";
     } else if (option1Selected) {
-        document.getElementById("descriptions").style.display = "block";
-
-        document.getElementById("testContent").innerHTML =
-            "This is description for Option 1";
+        document.getElementById("descriptionsCombined").style.display = "none";
+        document.getElementById("descriptionsOption1").style.display = "block";
+        document.getElementById("descriptionsOption2").style.display = "none";
     } else if (option2Selected) {
-        document.getElementById("descriptions").style.display = "block";
-        document.getElementById("testContent").innerHTML =
-            "This is description for Option 2";
+        document.getElementById("descriptionsCombined").style.display = "none";
+        document.getElementById("descriptionsOption1").style.display = "none";
+        document.getElementById("descriptionsOption2").style.display = "block";
     } else {
-        document.getElementById("descriptions").style.display = "none";
+        document.getElementById("descriptionsCombined").style.display = "none";
+        document.getElementById("descriptionsOption1").style.display = "none";
+        document.getElementById("descriptionsOption2").style.display = "none";
     }
 }
 
