@@ -163,7 +163,7 @@ function initializeSlider() {
         range: {
             min: 1985,
             max: 2017
-        }
+        },
         // For Scale
         // pips: {
         //     mode: 'steps',
