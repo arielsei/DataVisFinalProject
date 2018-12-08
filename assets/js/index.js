@@ -214,7 +214,7 @@ function test() {
 
     //Load in data
     // console.log(d3);
-    d3.request("/assets/js/Book3.csv")
+    d3.request("/assets/data/Visualization.csv")
         .mimeType("text/csv")
         .get(function(response) {
             //
