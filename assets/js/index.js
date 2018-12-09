@@ -1,14 +1,26 @@
 let option1Selected = true;
 let option2Selected = false;
 let sliderElement;
+let firstLoad = true;
+let topoLayer;
+let map;
+let resizeTimeout;
 
 window.addEventListener(
     "resize",
     function() {
-        console.log("addEventListener - resize");
-        let svggMinerias = document.getElementById("svgMinerias");
-        svggMinerias.parentNode.removeChild(svggMinerias);
-        test();
+        if (!resizeTimeout) {
+            resizeTimeout = setTimeout(function() {
+                resizeTimeout = null;
+                if (option1Selected && !option2Selected) {
+                    let svggMinerias = document.getElementById("svgMinerias");
+                    if (svggMinerias) {
+                        svggMinerias.parentNode.removeChild(svggMinerias);
+                        test();
+                    }
+                }
+            }, 250);
+        }
     },
     true
 );
@@ -18,7 +30,7 @@ window.onload = () => {
         [13.39029, -16.33247], //Southwest
         [-59.450451, -109.47493] //Northeast
     ];
-    const map = new L.map("map", {
+    map = new L.map("map", {
         center: [-12.8, -69.5],
         zoom: 9,
         maxBounds: maxBounds,
@@ -76,7 +88,7 @@ window.onload = () => {
         }
     });
     L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
         layerOptions
     ).addTo(map);
     option1 = L.DomUtil.get("option1");
@@ -105,13 +117,9 @@ window.onload = () => {
             }
         }
     });
-    const topoLayer = new L.TopoJSON();
+    topoLayer = new L.TopoJSON();
 
-    readJsonFile("assets/data/mineria_1985.geojson.json", function(text) {
-        var data = JSON.parse(text);
-        topoLayer.addData(data);
-        topoLayer.addTo(map);
-    });
+    loadMapFile("mineria_2017.geojson.json");
 
     // readJsonFile("assets/data/mineria_1985.geojson", function(text){
     //     console.log(text);
@@ -158,7 +166,7 @@ function readJsonFile(filename, callback) {
 function initializeSlider() {
     sliderElement = document.getElementById("slider");
     noUiSlider.create(sliderElement, {
-        start: 1985,
+        start: 2017,
         step: 8,
         range: {
             min: 1985,
@@ -173,10 +181,49 @@ function initializeSlider() {
         //     }),
         // }
     });
-    sliderElement.noUiSlider.on("update", function(values) {
-        console.log(values);
+    sliderElement.noUiSlider.on("update", onSliderUpdate);
+}
+
+function onSliderUpdate(values) {
+    if (firstLoad) {
+        firstLoad = false;
+    } else {
+        const newValue = parseInt(values[0]);
+        fileName = '';
+        switch(newValue) {
+            case 1985: fileName = 'mineria_1985.geojson.json';
+            break;
+            case 1993: fileName = 'mineria_1993.geojson.json';
+            break;
+            case 2001: fileName = 'mineria_2001.geojson.json';
+            break;
+            case 2009: fileName = 'mineria_2009.geojson.json';
+            break;
+            case 2017: fileName = 'mineria_2017.geojson.json';
+            break;
+        }
+        console.log(fileName);
+        map.removeLayer(topoLayer);
+        loadMapFile(fileName);
+    }
+}
+
+function loadMapFile(fileName) {
+    readJsonFile("assets/data/topolatest/" + fileName, function(text) {
+        var data = JSON.parse(text);
+        topoLayer = new L.TopoJSON();
+        topoLayer.addData(data);
+        topoLayer.addTo(map);
+        topoLayer.eachLayer(handleLayer);
     });
 }
+
+function handleLayer(layer) {
+    layer.setStyle({
+        color: '#000000'
+    });
+}
+
 function test() {
     // console.log(document.getElementById('descriptionsOption1').offsetWidth);
     //Width and height
