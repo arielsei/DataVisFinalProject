@@ -4,6 +4,8 @@ import geojson
 import shapefile
 
 from pyproj import Proj, transform
+from collections import Sequence
+from itertools import chain, count
 
 
 DATA_FOLDER = '../data'
@@ -23,6 +25,16 @@ def change_to_latlon(s):
     return s
 
 
+def depth(seq):
+    seq = iter(seq)
+    try:
+        for level in count():
+            seq = chain([next(seq)], seq)
+            seq = chain.from_iterable(s for s in seq if isinstance(s, Sequence))
+    except StopIteration:
+        return level
+
+
 def read_shapefile(shp_path):
     """
     Read a shapefile into a Pandas dataframe with a 'coords' column holding
@@ -40,10 +52,12 @@ def read_shapefile(shp_path):
 
     for s in sf.shapes():
         coord = change_to_latlon(s).__geo_interface__['coordinates']
-        if len(coord) == 1:
-            shps.append([coord])
-        else:
+        coord_depth = depth(coord)
+
+        if coord_depth == 4:
             shps.append(coord)
+        else:
+            shps.append([coord])
 
     # write into a dataframe
     df = pd.DataFrame(columns=fields, data=list_records)
