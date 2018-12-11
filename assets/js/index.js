@@ -119,7 +119,7 @@ window.onload = () => {
     });
     topoLayer = new L.TopoJSON();
 
-    loadMapFile("mineria_2017.geojson.json");
+    loadMapFile("mineria_1985.geojson.json");
 
     // readJsonFile("assets/data/mineria_1985.geojson", function(text){
     //     console.log(text);
@@ -166,7 +166,7 @@ function readJsonFile(filename, callback) {
 function initializeSlider() {
     sliderElement = document.getElementById("slider");
     noUiSlider.create(sliderElement, {
-        start: 2017,
+        start: 1985,
         step: 8,
         range: {
             min: 1985,
@@ -202,7 +202,7 @@ function onSliderUpdate(values) {
             case 2017: fileName = 'mineria_2017.geojson.json';
             break;
         }
-        console.log(fileName);
+        // console.log(fileName);
         map.removeLayer(topoLayer);
         loadMapFile(fileName);
     }
@@ -230,7 +230,7 @@ function test() {
 
     var w = document.getElementById("descriptionsOption1").offsetWidth - 25;
     var h = 300;
-    var padding = 20;
+    var padding = 35;
 
     //Tracks view state.  Possible values:
     // 0 = default (areas types)
@@ -434,7 +434,23 @@ function test() {
                 .attr("height", h);
 
             svg.append("g").attr("id", "Areas_ha");
-
+            
+            var showLeggend = function(){
+                console.log("TEST!!!!!!")
+                svg.append("text")
+                .attr("id", "types")
+                .selectAll("path")
+                .data(typeSeries, key)
+                .enter()
+                .append("path")
+                .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+                .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
+                .text(function(d) {
+                    // console.log(viewType);
+                    return d.key;
+                });
+                
+            }
             //Create areas for TYPES
             svg.append("g")
                 .attr("id", "types")
@@ -465,6 +481,7 @@ function test() {
                     return color;
                 })
                 .on("click", function(d) {
+                    showLeggend();
                     //Update view state
                     viewState++;
 
@@ -563,7 +580,7 @@ function test() {
                     var keysAll = Object.keys(dataset[0]).slice(1);
                     // console.log(keysAll);
 
-                    //Loop once for each key, and save out just the ones of thisType (e.g. BEVs)
+                    //Loop once for each key, and save out just the ones of thisType 
                     var keysOfThisType = [];
                     for (var i = 0; i < keysAll.length; i++) {
                         if (dataset[0][keysAll[i]].mining_type == thisType) {
@@ -626,6 +643,8 @@ function test() {
                             return d3.interpolateCool(normalized);
                         })
                         .on("click", function(d) {
+                            showLeggend();
+
                             //Update view state
                             viewState++;
 
@@ -718,12 +737,26 @@ function test() {
                 .attr("class", "axis x")
                 .attr("transform", "translate(0," + (h - padding) + ")")
                 .call(xAxis);
+            
+            svg.append("text")             
+                .attr("transform", "translate(" + (w/2) + " ," + 
+                           (h ) + ")")
+                .style("text-anchor", "middle")
+                .text("Date");
 
             svg.append("g")
                 .attr("class", "axis y")
                 .attr("transform", "translate(" + (w - padding * 2) + ",0)")
                 .call(yAxis);
 
+            svg.append("text")
+                .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+                .attr("transform", "translate("+ (w - padding/2) +","+(h/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+                .text("Area hm");
+
+
+            
+                
             //Create back button
             var backButton = svg
                 .append("g")
@@ -811,7 +844,7 @@ function test() {
                         });
                 } else if (viewState == 2) {
                     //Go back to areas view
-
+                    
                     //Update view state
                     viewState--;
 
@@ -853,8 +886,20 @@ function test() {
                             }
                         });
                 }
+                    // ADD LEGEND
+            // svg.append("text")
+            //     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+            //     .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
+            //     .text(function(d) {
+            //         // console.log(viewType);
+            //         return viewType;
+            //     });
+
             });
         });
+
+
+    
 
     var toggleBackButton = function() {
         //Select the button
@@ -868,14 +913,14 @@ function test() {
             //Reveal it
 
             //Set up dynamic button text
-            var buttonText = "&larr; Back to ";
+            var buttonText = "&larr; Return ";
             // var buttonTextInfo = "&larr; Current View ";
             //Text varies by mode and type
             if (viewState == 1) {
                 buttonText += "types of mining HM - SP";
                 // buttonTextInfo += "all types";
             } else if (viewState == 2) {
-                buttonText += "type of mining " + viewType + " by sectors";
+                buttonText += "Mining Type " + viewType + " by sectors";
                 // buttonTextInfo += "all " + viewType + " Areas_ha"
             }
 
