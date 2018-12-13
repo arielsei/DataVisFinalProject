@@ -99,7 +99,7 @@ for i, interval in enumerate(INTERVALS):
     mineria_interval_data = mineria_interval[COLUMNS]
 
     save(mineria_interval_data, '{data}/geojson/{file}'.format(data=DATA_FOLDER, file='mineria_{}'.format(interval)),
-         geo_col='coords', prop_cols=COLUMNS[0:3])
+         geo_col='coords', prop_cols=COLUMNS[0:4])
 
 
 # Last Years
@@ -107,7 +107,7 @@ for split in SPLIT_POINTS:
     last_year = mineria_df[mineria_df['Year'] == split][COLUMNS]
     
     save(last_year, '{data}/geojson/{file}'.format(data=DATA_FOLDER, file='mineria_{}'.format(split)),
-         geo_col='coords', prop_cols=COLUMNS[0:3])
+         geo_col='coords', prop_cols=COLUMNS[0:4])
 
 # AGG
 all_year_agg = mineria_df.groupby(['Year', 'MiningType']).sum().reset_index()
