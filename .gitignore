@@ -8,3 +8,5 @@ Scan_poroma_201120180623_001.pdf
 andres/d3.js
 scripts/.idea/**
 data
+*.zip
+*.geojson
