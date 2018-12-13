@@ -2052,17 +2052,16 @@ a {
 #descriptionsCombined,
 #descriptionsOption1,
 #descriptionsOption2 {
-    width: 25%;
+    width: 400px;
     height: 100%;
     background: rgba(255, 255, 255, 0.7);
     position: absolute;
     top: 0px;
     right: 0px;
-    padding: 5px;
     border: 1px solid gray;
     z-index: 1000;
     display:none;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 #testContent {
     color: blue;
@@ -2093,10 +2092,32 @@ a {
     box-shadow: 0 0 20px #ccc;
 }
 
+.description .title {
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    background-color: white;
+    margin: 0px;
+    padding: 0px;
+}
+
+.description .spacingForTitle {
+    height: 100px;
+    margin: 0px;
+}
+
 .description h1 {
     margin-bottom: 25px;
     font-size: 24px;
     font-weight: bold;
+}
+
+.description h1.mainTitle {
+    height: 75px;
 }
 
 .description h2 {
@@ -2169,4 +2190,90 @@ a {
 
 .description .unclickable {
     pointer-events: none;
+}
+
+
+.description #contents {
+    padding: 0%;
+    width: 100%;
+    margin-top: 0px; /*Adjust if Title header needs more space */
+    height: 100%; /* Adjust to fit max Description length, one setting for all; alternative is 100% */
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.description #contents .space-at-the-top {
+    height: 30px;
+    margin: 0px;
+}
+
+.description #contents .space-at-the-bottom {
+    height: 130px;
+    margin: 0px;
+    text-align: center;
+    padding-top: 70px;
+}
+
+.description .image-container {
+    /* margin + padding = imageContainerMargin in script.js */
+    /* Important for scrolling! */
+    height:450px;
+    margin: 50px 0 0 0;
+    padding: 20px 0 0 0;
+    text-align: center;
+}
+
+.description .image-container img {
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* Three lines that center vertically */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.description .img-holder {
+    margin: 0px;
+    height: 200px;
+    max-height: 200px;
+    width: 100%;
+}
+
+.description .title-text {
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.description .chapter-header {
+    display: block;
+    text-align: center;
+    font-size: 120%;
+}
+
+.description .source {
+    font-size: 9pt;
+    margin: 20px;
+}
+
+.description .descriptionDetail {
+    margin: 20px;
+    text-align: left;
+    font-size: 11pt;
+    padding: 20px;
+}
+
+.description .inFocus {
+    opacity: 1.0;
+    background-color: #f0f0f0;
+}
+
+.description .outFocus {
+    opacity: 0.3;
+    background-color: white;
 }

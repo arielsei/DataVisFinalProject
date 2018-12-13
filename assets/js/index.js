@@ -1,29 +1,31 @@
-let option1Selected = true;
-let option2Selected = false;
+let option1Selected = false;
+let option2Selected = true;
 let sliderElement;
 let firstLoad = true;
 let topoLayer;
 let map;
 let resizeTimeout;
+let imageHeightPlusMargin = 70;
+let mainTitleHeight = 400;
 
-window.addEventListener(
-    "resize",
-    function() {
-        if (!resizeTimeout) {
-            resizeTimeout = setTimeout(function() {
-                resizeTimeout = null;
-                if (option1Selected && !option2Selected) {
-                    let svggMinerias = document.getElementById("svgMinerias");
-                    if (svggMinerias) {
-                        svggMinerias.parentNode.removeChild(svggMinerias);
-                        test();
-                    }
-                }
-            }, 250);
-        }
-    },
-    true
-);
+// window.addEventListener(
+//     "resize",
+//     function() {
+//         if (!resizeTimeout) {
+//             resizeTimeout = setTimeout(function() {
+//                 resizeTimeout = null;
+//                 if (option1Selected && !option2Selected) {
+//                     let svggMinerias = document.getElementById("svgMinerias");
+//                     if (svggMinerias) {
+//                         svggMinerias.parentNode.removeChild(svggMinerias);
+//                         test();
+//                     }
+//                 }
+//             }, 250);
+//         }
+//     },
+//     true
+// );
 
 window.onload = () => {
     const maxBounds = [
@@ -88,7 +90,7 @@ window.onload = () => {
         }
     });
     L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         layerOptions
     ).addTo(map);
     option1 = L.DomUtil.get("option1");
@@ -118,6 +120,7 @@ window.onload = () => {
         }
     });
     topoLayer = new L.TopoJSON();
+    document.getElementById("contents").addEventListener("scroll", handleScroll);
 
     loadMapFile("mineria_2017.geojson.json");
 
@@ -126,9 +129,9 @@ window.onload = () => {
     //     var data = JSON.parse(text);
     //     console.log(data);
     //     L.geoJSON(data).addTo(map);
-    // });
+    // });    
     initializeSlider();
-    test();
+    // test();
 };
 
 function setPopupContent() {
@@ -171,7 +174,7 @@ function initializeSlider() {
         range: {
             min: 1985,
             max: 2017
-        },
+        }
         // For Scale
         // pips: {
         //     mode: 'steps',
@@ -189,18 +192,23 @@ function onSliderUpdate(values) {
         firstLoad = false;
     } else {
         const newValue = parseInt(values[0]);
-        fileName = '';
-        switch(newValue) {
-            case 1985: fileName = 'mineria_1985.geojson.json';
-            break;
-            case 1993: fileName = 'mineria_1993.geojson.json';
-            break;
-            case 2001: fileName = 'mineria_2001.geojson.json';
-            break;
-            case 2009: fileName = 'mineria_2009.geojson.json';
-            break;
-            case 2017: fileName = 'mineria_2017.geojson.json';
-            break;
+        fileName = "";
+        switch (newValue) {
+            case 1985:
+                fileName = "mineria_1985.geojson.json";
+                break;
+            case 1993:
+                fileName = "mineria_1993.geojson.json";
+                break;
+            case 2001:
+                fileName = "mineria_2001.geojson.json";
+                break;
+            case 2009:
+                fileName = "mineria_2009.geojson.json";
+                break;
+            case 2017:
+                fileName = "mineria_2017.geojson.json";
+                break;
         }
         console.log(fileName);
         map.removeLayer(topoLayer);
@@ -219,9 +227,37 @@ function loadMapFile(fileName) {
 }
 
 function handleLayer(layer) {
+    // console.log(layer);
+    let colorOfLayer;
+    if (layer.feature.properties.MiningType == "HM") {
+        colorOfLayer = "#FF3333";
+    } else if(layer.feature.properties.MiningType == "SP") {
+        colorOfLayer = "#33FF33";
+    } else {
+        colorOfLayer = "#000000";
+    }
     layer.setStyle({
-        color: '#000000'
+        color: colorOfLayer
     });
+}
+
+function handleScroll(event) {
+    const scroll = event.srcElement.scrollTop;
+    console.log(scroll);
+    let currentBlock = scroll - 400;
+    if (currentBlock < 0) {
+        currentBlock = 0;
+    }
+    currentBlock = parseInt(currentBlock / 450);
+    console.log("We are in block -> ", currentBlock);
+
+    
+    // if (scroll >= areaTop && $(this).scrollTop() < areaBottom) {
+    //     $('.image-container').removeClass("inFocus").addClass("outFocus");
+    //     $('div#container' + feature.properties['id']).addClass("inFocus").removeClass("outFocus");
+
+    //     map.flyTo([feature.geometry.coordinates[1], feature.geometry.coordinates[0] ], feature.properties['zoom']);
+    //   }
 }
 
 function test() {
