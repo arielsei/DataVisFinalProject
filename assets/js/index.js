@@ -5,8 +5,37 @@ let firstLoad = true;
 let topoLayer;
 let map;
 let resizeTimeout;
-let imageHeightPlusMargin = 70;
-let mainTitleHeight = 400;
+const introHeight = 650;
+const blockHeight = 350;
+let currentBlock = 0;
+const highlights = [
+    null,
+    {
+        lat: -66.40414471383308,
+        long: -10.418888019117534,
+        zoom: 10
+    },
+    {
+        lat: -66.90414471383308,
+        long: -10.218888019117534,
+        zoom: 11
+    },
+    {
+        lat: -66.00414471383308,
+        long: -10.818888019117534,
+        zoom: 12
+    },
+    {
+        lat: -67.20414471383308,
+        long: -11.118888019117534,
+        zoom: 8
+    },
+    {
+        lat: -65.99414471383308,
+        long: -10.018888019117534,
+        zoom: 7
+    }
+];
 
 // window.addEventListener(
 //     "resize",
@@ -104,7 +133,7 @@ window.onload = () => {
     );
     map.addControl(new customOption2());
     map.addControl(new customOption1());
-    document.getElementById("option1").classList.add("selected");
+    document.getElementById("option2").classList.add("selected");
     setPopupContent();
 
     L.TopoJSON = L.GeoJSON.extend({
@@ -120,7 +149,9 @@ window.onload = () => {
         }
     });
     topoLayer = new L.TopoJSON();
-    document.getElementById("contents").addEventListener("scroll", handleScroll);
+    document
+        .getElementById("contents")
+        .addEventListener("scroll", handleScroll);
 
     loadMapFile("mineria_1985.geojson.json");
 
@@ -129,9 +160,9 @@ window.onload = () => {
     //     var data = JSON.parse(text);
     //     console.log(data);
     //     L.geoJSON(data).addTo(map);
-    // });    
+    // });
     initializeSlider();
-    // test();
+    loadVisualization();
 };
 
 function setPopupContent() {
@@ -210,7 +241,6 @@ function onSliderUpdate(values) {
                 fileName = "mineria_2017.geojson.json";
                 break;
         }
-        // console.log(fileName);
         map.removeLayer(topoLayer);
         loadMapFile(fileName);
     }
@@ -227,11 +257,10 @@ function loadMapFile(fileName) {
 }
 
 function handleLayer(layer) {
-    // console.log(layer);
     let colorOfLayer;
     if (layer.feature.properties.MiningType == "HM") {
         colorOfLayer = "#FF3333";
-    } else if(layer.feature.properties.MiningType == "SP") {
+    } else if (layer.feature.properties.MiningType == "SP") {
         colorOfLayer = "#33FF33";
     } else {
         colorOfLayer = "#000000";
@@ -243,28 +272,45 @@ function handleLayer(layer) {
 
 function handleScroll(event) {
     const scroll = event.srcElement.scrollTop;
-    console.log(scroll);
-    let currentBlock = scroll - 400;
-    if (currentBlock < 0) {
-        currentBlock = 0;
+    let blockScrolling = scroll - introHeight;
+    if (
+        scroll ==
+        event.srcElement.scrollHeight - event.srcElement.clientHeight
+    ) {
+        blockScrolling = highlights.length - 1;
+    } else {
+        if (blockScrolling < 0) {
+            blockScrolling = 0;
+        } else {
+            blockScrolling = parseInt(blockScrolling / blockHeight) + 1;
+        }
     }
-    currentBlock = parseInt(currentBlock / 450);
-    console.log("We are in block -> ", currentBlock);
-
-    
-    // if (scroll >= areaTop && $(this).scrollTop() < areaBottom) {
-    //     $('.image-container').removeClass("inFocus").addClass("outFocus");
-    //     $('div#container' + feature.properties['id']).addClass("inFocus").removeClass("outFocus");
-
-    //     map.flyTo([feature.geometry.coordinates[1], feature.geometry.coordinates[0] ], feature.properties['zoom']);
-    //   }
+    if (blockScrolling != currentBlock) {
+        if (highlights[blockScrolling]) {
+            map.flyTo(
+                [
+                    highlights[blockScrolling].long,
+                    highlights[blockScrolling].lat
+                ],
+                highlights[blockScrolling].zoom
+            );
+        }
+        elements = document.getElementsByClassName("story-container");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("inFocus");
+        }
+        document
+            .getElementById("container" + blockScrolling)
+            .classList.add("inFocus");
+        currentBlock = blockScrolling;
+    }
 }
 
-function test() {
+function loadVisualization() {
     // console.log(document.getElementById('descriptionsOption1').offsetWidth);
     //Width and height
 
-    var w = document.getElementById("descriptionsOption1").offsetWidth - 25;
+    var w = document.getElementById("descriptionsOption2").offsetWidth - 25;
     var h = 300;
     var padding = 35;
 
@@ -470,23 +516,25 @@ function test() {
                 .attr("height", h);
 
             svg.append("g").attr("id", "Areas_ha");
-            
-            var showLeggend = function(){
-                console.log("TEST!!!!!!")
+
+            var showLeggend = function() {
+                console.log("TEST!!!!!!");
                 svg.append("text")
-                .attr("id", "types")
-                .selectAll("path")
-                .data(typeSeries, key)
-                .enter()
-                .append("path")
-                .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-                .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
-                .text(function(d) {
-                    // console.log(viewType);
-                    return d.key;
-                });
-                
-            }
+                    .attr("id", "types")
+                    .selectAll("path")
+                    .data(typeSeries, key)
+                    .enter()
+                    .append("path")
+                    .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+                    .attr(
+                        "transform",
+                        "translate(" + padding / 2 + "," + h / 2 + ")"
+                    ) // text is drawn off the screen top left, move down and out and rotate
+                    .text(function(d) {
+                        // console.log(viewType);
+                        return d.key;
+                    });
+            };
             //Create areas for TYPES
             svg.append("g")
                 .attr("id", "types")
@@ -616,7 +664,7 @@ function test() {
                     var keysAll = Object.keys(dataset[0]).slice(1);
                     // console.log(keysAll);
 
-                    //Loop once for each key, and save out just the ones of thisType 
+                    //Loop once for each key, and save out just the ones of thisType
                     var keysOfThisType = [];
                     for (var i = 0; i < keysAll.length; i++) {
                         if (dataset[0][keysAll[i]].mining_type == thisType) {
@@ -773,10 +821,9 @@ function test() {
                 .attr("class", "axis x")
                 .attr("transform", "translate(0," + (h - padding) + ")")
                 .call(xAxis);
-            
-            svg.append("text")             
-                .attr("transform", "translate(" + (w/2) + " ," + 
-                           (h ) + ")")
+
+            svg.append("text")
+                .attr("transform", "translate(" + w / 2 + " ," + h + ")")
                 .style("text-anchor", "middle")
                 .text("Date");
 
@@ -786,13 +833,17 @@ function test() {
                 .call(yAxis);
 
             svg.append("text")
-                .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-                .attr("transform", "translate("+ (w - padding/2) +","+(h/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+                .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+                .attr(
+                    "transform",
+                    "translate(" +
+                        (w - padding / 2) +
+                        "," +
+                        h / 2 +
+                        ")rotate(-90)"
+                ) // text is drawn off the screen top left, move down and out and rotate
                 .text("Area hm");
 
-
-            
-                
             //Create back button
             var backButton = svg
                 .append("g")
@@ -880,7 +931,7 @@ function test() {
                         });
                 } else if (viewState == 2) {
                     //Go back to areas view
-                    
+
                     //Update view state
                     viewState--;
 
@@ -922,20 +973,16 @@ function test() {
                             }
                         });
                 }
-                    // ADD LEGEND
-            // svg.append("text")
-            //     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            //     .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
-            //     .text(function(d) {
-            //         // console.log(viewType);
-            //         return viewType;
-            //     });
-
+                // ADD LEGEND
+                // svg.append("text")
+                //     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+                //     .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
+                //     .text(function(d) {
+                //         // console.log(viewType);
+                //         return viewType;
+                //     });
             });
         });
-
-
-    
 
     var toggleBackButton = function() {
         //Select the button
@@ -973,7 +1020,7 @@ function test() {
             );
             if (
                 rectWidth <
-                document.getElementById("descriptionsOption1").offsetWidth - 25
+                document.getElementById("descriptionsOption2").offsetWidth - 25
             )
                 backButton.select("rect").attr("width", rectWidth);
             else
@@ -981,7 +1028,7 @@ function test() {
                     .select("rect")
                     .attr(
                         "width",
-                        document.getElementById("descriptionsOption1")
+                        document.getElementById("descriptionsOption2")
                             .offsetWidth - 50
                     );
 

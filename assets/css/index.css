@@ -2060,7 +2060,7 @@ a {
     right: 0px;
     border: 1px solid gray;
     z-index: 1000;
-    display:none;
+    display: none;
     /* overflow-y: scroll; */
 }
 #testContent {
@@ -2072,7 +2072,7 @@ a {
     z-index: 2000;
     width: 300px;
     bottom: 10px;
-    left:30px;
+    left: 30px;
 }
 .description * {
     margin: 0;
@@ -2121,7 +2121,7 @@ a {
 }
 
 .description h2 {
-    margin-top: 30px;
+    /* margin-top: 30px; */
     margin-left: 20px;
     font-size: 14px;
 }
@@ -2192,7 +2192,6 @@ a {
     pointer-events: none;
 }
 
-
 .description #contents {
     padding: 0%;
     width: 100%;
@@ -2208,7 +2207,7 @@ a {
 }
 
 .description #contents .space-at-the-bottom {
-    height: 130px;
+    height: 350px;
     margin: 0px;
     text-align: center;
     padding-top: 70px;
@@ -2217,7 +2216,7 @@ a {
 .description .image-container {
     /* margin + padding = imageContainerMargin in script.js */
     /* Important for scrolling! */
-    height:450px;
+    height: 450px;
     margin: 50px 0 0 0;
     padding: 20px 0 0 0;
     text-align: center;
@@ -2268,12 +2267,20 @@ a {
     padding: 20px;
 }
 
-.description .inFocus {
-    opacity: 1.0;
-    background-color: #f0f0f0;
+.description .story-container.intro-container {
+    padding-top: 0;
+    height: auto;
 }
 
-.description .outFocus {
+.description .story-container {
+    padding-top: 50px;
+    height: 350px;
     opacity: 0.3;
     background-color: white;
+}
+
+.description .intro-container.inFocus,
+.description .story-container.inFocus {
+    opacity: 1;
+    background-color: #f0f0f0;
 }
