@@ -68,7 +68,7 @@ window.onload = () => {
         maxBoundsViscosity: 1.0
     });
     const layerOptions = {
-        maxZoom: 20,
+        maxZoom: 14,
         minZoom: 6
     };
     const customOption1 = L.Control.extend({
@@ -366,7 +366,7 @@ function handleLayer(layer) {
                     fillOpacity = 0;
                 }
                 case "Pampa": {
-                    colorOfLayer = "#262626";
+                    colorOfLayer = "#007AAE";
                     fillOpacity = 1;
                 }
             }
