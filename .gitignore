@@ -3,10 +3,9 @@ milestone.docx
 ~$lestone.docx
 Scan_poroma_201120180622_001.pdf
 Scan_poroma_201120180623_001.pdf
-*.csv
 *.xlsx
 andres/d3.js
 scripts/.idea/**
-data
 *.zip
 *.geojson
+*.geojson.json

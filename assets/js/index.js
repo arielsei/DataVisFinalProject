@@ -68,8 +68,8 @@ window.onload = () => {
         maxBoundsViscosity: 1.0
     });
     const layerOptions = {
-        maxZoom: 12,
-        minZoom: 5
+        maxZoom: 20,
+        minZoom: 6
     };
     const customOption1 = L.Control.extend({
         options: {
@@ -153,9 +153,9 @@ window.onload = () => {
         .getElementById("contents")
         .addEventListener("scroll", handleScroll);
 
-    loadMapFile("mineria_1985.geojson.json");
+    loadMapFiles();
 
-    // readJsonFile("assets/data/mineria_1985.geojson", function(text){
+    // readJsonFile("assets/data/simplified_grouped_mineria_1985.geojson", function(text){
     //     console.log(text);
     //     var data = JSON.parse(text);
     //     console.log(data);
@@ -200,7 +200,7 @@ function readJsonFile(filename, callback) {
 function initializeSlider() {
     sliderElement = document.getElementById("slider");
     noUiSlider.create(sliderElement, {
-        start: 1985,
+        start: 2017,
         step: 8,
         range: {
             min: 1985,
@@ -226,47 +226,160 @@ function onSliderUpdate(values) {
         fileName = "";
         switch (newValue) {
             case 1985:
-                fileName = "mineria_1985.geojson.json";
+                topoLayer[0].addTo(map);
+                // topoLayer[1].addTo(map);
+                // topoLayer[2].addTo(map);
+                // topoLayer[3].addTo(map);
+                // topoLayer[4].addTo(map);
+                // map.removeLayer(topoLayer[0]);
+                map.removeLayer(topoLayer[1]);
+                map.removeLayer(topoLayer[2]);
+                map.removeLayer(topoLayer[3]);
+                map.removeLayer(topoLayer[4]);
                 break;
             case 1993:
-                fileName = "mineria_1993.geojson.json";
+                // topoLayer[0].addTo(map);
+                topoLayer[1].addTo(map);
+                // topoLayer[2].addTo(map);
+                // topoLayer[3].addTo(map);
+                // topoLayer[4].addTo(map);
+                map.removeLayer(topoLayer[0]);
+                // map.removeLayer(topoLayer[1]);
+                map.removeLayer(topoLayer[2]);
+                map.removeLayer(topoLayer[3]);
+                map.removeLayer(topoLayer[4]);
                 break;
             case 2001:
-                fileName = "mineria_2001.geojson.json";
+                // topoLayer[0].addTo(map);
+                topoLayer[1].addTo(map);
+                topoLayer[2].addTo(map);
+                // topoLayer[3].addTo(map);
+                // topoLayer[4].addTo(map);
+                map.removeLayer(topoLayer[0]);
+                // map.removeLayer(topoLayer[1]);
+                // map.removeLayer(topoLayer[2]);
+                map.removeLayer(topoLayer[3]);
+                map.removeLayer(topoLayer[4]);
                 break;
             case 2009:
-                fileName = "mineria_2009.geojson.json";
+                // topoLayer[0].addTo(map);
+                topoLayer[1].addTo(map);
+                topoLayer[2].addTo(map);
+                topoLayer[3].addTo(map);
+                // topoLayer[4].addTo(map);
+                map.removeLayer(topoLayer[0]);
+                // map.removeLayer(topoLayer[1]);
+                // map.removeLayer(topoLayer[2]);
+                // map.removeLayer(topoLayer[3]);
+                map.removeLayer(topoLayer[4]);
                 break;
             case 2017:
-                fileName = "mineria_2017.geojson.json";
+                // topoLayer[0].addTo(map);
+                topoLayer[1].addTo(map);
+                topoLayer[2].addTo(map);
+                topoLayer[3].addTo(map);
+                topoLayer[4].addTo(map);
+                map.removeLayer(topoLayer[0]);
+                // map.removeLayer(topoLayer[1]);
+                // map.removeLayer(topoLayer[2]);
+                // map.removeLayer(topoLayer[3]);
+                // map.removeLayer(topoLayer[4]);
                 break;
         }
-        map.removeLayer(topoLayer);
-        loadMapFile(fileName);
     }
 }
 
-function loadMapFile(fileName) {
-    readJsonFile("assets/data/topolatest/" + fileName, function(text) {
-        var data = JSON.parse(text);
-        topoLayer = new L.TopoJSON();
-        topoLayer.addData(data);
-        topoLayer.addTo(map);
-        topoLayer.eachLayer(handleLayer);
+function loadMapFiles() {
+    readJsonFile("assets/data/grouped_mineria_1985.json", function(text) {
+        let data = JSON.parse(text);
+        topoLayer[0] = new L.TopoJSON();
+        topoLayer[0].addData(data);
+        topoLayer[0].eachLayer(handleLayer);
+    });
+    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function(text) {
+        let data = JSON.parse(text);
+        topoLayer[1] = new L.TopoJSON();
+        topoLayer[1].addData(data);
+        topoLayer[1].eachLayer(handleLayer);
+        topoLayer[1].addTo(map);
+    });
+    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function(text) {
+        let data = JSON.parse(text);
+        topoLayer[2] = new L.TopoJSON();
+        topoLayer[2].addData(data);
+        topoLayer[2].eachLayer(handleLayer);
+        topoLayer[2].addTo(map);
+    });
+    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function(text) {
+        let data = JSON.parse(text);
+        topoLayer[3] = new L.TopoJSON();
+        topoLayer[3].addData(data);
+        topoLayer[3].eachLayer(handleLayer);
+        topoLayer[3].addTo(map);
+    });
+    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function(text) {
+        let data = JSON.parse(text);
+        topoLayer[4] = new L.TopoJSON();
+        topoLayer[4].addData(data);
+        topoLayer[4].eachLayer(handleLayer);
+        topoLayer[4].addTo(map);
     });
 }
 
 function handleLayer(layer) {
     let colorOfLayer;
-    if (layer.feature.properties.MiningType == "HM") {
-        colorOfLayer = "#FF3333";
-    } else if (layer.feature.properties.MiningType == "SP") {
-        colorOfLayer = "#33FF33";
-    } else {
-        colorOfLayer = "#000000";
+    let fillOpacity;
+    console.log(layer.feature.properties.Sector);
+    switch (layer.feature.properties.MiningType) {
+        case "HM":
+            switch (layer.feature.properties.Sector) {
+                case "Huepetuhe":
+                    colorOfLayer = "#77070B";
+                    fillOpacity = 0;
+                    break;
+                case "SmallMines": {
+                    colorOfLayer = "#FFC000"; //nada
+                    fillOpacity = 0;
+                }
+                case "Delta": {
+                    colorOfLayer = "#FFFF00"; // nada
+                    fillOpacity = 0;
+                }
+                case "Pampa": {
+                    colorOfLayer = "#00B050";
+                    fillOpacity = 0;
+                }
+            }
+            break;
+        case "SP":
+            switch (layer.feature.properties.Sector) {
+                case "Huepetuhe":
+                    colorOfLayer = "#002060"; // nada
+                    fillOpacity = 0;
+                    break;
+                case "SmallMines": {
+                    colorOfLayer = "#7030A0"; // nada
+                    fillOpacity = 0;
+                }
+                case "Delta": {
+                    colorOfLayer = "#808080"; //nada
+                    fillOpacity = 0;
+                }
+                case "Pampa": {
+                    colorOfLayer = "#262626";
+                    fillOpacity = 1;
+                }
+            }
+            break;
+        default:
+            colorOfLayer = "#000000";
+            fillOpacity = 1;
     }
     layer.setStyle({
         color: colorOfLayer
+        // Uncomment this line to see only the ones with fillOpacity = 1
+        // fillOpacity: fillOpacity,
+        // weight: 0
     });
 }
 
