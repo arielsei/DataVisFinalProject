@@ -76,7 +76,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function(map) {
+        onAdd: function (map) {
             let container = L.DomUtil.get("option1");
             container.onclick = () => {
                 option1Selected = !option1Selected;
@@ -99,7 +99,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function(map) {
+        onAdd: function (map) {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
@@ -137,7 +137,7 @@ window.onload = () => {
     setPopupContent();
 
     L.TopoJSON = L.GeoJSON.extend({
-        addData: function(jsonData) {
+        addData: function (jsonData) {
             if (jsonData.type === "Topology") {
                 for (key in jsonData.objects) {
                     geojson = topojson.feature(jsonData, jsonData.objects[key]);
@@ -153,7 +153,7 @@ window.onload = () => {
         .getElementById("contents")
         .addEventListener("scroll", handleScroll);
 
-    loadMapFiles();
+    // loadMapFiles();
 
     // readJsonFile("assets/data/simplified_grouped_mineria_1985.geojson", function(text){
     //     console.log(text);
@@ -189,7 +189,7 @@ function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", filename, true);
-    rawFile.onreadystatechange = function() {
+    rawFile.onreadystatechange = function () {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
             callback(rawFile.responseText);
         }
@@ -290,34 +290,34 @@ function onSliderUpdate(values) {
 }
 
 function loadMapFiles() {
-    readJsonFile("assets/data/grouped_mineria_1985.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1985.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[0] = new L.TopoJSON();
         topoLayer[0].addData(data);
         topoLayer[0].eachLayer(handleLayer);
     });
-    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[1] = new L.TopoJSON();
         topoLayer[1].addData(data);
         topoLayer[1].eachLayer(handleLayer);
         topoLayer[1].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[2] = new L.TopoJSON();
         topoLayer[2].addData(data);
         topoLayer[2].eachLayer(handleLayer);
         topoLayer[2].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[3] = new L.TopoJSON();
         topoLayer[3].addData(data);
         topoLayer[3].eachLayer(handleLayer);
         topoLayer[3].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[4] = new L.TopoJSON();
         topoLayer[4].addData(data);
@@ -386,10 +386,8 @@ function handleLayer(layer) {
 function handleScroll(event) {
     const scroll = event.srcElement.scrollTop;
     let blockScrolling = scroll - introHeight;
-    if (
-        scroll ==
-        event.srcElement.scrollHeight - event.srcElement.clientHeight
-    ) {
+
+    if (scroll == event.srcElement.scrollHeight - event.srcElement.clientHeight) {
         blockScrolling = highlights.length - 1;
     } else {
         if (blockScrolling < 0) {
@@ -423,67 +421,64 @@ function loadVisualization() {
     // console.log(document.getElementById('descriptionsOption1').offsetWidth);
     //Width and height
 
-    var w = document.getElementById("descriptionsOption2").offsetWidth - 25;
-    var h = 300;
-    var padding = 35;
+    let w = document.getElementById("descriptionsOption2").offsetWidth - 45;
+    let h = 300;
+    let padding = 35;
 
     //Tracks view state.  Possible values:
     // 0 = default (areas types)
     // 1 = areas (of one type)
     // 2 = areas (singular)
-    var viewState = 0;
+    let viewState = 0;
 
     //Tracks most recently viewed/clicked 'type'.  Possible values:
     //"Heavy_Machinery", "Single_Pumps" or undefined
-    var viewType;
+    let viewType;
 
-    var dataset, thisTypeDataset, xScale, yScale, xAxis, yAxis, area; //Empty, for now
+    let dataset, thisTypeDataset, xScale, yScale, xAxis, yAxis, area; //Empty, for now
 
     //For converting strings to Dates
-    var parseTime = d3.timeParse("%Y-%m");
+    let parseTime = d3.timeParse("%Y-%m");
 
     //For converting Dates to strings
-    var formatTime = d3.timeFormat("%Y");
+    let formatTime = d3.timeFormat("%Y");
 
     //Define key function, to be used when binding data
-    var key = function(d) {
+    let key = function (d) {
         return d.key;
     };
 
     //Set up stack methods
-    var areaStack = d3.stack();
-    var typeStack = d3.stack();
+    let areaStack = d3.stack();
+    let typeStack = d3.stack();
 
     //Load in data
     // console.log(d3);
     d3.request("/assets/data/Visualization.csv")
         .mimeType("text/csv")
-        .get(function(response) {
-            //
+        .get(function (response) {
             // DATA PARSING
-            //
-
-            //Parse each row of the CSV into an array of string values
-            var rows = d3.csvParseRows(response.responseText);
+            // Parse each row of the CSV into an array of string values
+            let rows = d3.csvParseRows(response.responseText);
             // console.log(rows);
 
-            //Make dataset an empty array, so we can start adding values
+            // Make dataset an empty array, so we can start adding values
             dataset = [];
 
-            //Loop once for each row of the CSV, starting at row 3,
-            //since rows 0-2 contain only area info, not area values.
-            for (var i = 2; i < rows.length; i++) {
+            // Loop once for each row of the CSV, starting at row 3,
+            // since rows 0-2 contain only area info, not area values.
+            for (let i = 2; i < rows.length; i++) {
                 //Create a new object
                 dataset[i - 2] = {
                     date: parseTime(rows[i][0]) //Make a new Date object for each year + month
                 };
 
                 //Loop once for each area in this row (i.e., for this date)
-                for (var j = 1; j < rows[i].length; j++) {
-                    var sector = rows[0][j];
-                    var mining_type = rows[1][j];
-                    var mining_type_sector = rows[1][j] + " " + rows[0][j]; //
-                    var area_val = rows[i][j];
+                for (let j = 1; j < rows[i].length; j++) {
+                    let sector = rows[0][j];
+                    let mining_type = rows[1][j];
+                    let mining_type_sector = rows[1][j] + " " + rows[0][j]; //
+                    let area_val = rows[i][j];
                     //If area value exists…
                     if (area_val) {
                         area_val = parseInt(area_val); //Convert from string to int
@@ -502,22 +497,20 @@ function loadVisualization() {
                 }
             }
 
-            //Log out the final state of dataset
+            // Log out the final state of dataset
             // console.log(dataset);
 
-            //
             //	TYPE DATA SERIES
-            //
 
-            //The goal here is to make a totally separate data set that
-            //includes just monthly totals for each `type` (Heavy_Machinery, Suction_Pumps).
+            // The goal here is to make a totally separate data set that
+            // includes just monthly totals for each `type` (Heavy_Machinery, Suction_Pumps).
 
-            //Make typeDataset an empty array, so we can start adding values
-            typeDataset = [];
+            // Make typeDataset an empty array, so we can start adding values
+            let typeDataset = [];
 
             //Loop once for each row of the CSV, starting at row 3,
             //since rows 0-2 contain only area info, not area values.
-            for (var i = 2; i < rows.length; i++) {
+            for (let i = 2; i < rows.length; i++) {
                 //Create a new object
                 typeDataset[i - 2] = {
                     date: parseTime(rows[i][0]), //Make a new Date object for each year
@@ -526,9 +519,9 @@ function loadVisualization() {
                 };
 
                 //Loop once for each area in this row (i.e., for this date)
-                for (var j = 1; j < rows[i].length; j++) {
-                    var mining_type = rows[1][j]; //'Type' from 2 row in CSV
-                    var area_val = rows[i][j]; //area value for this area
+                for (let j = 1; j < rows[i].length; j++) {
+                    let mining_type = rows[1][j]; //'Type' from 2 row in CSV
+                    let area_val = rows[i][j]; //area value for this area
 
                     //If area value exists…
                     if (area_val) {
@@ -543,19 +536,17 @@ function loadVisualization() {
                 }
             }
 
-            //Log out the final state of dataset
+            // Log out the final state of dataset
             // console.log(typeDataset);
 
-            //
             // STACKING
-            //
 
             //Tell stack function where to find the keys
-            var types = ["Heavy_Machinery", "Suction_Pumps"];
+            let types = ["Heavy_Machinery", "Suction_Pumps"];
             typeStack.keys(types);
 
             //Stack the data and log it out
-            var typeSeries = typeStack(typeDataset);
+            let typeSeries = typeStack(typeDataset);
             // console.log(typeSeries);
 
             //
@@ -566,10 +557,10 @@ function loadVisualization() {
             xScale = d3
                 .scaleTime()
                 .domain([
-                    d3.min(dataset, function(d) {
+                    d3.min(dataset, function (d) {
                         return d.date;
                     }),
-                    d3.max(dataset, function(d) {
+                    d3.max(dataset, function (d) {
                         return d.date;
                     })
                 ])
@@ -579,12 +570,12 @@ function loadVisualization() {
                 .scaleLinear()
                 .domain([
                     0,
-                    d3.max(typeDataset, function(d) {
-                        var sum = 0;
+                    d3.max(typeDataset, function (d) {
+                        let sum = 0;
 
                         //Loops once for each row, to calculate
                         //the total (sum) of sales of all areas
-                        for (var i = 0; i < types.length; i++) {
+                        for (let i = 0; i < types.length; i++) {
                             sum += d[types[i]];
                         }
 
@@ -610,18 +601,18 @@ function loadVisualization() {
             //Define area generator
             area = d3
                 .area()
-                .x(function(d) {
+                .x(function (d) {
                     return xScale(d.data.date);
                 })
-                .y0(function(d) {
+                .y0(function (d) {
                     return yScale(d[0]);
                 })
-                .y1(function(d) {
+                .y1(function (d) {
                     return yScale(d[1]);
                 });
 
             //Create SVG element
-            var svg = d3
+            let svg = d3
                 .select("#chartContainer")
                 .append("svg")
                 .attr("id", "svgMinerias")
@@ -630,7 +621,7 @@ function loadVisualization() {
 
             svg.append("g").attr("id", "Areas_ha");
 
-            var showLeggend = function() {
+            let showLeggend = function () {
                 console.log("TEST!!!!!!");
                 svg.append("text")
                     .attr("id", "types")
@@ -643,11 +634,12 @@ function loadVisualization() {
                         "transform",
                         "translate(" + padding / 2 + "," + h / 2 + ")"
                     ) // text is drawn off the screen top left, move down and out and rotate
-                    .text(function(d) {
+                    .text(function (d) {
                         // console.log(viewType);
                         return d.key;
                     });
             };
+
             //Create areas for TYPES
             svg.append("g")
                 .attr("id", "types")
@@ -658,12 +650,12 @@ function loadVisualization() {
                 .attr("class", "area")
                 .attr("opacity", 1)
                 .attr("d", area)
-                .attr("fill", function(d) {
+                .attr("fill", function (d) {
                     //Which type is this?
-                    var thisType = d.key;
+                    let thisType = d.key;
 
                     //New color var
-                    var color;
+                    let color;
 
                     switch (thisType) {
                         case "Heavy_Machinery":
@@ -677,17 +669,15 @@ function loadVisualization() {
 
                     return color;
                 })
-                .on("click", function(d) {
+                .on("click", function (d) {
                     showLeggend();
                     //Update view state
                     viewState++;
 
-                    //
                     // TYPES
-                    //
 
                     //Which type was clicked?
-                    var thisType = d.key;
+                    let thisType = d.key;
 
                     //Update this for later reference
                     viewType = thisType;
@@ -696,7 +686,7 @@ function loadVisualization() {
                     //except for this type's data
                     thisTypeDataset = [];
 
-                    for (var i = 0; i < typeDataset.length; i++) {
+                    for (let i = 0; i < typeDataset.length; i++) {
                         thisTypeDataset[i] = {
                             date: typeDataset[i].date,
                             Heavy_Machinery: 0,
@@ -708,11 +698,11 @@ function loadVisualization() {
                     // console.log(thisTypeDataset);
 
                     //Stack the data (even though there's now just one "layer") and log it out
-                    var thisTypeSeries = typeStack(thisTypeDataset);
+                    let thisTypeSeries = typeStack(thisTypeDataset);
                     // console.log(thisTypeSeries);
 
                     //Bind the new data set to paths, overwriting old bound data.
-                    var paths = d3
+                    let paths = d3
                         .selectAll("#types path")
                         .data(thisTypeSeries, key)
                         .classed("unclickable", true);
@@ -721,7 +711,7 @@ function loadVisualization() {
                     //will go to a zero baseline; all others will flatten out).
                     //
                     //Store this transition in a new variable for later reference.
-                    var areaTransitions = paths
+                    let areaTransitions = paths
                         .transition()
                         .duration(1000)
                         .attr("d", area);
@@ -729,8 +719,8 @@ function loadVisualization() {
                     //Update scale
                     yScale.domain([
                         0,
-                        d3.max(thisTypeDataset, function(d) {
-                            var sum = 0;
+                        d3.max(thisTypeDataset, function (d) {
+                            let sum = 0;
 
                             //Calculate the total (sum) of sales of this type,
                             //ignoring the others (for now)
@@ -745,7 +735,7 @@ function loadVisualization() {
                     areaTransitions
                         .transition()
                         .delay(200)
-                        .on("start", function() {
+                        .on("start", function () {
                             //Transition axis to new scale concurrently
                             d3.select("g.axis.y")
                                 .transition()
@@ -755,16 +745,16 @@ function loadVisualization() {
                         .duration(1000)
                         .attr("d", area)
                         .transition()
-                        .on("start", function() {
+                        .on("start", function () {
                             //Make areas visible instantly, so
                             //they are revealed when this fades out
                             d3.selectAll("g#Areas_ha path").attr("opacity", 1);
                         })
                         .duration(1000)
                         .attr("opacity", 0)
-                        .on("end", function(d, i) {
+                        .on("end", function (d, i) {
                             //Reveal back button
-                            if (i == 0) {
+                            if (i === 0) {
                                 toggleBackButton();
                             }
                         });
@@ -774,13 +764,13 @@ function loadVisualization() {
                     //
 
                     //Get all possible keys (make + model), but toss out 'date'
-                    var keysAll = Object.keys(dataset[0]).slice(1);
+                    let keysAll = Object.keys(dataset[0]).slice(1);
                     // console.log(keysAll);
 
                     //Loop once for each key, and save out just the ones of thisType
-                    var keysOfThisType = [];
-                    for (var i = 0; i < keysAll.length; i++) {
-                        if (dataset[0][keysAll[i]].mining_type == thisType) {
+                    let keysOfThisType = [];
+                    for (let i = 0; i < keysAll.length; i++) {
+                        if (dataset[0][keysAll[i]].mining_type === thisType) {
                             keysOfThisType.push(keysAll[i]);
                         }
                     }
@@ -794,7 +784,7 @@ function loadVisualization() {
                         });
 
                     //Stack the data and log it out
-                    var areaSeries = areaStack(dataset);
+                    let areaSeries = areaStack(dataset);
                     // console.log(areaSeries);
 
                     //Create areas for individual areas
@@ -806,17 +796,17 @@ function loadVisualization() {
                         .attr("class", "area")
                         .attr("opacity", 0)
                         .attr("d", area)
-                        .attr("fill", function(d, i) {
+                        .attr("fill", function (d, i) {
                             //Which area is this?
-                            var thisKey = d.key;
+                            let thisKey = d.key;
 
                             //What 'type' is this area?
-                            var thisType = d[0].data[thisKey].mining_type;
+                            let thisType = d[0].data[thisKey].mining_type;
                             // console.log(thisType);
 
                             //Used to find a cool color below
-                            var spread = 0.35;
-                            var startingPoint;
+                            let spread = 0.35;
+                            let startingPoint;
 
                             //Choose where in the color spectrum we start, based on type
                             switch (thisType) {
@@ -830,16 +820,15 @@ function loadVisualization() {
                             }
 
                             //How many areas?
-                            var numAreas_ha = keysOfThisType.length;
+                            let numAreas_ha = keysOfThisType.length;
 
                             //Get a value between 0.0 and 1.0
-                            var normalized =
-                                startingPoint + (i / numAreas_ha) * spread;
+                            let normalized = startingPoint + (i / numAreas_ha) * spread;
 
                             //Get that color on the spectrum
                             return d3.interpolateCool(normalized);
                         })
-                        .on("click", function(d) {
+                        .on("click", function (d) {
                             showLeggend();
 
                             //Update view state
@@ -849,12 +838,12 @@ function loadVisualization() {
                             toggleBackButton();
 
                             //Which area was clicked?
-                            var thisType = d.key;
+                            let thisType = d.key;
 
                             //Fade out all other areas
                             d3.selectAll("g#Areas_ha path")
                                 .classed("unclickable", true) //Prevent future clicks
-                                .filter(function(d) {
+                                .filter(function (d) {
                                     //Filter out 'this' one
                                     if (d.key !== thisType) {
                                         return true;
@@ -865,15 +854,15 @@ function loadVisualization() {
                                 .attr("opacity", 0);
 
                             //Define area generator that will be used just this one time
-                            var singleArea_ha_Area = d3
+                            let singleArea_ha_Area = d3
                                 .area()
-                                .x(function(d) {
+                                .x(function (d) {
                                     return xScale(d.data.date);
                                 })
-                                .y0(function(d) {
+                                .y0(function (d) {
                                     return yScale(0);
                                 }) //Note zero baseline
-                                .y1(function(d) {
+                                .y1(function (d) {
                                     return yScale(d.data[thisType].area_val);
                                 });
                             //Note y1 uses the raw 'sales' value for 'this' area,
@@ -881,7 +870,7 @@ function loadVisualization() {
 
                             //Use this new area generator to transition the area downward,
                             //to have a flat (zero) baseline.
-                            var thisAreaTransition = d3
+                            let thisAreaTransition = d3
                                 .select(this)
                                 .transition()
                                 .delay(1000)
@@ -891,7 +880,7 @@ function loadVisualization() {
                             //Update y scale domain, based on the sales for this area only
                             yScale.domain([
                                 0,
-                                d3.max(dataset, function(d) {
+                                d3.max(dataset, function (d) {
                                     return d[thisType].area_val;
                                 })
                             ]);
@@ -901,14 +890,14 @@ function loadVisualization() {
                                 .transition()
                                 .duration(1000)
                                 .attr("d", singleArea_ha_Area)
-                                .on("start", function() {
+                                .on("start", function () {
                                     //Transition axis to new scale concurrently
                                     d3.select("g.axis.y")
                                         .transition()
                                         .duration(1000)
                                         .call(yAxis);
                                 })
-                                .on("end", function() {
+                                .on("end", function () {
                                     //Restore clickability (is that a word?)
                                     d3.select(this).classed(
                                         "unclickable",
@@ -920,13 +909,13 @@ function loadVisualization() {
                                 });
                         })
                         .append("title") //Make tooltip
-                        .text(function(d) {
-                            return d.key;
+                        .text(function (d) {
+                            return d.key.replace('_', ' ');
                         });
                 })
                 .append("title") //Make tooltip
-                .text(function(d) {
-                    return d.key;
+                .text(function (d) {
+                    return d.key.replace('_', ' ');
                 });
 
             //Create axes
@@ -950,27 +939,22 @@ function loadVisualization() {
                 .attr(
                     "transform",
                     "translate(" +
-                        (w - padding / 2) +
-                        "," +
-                        h / 2 +
-                        ")rotate(-90)"
+                    (w - padding / 2) +
+                    "," +
+                    h / 2 +
+                    ")rotate(-90)"
                 ) // text is drawn off the screen top left, move down and out and rotate
                 .text("Area hm");
 
+            let transform = "translate(" + xScale.range()[0] + "," + yScale.range()[1] + ")";
+
             //Create back button
-            var backButton = svg
+            let backButton = svg
                 .append("g")
                 .attr("id", "backButton")
                 .attr("opacity", 0) //Initially hidden
                 .classed("unclickable", true) //Initially not clickable
-                .attr(
-                    "transform",
-                    "translate(" +
-                        xScale.range()[0] +
-                        "," +
-                        yScale.range()[1] +
-                        ")"
-                );
+                .attr("transform", transform);
 
             backButton
                 .append("rect")
@@ -988,24 +972,24 @@ function loadVisualization() {
                 .html("&larr; Back");
 
             //Define click behavior
-            backButton.on("click", function() {
+            backButton.on("click", function () {
                 //Hide the back button, as it was just clicked
                 toggleBackButton();
 
-                if (viewState == 1) {
+                if (viewState === 1) {
                     //Go back to default view
 
                     //Update view state
                     viewState--;
 
                     //Re-bind type data and fade in types
-                    var typeAreaTransitions = d3
+                    let typeAreaTransitions = d3
                         .selectAll("g#types path")
                         .data(typeSeries, key)
                         .transition()
                         .duration(250)
                         .attr("opacity", 1)
-                        .on("end", function() {
+                        .on("end", function () {
                             //Remove all Areas_ha once this fades in;
                             //they will be recreated later as needed.
                             d3.selectAll("g#Areas_ha path").remove();
@@ -1014,12 +998,12 @@ function loadVisualization() {
                     //Set y scale back to original domain
                     yScale.domain([
                         0,
-                        d3.max(typeDataset, function(d) {
-                            var sum = 0;
+                        d3.max(typeDataset, function (d) {
+                            let sum = 0;
 
                             //Loops once for each row, to calculate
                             //the total (sum) of sales of all areas
-                            for (var i = 0; i < types.length; i++) {
+                            for (let i = 0; i < types.length; i++) {
                                 sum += d[types[i]];
                             }
 
@@ -1031,7 +1015,7 @@ function loadVisualization() {
                     typeAreaTransitions
                         .transition()
                         .duration(1000)
-                        .on("start", function() {
+                        .on("start", function () {
                             //Transition axis to new scale concurrently
                             d3.select("g.axis.y")
                                 .transition()
@@ -1039,10 +1023,10 @@ function loadVisualization() {
                                 .call(yAxis);
                         })
                         .attr("d", area)
-                        .on("end", function() {
+                        .on("end", function () {
                             d3.select(this).classed("unclickable", false);
                         });
-                } else if (viewState == 2) {
+                } else if (viewState === 2) {
                     //Go back to areas view
 
                     //Update view state
@@ -1051,8 +1035,8 @@ function loadVisualization() {
                     //Restore the old y scale
                     yScale.domain([
                         0,
-                        d3.max(thisTypeDataset, function(d) {
-                            var sum = 0;
+                        d3.max(thisTypeDataset, function (d) {
+                            let sum = 0;
 
                             //Calculate the total (sum) of sales of this type
                             sum += d[viewType];
@@ -1064,7 +1048,7 @@ function loadVisualization() {
                     //Transition the y axis and visible area back into place
                     d3.selectAll("g#Areas_ha path")
                         .transition()
-                        .on("start", function() {
+                        .on("start", function () {
                             //Transition y axis to new scale concurrently
                             d3.select("g.axis.y")
                                 .transition()
@@ -1076,12 +1060,12 @@ function loadVisualization() {
                         .transition()
                         .duration(1000)
                         .attr("opacity", 1) //Fade in all areas
-                        .on("end", function(d, i) {
+                        .on("end", function (d, i) {
                             //Restore clickability
                             d3.select(this).classed("unclickable", false);
 
                             //Reveal back button
-                            if (i == 0) {
+                            if (i === 0) {
                                 toggleBackButton();
                             }
                         });
@@ -1097,25 +1081,25 @@ function loadVisualization() {
             });
         });
 
-    var toggleBackButton = function() {
+    let toggleBackButton = function () {
         //Select the button
-        var backButton = d3.select("#backButton");
+        let backButton = d3.select("#backButton");
 
         //Is the button hidden right now?
-        var hidden = backButton.classed("unclickable");
+        let hidden = backButton.classed("unclickable");
 
         //Decide whether to reveal or hide it
         if (hidden) {
             //Reveal it
 
             //Set up dynamic button text
-            var buttonText = "&larr; Return ";
+            let buttonText = "&larr; Return ";
             // var buttonTextInfo = "&larr; Current View ";
             //Text varies by mode and type
-            if (viewState == 1) {
+            if (viewState === 1) {
                 buttonText += "types of mining HM - SP";
                 // buttonTextInfo += "all types";
-            } else if (viewState == 2) {
+            } else if (viewState === 2) {
                 buttonText += "Mining Type " + viewType + " by sectors";
                 // buttonTextInfo += "all " + viewType + " Areas_ha"
             }
@@ -1125,25 +1109,19 @@ function loadVisualization() {
             // backButtonIz.select("text").html(buttonTextInfo);
 
             //Resize button depending on text width
-            var rectWidth = Math.round(
+            let rectWidth = Math.round(
                 backButton
                     .select("text")
                     .node()
                     .getBBox().width + 16
             );
-            if (
-                rectWidth <
-                document.getElementById("descriptionsOption2").offsetWidth - 25
-            )
+            if (rectWidth < document.getElementById("descriptionsOption2").offsetWidth - 25) {
                 backButton.select("rect").attr("width", rectWidth);
-            else
+            } else {
                 backButton
                     .select("rect")
-                    .attr(
-                        "width",
-                        document.getElementById("descriptionsOption2")
-                            .offsetWidth - 50
-                    );
+                    .attr("width", document.getElementById("descriptionsOption2").offsetWidth - 50);
+            }
 
             //Fade button in
             backButton

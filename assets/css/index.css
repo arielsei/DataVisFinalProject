@@ -368,7 +368,7 @@ a {
 
 .w3-btn:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-btn,
@@ -1122,13 +1122,13 @@ a {
 .w3-card,
 .w3-card-2 {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-        0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .w3-card-4,
 .w3-hover-shadow:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
-        0 4px 20px 0 rgba(0, 0, 0, 0.19);
+    0 4px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-spin {
@@ -1991,6 +1991,7 @@ a {
     -o-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
 }
+
 .leaflet-horizontal-center {
     left: 50%;
     transform: translateX(-50%);
@@ -1999,6 +2000,7 @@ a {
     -o-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
 }
+
 .leaflet-vertical-center.leaflet-horizontal-center {
     transform: translate(-50%, -50%) !important;
     -ms-transform: translate(-50%, -50%) !important;
@@ -2052,17 +2054,20 @@ a {
 #descriptionsCombined,
 #descriptionsOption1,
 #descriptionsOption2 {
+    text-align: justify;
     width: 400px;
     height: 100%;
     background: rgba(255, 255, 255, 0.7);
     position: absolute;
     top: 0px;
     right: 0px;
-    border: 1px solid gray;
+    /*border: 1px solid gray;*/
     z-index: 1000;
     display: none;
-    /* overflow-y: scroll; */
+    padding: 15px 0 15px 15px;
+    overflow-y: scroll;
 }
+
 #testContent {
     color: blue;
 }
@@ -2074,6 +2079,7 @@ a {
     bottom: 10px;
     left: 30px;
 }
+
 .description * {
     margin: 0;
     padding: 0;
@@ -2193,11 +2199,11 @@ a {
 }
 
 .description #contents {
-    padding: 0%;
+    padding: 0% 15px 0% 0%;
     width: 100%;
-    margin-top: 0px; /*Adjust if Title header needs more space */
+    /*margin-top: 0px; !*Adjust if Title header needs more space *!*/
     height: 100%; /* Adjust to fit max Description length, one setting for all; alternative is 100% */
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     overflow-x: hidden;
 }
 
