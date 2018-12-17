@@ -5,7 +5,7 @@ let firstLoad = true;
 let topoLayer;
 let map;
 let resizeTimeout;
-const introHeight = 650;
+const introHeight = 950;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
@@ -76,7 +76,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function (map) {
+        onAdd: function(map) {
             let container = L.DomUtil.get("option1");
             container.onclick = () => {
                 option1Selected = !option1Selected;
@@ -99,7 +99,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function (map) {
+        onAdd: function(map) {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
@@ -137,7 +137,7 @@ window.onload = () => {
     setPopupContent();
 
     L.TopoJSON = L.GeoJSON.extend({
-        addData: function (jsonData) {
+        addData: function(jsonData) {
             if (jsonData.type === "Topology") {
                 for (key in jsonData.objects) {
                     geojson = topojson.feature(jsonData, jsonData.objects[key]);
@@ -150,7 +150,7 @@ window.onload = () => {
     });
     topoLayer = new L.TopoJSON();
     document
-        .getElementById("contents")
+        .getElementById("descriptionsOption2")
         .addEventListener("scroll", handleScroll);
 
     // loadMapFiles();
@@ -189,7 +189,7 @@ function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", filename, true);
-    rawFile.onreadystatechange = function () {
+    rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
             callback(rawFile.responseText);
         }
@@ -290,34 +290,34 @@ function onSliderUpdate(values) {
 }
 
 function loadMapFiles() {
-    readJsonFile("assets/data/grouped_mineria_1985.json", function (text) {
+    readJsonFile("assets/data/grouped_mineria_1985.json", function(text) {
         let data = JSON.parse(text);
         topoLayer[0] = new L.TopoJSON();
         topoLayer[0].addData(data);
         topoLayer[0].eachLayer(handleLayer);
     });
-    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function (text) {
+    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function(text) {
         let data = JSON.parse(text);
         topoLayer[1] = new L.TopoJSON();
         topoLayer[1].addData(data);
         topoLayer[1].eachLayer(handleLayer);
         topoLayer[1].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function (text) {
+    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function(text) {
         let data = JSON.parse(text);
         topoLayer[2] = new L.TopoJSON();
         topoLayer[2].addData(data);
         topoLayer[2].eachLayer(handleLayer);
         topoLayer[2].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function (text) {
+    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function(text) {
         let data = JSON.parse(text);
         topoLayer[3] = new L.TopoJSON();
         topoLayer[3].addData(data);
         topoLayer[3].eachLayer(handleLayer);
         topoLayer[3].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function (text) {
+    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function(text) {
         let data = JSON.parse(text);
         topoLayer[4] = new L.TopoJSON();
         topoLayer[4].addData(data);
@@ -387,7 +387,10 @@ function handleScroll(event) {
     const scroll = event.srcElement.scrollTop;
     let blockScrolling = scroll - introHeight;
 
-    if (scroll == event.srcElement.scrollHeight - event.srcElement.clientHeight) {
+    if (
+        scroll ==
+        event.srcElement.scrollHeight - event.srcElement.clientHeight
+    ) {
         blockScrolling = highlights.length - 1;
     } else {
         if (blockScrolling < 0) {
@@ -416,5 +419,3 @@ function handleScroll(event) {
         currentBlock = blockScrolling;
     }
 }
-
-

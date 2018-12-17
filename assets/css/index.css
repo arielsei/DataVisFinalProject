@@ -368,7 +368,7 @@ a {
 
 .w3-btn:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-btn,
@@ -1122,13 +1122,13 @@ a {
 .w3-card,
 .w3-card-2 {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-    0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .w3-card-4,
 .w3-hover-shadow:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
-    0 4px 20px 0 rgba(0, 0, 0, 0.19);
+        0 4px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-spin {
@@ -2064,8 +2064,8 @@ a {
     /*border: 1px solid gray;*/
     z-index: 1000;
     display: none;
-    padding: 15px 0 15px 15px;
     overflow-y: scroll;
+    padding: 15px 0;
 }
 
 #testContent {
@@ -2117,12 +2117,13 @@ a {
 }
 
 .description h1 {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     font-size: 24px;
     font-weight: bold;
 }
 
 .description h1.mainTitle {
+    padding: 0 15px;
     height: 75px;
 }
 
@@ -2207,12 +2208,12 @@ a {
     overflow-x: hidden;
 }
 
-.description #contents .space-at-the-top {
+.description .space-at-the-top {
     height: 30px;
     margin: 0px;
 }
 
-.description #contents .space-at-the-bottom {
+.description .space-at-the-bottom {
     height: 350px;
     margin: 0px;
     text-align: center;
@@ -2274,12 +2275,12 @@ a {
 }
 
 .description .story-container.intro-container {
-    padding-top: 0;
+    padding-top: 15px;
     height: auto;
 }
 
 .description .story-container {
-    padding-top: 50px;
+    padding: 50px 15px 0 15px;
     height: 350px;
     opacity: 0.3;
     background-color: white;
