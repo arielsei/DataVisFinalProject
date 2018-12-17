@@ -2065,7 +2065,7 @@ a {
     z-index: 1000;
     display: none;
     overflow-y: scroll;
-    padding: 15px 0;
+    padding: 15px;
 }
 
 #testContent {
@@ -2120,11 +2120,6 @@ a {
     margin-bottom: 15px;
     font-size: 24px;
     font-weight: bold;
-}
-
-.description h1.mainTitle {
-    padding: 0 15px;
-    height: 75px;
 }
 
 .description h2 {
@@ -2280,7 +2275,7 @@ a {
 }
 
 .description .story-container {
-    padding: 50px 15px 0 15px;
+    padding: 30px 15px 0 15px;
     height: 350px;
     opacity: 0.3;
     background-color: white;
