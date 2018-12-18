@@ -153,7 +153,7 @@ window.onload = () => {
         .getElementById("descriptionsOption2")
         .addEventListener("scroll", handleScroll);
 
-    // loadMapFiles();
+    loadMapFiles();
 
     // readJsonFile("assets/data/simplified_grouped_mineria_1985.geojson", function(text){
     //     console.log(text);
@@ -340,14 +340,17 @@ function handleLayer(layer) {
                 case "SmallMines": {
                     colorOfLayer = "#FFC000"; //nada
                     fillOpacity = 0;
+                    break;
                 }
                 case "Delta": {
                     colorOfLayer = "#FFFF00"; // nada
                     fillOpacity = 0;
+                    break;
                 }
                 case "Pampa": {
                     colorOfLayer = "#00B050";
                     fillOpacity = 0;
+                    break;
                 }
             }
             break;
@@ -360,14 +363,17 @@ function handleLayer(layer) {
                 case "SmallMines": {
                     colorOfLayer = "#7030A0"; // nada
                     fillOpacity = 0;
+                    break;
                 }
                 case "Delta": {
                     colorOfLayer = "#808080"; //nada
                     fillOpacity = 0;
+                    break;
                 }
                 case "Pampa": {
                     colorOfLayer = "#007AAE";
                     fillOpacity = 1;
+                    break;
                 }
             }
             break;
