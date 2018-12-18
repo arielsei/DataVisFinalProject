@@ -1,11 +1,9 @@
-let option1Selected = false;
-let option2Selected = true;
 let sliderElement;
 let firstLoad = true;
 let topoLayer;
 let map;
 let resizeTimeout;
-const introHeight = 950;
+const introHeight = 1000;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
@@ -13,48 +11,34 @@ const highlights = [
     {
         lat: -66.40414471383308,
         long: -10.418888019117534,
-        zoom: 10
+        zoom: 10,
+        year: 1985
     },
     {
         lat: -66.90414471383308,
         long: -10.218888019117534,
-        zoom: 11
+        zoom: 11,
+        year: 1993
     },
     {
         lat: -66.00414471383308,
         long: -10.818888019117534,
-        zoom: 12
+        zoom: 12,
+        year: 2001
     },
     {
         lat: -67.20414471383308,
         long: -11.118888019117534,
-        zoom: 8
+        zoom: 8,
+        year: 2009
     },
     {
         lat: -65.99414471383308,
         long: -10.018888019117534,
-        zoom: 7
+        zoom: 7,
+        year: 2017
     }
 ];
-
-// window.addEventListener(
-//     "resize",
-//     function() {
-//         if (!resizeTimeout) {
-//             resizeTimeout = setTimeout(function() {
-//                 resizeTimeout = null;
-//                 if (option1Selected && !option2Selected) {
-//                     let svggMinerias = document.getElementById("svgMinerias");
-//                     if (svggMinerias) {
-//                         svggMinerias.parentNode.removeChild(svggMinerias);
-//                         test();
-//                     }
-//                 }
-//             }, 250);
-//         }
-//     },
-//     true
-// );
 
 window.onload = () => {
     const maxBounds = [
@@ -89,7 +73,6 @@ window.onload = () => {
                     document
                         .getElementById("option1")
                         .classList.remove("selected");
-                setPopupContent();
             };
             return container;
         }
@@ -112,8 +95,6 @@ window.onload = () => {
                     document
                         .getElementById("option2")
                         .classList.remove("selected");
-
-                setPopupContent();
             };
             return container;
         }
@@ -133,8 +114,6 @@ window.onload = () => {
     );
     map.addControl(new customOption2());
     map.addControl(new customOption1());
-    document.getElementById("option2").classList.add("selected");
-    setPopupContent();
 
     L.TopoJSON = L.GeoJSON.extend({
         addData: function(jsonData) {
@@ -150,7 +129,7 @@ window.onload = () => {
     });
     topoLayer = new L.TopoJSON();
     document
-        .getElementById("descriptionsOption2")
+        .getElementById("storyTelling")
         .addEventListener("scroll", handleScroll);
 
     loadMapFiles();
@@ -164,26 +143,6 @@ window.onload = () => {
     initializeSlider();
     loadVisualization();
 };
-
-function setPopupContent() {
-    if (option1Selected && option2Selected) {
-        document.getElementById("descriptionsCombined").style.display = "block";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    } else if (option1Selected) {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "block";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    } else if (option2Selected) {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "block";
-    } else {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    }
-}
 
 function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
@@ -208,12 +167,12 @@ function initializeSlider() {
         },
         // For Scale
         pips: {
-            mode: 'count',
+            mode: "count",
             values: 5,
             density: 100,
             format: wNumb({
                 decimals: 0
-            }),
+            })
         }
     });
     sliderElement.noUiSlider.on("update", onSliderUpdate);
@@ -330,7 +289,6 @@ function loadMapFiles() {
 function handleLayer(layer) {
     let colorOfLayer;
     let fillOpacity;
-    console.log(layer.feature.properties.Sector);
     switch (layer.feature.properties.MiningType) {
         case "HM":
             switch (layer.feature.properties.Sector) {
@@ -415,6 +373,8 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom
             );
+            // Move to the corresponding year
+            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
