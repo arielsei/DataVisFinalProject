@@ -32,33 +32,33 @@ let currentBlock = 0;
 const highlights = [
     null,
     {
-        lat: -70.514585,
-        long: -13.024936,
-        zoom: 12,
+        lat: -70.466134,
+        long: -13.033585,
+        zoom: 13,
         year: 1985
     },
     {
-        lat: -70.514585,
-        long: -13.024936,
-        zoom: 11,
+        lat: -70.507609,
+        long: -13.025237,
+        zoom: 12,
         year: 1993
     },
     {
-        lat: -69.618682,
-        long: -12.704255,
-        zoom: 11,
+        lat: -69.583434,
+        long: -12.687040,
+        zoom: 12,
         year: 2001
     },
     {
         lat: -69.959516,
         long: -12.839984,
-        zoom: 11,
+        zoom: 12,
         year: 2009
     },
     {
-        lat: -70.155281,
-        long: -12.724290,
-        zoom: 10,
+        lat: -69.605402,
+        long: -12.772980,
+        zoom: 9.5,
         year: 2017
     }
 ];
@@ -257,13 +257,13 @@ function onSliderUpdate(values) {
 }
 
 function loadMapFiles() {
-    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_1985.json", function (text) {
+    readJsonFile("assets/data/V5/grouped_mineria_1985.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[0] = new L.TopoJSON();
         topoLayer[0].addData(data);
         topoLayer[0].eachLayer(handleLayer);
     });
-    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_1985-1993.json", function (text) {
+    readJsonFile("assets/data/V5/grouped_mineria_1985-1993.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[1] = new L.TopoJSON();
         topoLayer[1].addData(data);
@@ -382,9 +382,13 @@ function handleScroll(event) {
             map.flyTo(
                 [
                     highlights[blockScrolling].long,
-                    highlights[blockScrolling].lat
+                    highlights[blockScrolling].lat,
                 ],
-                highlights[blockScrolling].zoom
+                highlights[blockScrolling].zoom,
+                {
+                    animate: true,
+                    duration: 3.2,
+                }
             );
             // Move to the corresponding year
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
