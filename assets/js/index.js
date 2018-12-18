@@ -149,6 +149,7 @@ window.onload = () => {
     // });
     initializeSlider();
     loadVisualization();
+    animateValue("value_test", 0, 2000);
 };
 
 function readJsonFile(filename, callback) {
@@ -379,6 +380,8 @@ function handleScroll(event) {
     }
     if (blockScrolling != currentBlock) {
         if (highlights[blockScrolling]) {
+            // Move to the corresponding year
+            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
             map.flyTo(
                 [
                     highlights[blockScrolling].long,
@@ -386,12 +389,11 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom,
                 {
-                    animate: true,
-                    duration: 3.2,
+                    animate:true,
+                    duration:highlights[blockScrolling].year===1985 ? 1.2 : 2,
                 }
             );
-            // Move to the corresponding year
-            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
+            
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
@@ -403,3 +405,21 @@ function handleScroll(event) {
         currentBlock = blockScrolling;
     }
 }
+
+function animateValue(id, start=0, duration=2000) {
+    var obj = document.getElementById(id);
+    var end = parseFloat(obj.innerHTML);
+    var range = end - start;
+    var current = start;
+    var increment = end > start? 1 : -1;
+    var stepTime = Math.abs(Math.floor(duration / range));
+    var timer = setInterval(function() {
+        current += increment;
+        obj.innerHTML = current;
+        if (current >= end) {
+            obj.innerHTML = end;
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
