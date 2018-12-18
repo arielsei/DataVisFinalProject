@@ -2139,7 +2139,7 @@ a {
 
 #slider .noUi-handle:after,
 #slider .noUi-handle:before {
-    background: #494848;
+    background: none;
     width: 1.7px;
 }
 
