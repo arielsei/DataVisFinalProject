@@ -1984,7 +1984,7 @@ a {
 }
 
 .leaflet-vertical-center {
-    top: 50%;
+    top: calc(50% - 50px);
     transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
@@ -2001,7 +2001,7 @@ a {
     -moz-transform: translateX(-50%);
 }
 .leaflet-horizontal-left {
-    left: 2.5%;
+    left: 45px;
     transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
@@ -2048,15 +2048,15 @@ a {
 }
 
 #option2 {
-    background-image: url("../static/soil-use-icon.png");
+    background-image: url("../static/pump-icon.png");
 }
 
 #option2:hover {
-    background-image: url("../static/soil-use-icon-hover.png");
+    background-image: url("../static/pump-icon.png");
 }
 
 #option2.selected {
-    background-image: url("../static/soil-use-icon-selected.png");
+    background-image: url("../static/pump-icon.png");
 }
 
 #storyTelling {
