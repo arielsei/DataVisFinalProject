@@ -5,7 +5,7 @@ let COLORS = {
             'delta': '#a56e00',
             'huepetuhe': '#019bdd',
             'smallmines': '#013a90',
-            'pampa': '',
+            'pampa': '#6868ac',
         }
     },
     'sp': {
@@ -257,34 +257,34 @@ function onSliderUpdate(values) {
 }
 
 function loadMapFiles() {
-    readJsonFile("assets/data/grouped_mineria_1985.json", function (text) {
+    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_1985.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[0] = new L.TopoJSON();
         topoLayer[0].addData(data);
         topoLayer[0].eachLayer(handleLayer);
     });
-    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function (text) {
+    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_1985-1993.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[1] = new L.TopoJSON();
         topoLayer[1].addData(data);
         topoLayer[1].eachLayer(handleLayer);
         topoLayer[1].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function (text) {
+    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_1993-2001.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[2] = new L.TopoJSON();
         topoLayer[2].addData(data);
         topoLayer[2].eachLayer(handleLayer);
         topoLayer[2].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function (text) {
+    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_2001-2009.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[3] = new L.TopoJSON();
         topoLayer[3].addData(data);
         topoLayer[3].eachLayer(handleLayer);
         topoLayer[3].addTo(map);
     });
-    readJsonFile("assets/data/simplified_grouped_test.json", function (text) {
+    readJsonFile("assets/data/simplified_topo_simplified_geo_grouped_mineria_2009-2017.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[4] = new L.TopoJSON();
         topoLayer[4].addData(data);
@@ -297,7 +297,7 @@ function handleLayer(layer) {
     let miningType = (layer.feature.properties.MiningType || 'hm').normText();
     let sector = (layer.feature.properties.Sector || 'smallmines').normText();
     let colorOfLayer = COLORS[miningType]['sector'][sector];
-    let fillOpacity;
+    // let fillOpacity;
 
 
     // console.log(layer.feature.properties.Sector);
@@ -386,8 +386,6 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom
             );
-            // Move to the corresponding year
-            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
