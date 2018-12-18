@@ -75,8 +75,8 @@ window.onload = () => {
         maxBoundsViscosity: 1.0
     });
     const layerOptions = {
-        maxZoom: 14,
-        minZoom: 6
+        maxZoom: 13,
+        minZoom: 5
     };
     const customOption1 = L.Control.extend({
         options: {
@@ -386,6 +386,8 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom
             );
+            // Move to the corresponding year
+            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {

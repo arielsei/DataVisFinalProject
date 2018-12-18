@@ -2093,7 +2093,7 @@ a {
     cursor: pointer;
 
     background: none;
-    border-color: #494848;
+    border-color: #393838;
     border-width: 1.5px;
 
     left: 40%;
@@ -2121,19 +2121,21 @@ a {
 }
 
 #slider .noUi-pips {
-    color: #494848;
+    color: white;
     font-size: 16px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     /* font-weight: bold; */
 }
 
 #slider .noUi-marker {
     width: 2.5px;
-    background: #494848;
+    background: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #slider .noUi-handle {
     border-width: 1.5px;
-    border-color: #494848;
+    border-color: #393838;
     cursor: pointer;
     opacity: 0.9;
 }
