@@ -2025,37 +2025,45 @@ a {
 #option1,
 #option2 {
     z-index: 1000;
-    padding: 5px;
+    padding: 0px 5px;
     color: blue;
     cursor: pointer;
-    margin-left: 5px;
-    margin-right: 5px;
+    background-size: 60px 60px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#option1 .image,
+#option2 .image {
+    z-index: 1000;
+    color: blue;
     width: 60px;
     height: 60px;
     background-size: 60px 60px;
 }
 
-#option1 {
+#option1 .image {
     background-image: url("../static/machinery-icon.png");
 }
 
-#option1:hover {
+#option1 .image:hover {
     background-image: url("../static/machinery-icon-gray.png");
 }
 
-#option1.selected {
+#option1 .image.selected {
     background-image: url("../static/machinery-icon-gray.png");
 }
 
-#option2 {
+#option2 .image {
     background-image: url("../static/pump-icon.png");
 }
 
-#option2:hover {
+#option2 .image:hover {
     background-image: url("../static/pump-icon-gray.png");
 }
 
-#option2.selected {
+#option2 .image.selected {
     background-image: url("../static/pump-icon-gray.png");
 }
 
