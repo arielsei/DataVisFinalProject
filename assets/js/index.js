@@ -205,15 +205,16 @@ function initializeSlider() {
         range: {
             min: 1985,
             max: 2017
-        }
+        },
         // For Scale
-        // pips: {
-        //     mode: 'steps',
-        //     density: 3,
-        //     format: wNumb({
-        //         decimals: 0
-        //     }),
-        // }
+        pips: {
+            mode: 'count',
+            values: 5,
+            density: 100,
+            format: wNumb({
+                decimals: 0
+            }),
+        }
     });
     sliderElement.noUiSlider.on("update", onSliderUpdate);
 }
