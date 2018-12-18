@@ -1,3 +1,24 @@
+let COLORS = {
+    'hm': {
+        'color': '#013a90',
+        'sector': {
+            'delta': '#a56e00',
+            'huepetuhe': '#019bdd',
+            'smallmines': '#013a90',
+            'pampa': '',
+        }
+    },
+    'sp': {
+        'color': '#bd0736',
+        'sector': {
+            'delta': '#d765d3',
+            'huepetuhe': '#ffa4d4',
+            'smallmines': '#bd0736',
+            'pampa': '#a494ff',
+        }
+    }
+};
+
 let option1Selected = false;
 let option2Selected = true;
 let sliderElement;
@@ -76,7 +97,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function(map) {
+        onAdd: function (map) {
             let container = L.DomUtil.get("option1");
             container.onclick = () => {
                 option1Selected = !option1Selected;
@@ -99,7 +120,7 @@ window.onload = () => {
             position: "bottomcenter"
         },
 
-        onAdd: function(map) {
+        onAdd: function (map) {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
@@ -119,7 +140,7 @@ window.onload = () => {
         }
     });
     L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         layerOptions
     ).addTo(map);
     option1 = L.DomUtil.get("option1");
@@ -137,7 +158,7 @@ window.onload = () => {
     setPopupContent();
 
     L.TopoJSON = L.GeoJSON.extend({
-        addData: function(jsonData) {
+        addData: function (jsonData) {
             if (jsonData.type === "Topology") {
                 for (key in jsonData.objects) {
                     geojson = topojson.feature(jsonData, jsonData.objects[key]);
@@ -189,7 +210,7 @@ function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", filename, true);
-    rawFile.onreadystatechange = function() {
+    rawFile.onreadystatechange = function () {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
             callback(rawFile.responseText);
         }
@@ -290,34 +311,34 @@ function onSliderUpdate(values) {
 }
 
 function loadMapFiles() {
-    readJsonFile("assets/data/grouped_mineria_1985.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1985.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[0] = new L.TopoJSON();
         topoLayer[0].addData(data);
         topoLayer[0].eachLayer(handleLayer);
     });
-    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1985-1993.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[1] = new L.TopoJSON();
         topoLayer[1].addData(data);
         topoLayer[1].eachLayer(handleLayer);
         topoLayer[1].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_1993-2001.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[2] = new L.TopoJSON();
         topoLayer[2].addData(data);
         topoLayer[2].eachLayer(handleLayer);
         topoLayer[2].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function(text) {
+    readJsonFile("assets/data/grouped_mineria_2001-2009.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[3] = new L.TopoJSON();
         topoLayer[3].addData(data);
         topoLayer[3].eachLayer(handleLayer);
         topoLayer[3].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function(text) {
+    readJsonFile("assets/data/simplified_grouped_test.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[4] = new L.TopoJSON();
         topoLayer[4].addData(data);
@@ -327,60 +348,65 @@ function loadMapFiles() {
 }
 
 function handleLayer(layer) {
-    let colorOfLayer;
+    let miningType = (layer.feature.properties.MiningType || 'hm').normText();
+    let sector = (layer.feature.properties.Sector || 'smallmines').normText();
+    let colorOfLayer = COLORS[miningType]['sector'][sector];
     let fillOpacity;
-    console.log(layer.feature.properties.Sector);
-    switch (layer.feature.properties.MiningType) {
-        case "HM":
-            switch (layer.feature.properties.Sector) {
-                case "Huepetuhe":
-                    colorOfLayer = "#77070B";
-                    fillOpacity = 0;
-                    break;
-                case "SmallMines": {
-                    colorOfLayer = "#FFC000"; //nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Delta": {
-                    colorOfLayer = "#FFFF00"; // nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Pampa": {
-                    colorOfLayer = "#00B050";
-                    fillOpacity = 0;
-                    break;
-                }
-            }
-            break;
-        case "SP":
-            switch (layer.feature.properties.Sector) {
-                case "Huepetuhe":
-                    colorOfLayer = "#002060"; // nada
-                    fillOpacity = 0;
-                    break;
-                case "SmallMines": {
-                    colorOfLayer = "#7030A0"; // nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Delta": {
-                    colorOfLayer = "#808080"; //nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Pampa": {
-                    colorOfLayer = "#007AAE";
-                    fillOpacity = 1;
-                    break;
-                }
-            }
-            break;
-        default:
-            colorOfLayer = "#000000";
-            fillOpacity = 1;
-    }
+
+
+    // console.log(layer.feature.properties.Sector);
+    // switch (layer.feature.properties.MiningType) {
+    //
+    //     case "HM":
+    //         switch (layer.feature.properties.Sector) {
+    //             case "Huepetuhe":
+    //                 colorOfLayer = "#77070B";
+    //                 fillOpacity = 0;
+    //                 break;
+    //             case "SmallMines": {
+    //                 colorOfLayer = "#FFC000"; //nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Delta": {
+    //                 colorOfLayer = "#FFFF00"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Pampa": {
+    //                 colorOfLayer = "#00B050";
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //         }
+    //         break;
+    //     case "SP":
+    //         switch (layer.feature.properties.Sector) {
+    //             case "Huepetuhe":
+    //                 colorOfLayer = "#002060"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             case "SmallMines": {
+    //                 colorOfLayer = "#7030A0"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Delta": {
+    //                 colorOfLayer = "#808080"; //nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Pampa": {
+    //                 colorOfLayer = "#007AAE";
+    //                 fillOpacity = 1;
+    //                 break;
+    //             }
+    //         }
+    //         break;
+    //     default:
+    //         colorOfLayer = "#000000";
+    //         fillOpacity = 1;
+    // }
     layer.setStyle({
         color: colorOfLayer
         // Uncomment this line to see only the ones with fillOpacity = 1

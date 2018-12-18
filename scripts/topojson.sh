@@ -9,7 +9,7 @@ cd ../data/geojson
 # Simplify geojson
 for mineria in mineria_*
 do
-    echo "Simplify $mineria ..."
+    echo "Grouping $mineria ..."
     mapshaper "$mineria" -dissolve MiningType,Sector -o "grouped_$mineria"
 done
 
@@ -25,5 +25,5 @@ cd ../topojson
 for topo in *
 do
     echo "Simplifying $topo ..."
-    toposimplify -P 0.000000001 -o "simplified_$topo" "$topo"
+    toposimplify -P 0.1 -o "simplified_$topo" "$topo"
 done
