@@ -2036,15 +2036,15 @@ a {
 }
 
 #option1 {
-    background-image: url("../static/mining-icon.png");
+    background-image: url("../static/machinery-icon.png");
 }
 
 #option1:hover {
-    background-image: url("../static/mining-icon-hover.png");
+    background-image: url("../static/machinery-icon-gray.png");
 }
 
 #option1.selected {
-    background-image: url("../static/mining-icon-selected.png");
+    background-image: url("../static/machinery-icon-gray.png");
 }
 
 #option2 {
@@ -2052,11 +2052,11 @@ a {
 }
 
 #option2:hover {
-    background-image: url("../static/pump-icon.png");
+    background-image: url("../static/pump-icon-gray.png");
 }
 
 #option2.selected {
-    background-image: url("../static/pump-icon.png");
+    background-image: url("../static/pump-icon-gray.png");
 }
 
 #storyTelling {
