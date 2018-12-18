@@ -368,7 +368,7 @@ a {
 
 .w3-btn:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-btn,
@@ -1122,13 +1122,13 @@ a {
 .w3-card,
 .w3-card-2 {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-        0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .w3-card-4,
 .w3-hover-shadow:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
-        0 4px 20px 0 rgba(0, 0, 0, 0.19);
+    0 4px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .w3-spin {
@@ -2000,6 +2000,7 @@ a {
     -o-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
 }
+
 .leaflet-horizontal-left {
     left: 45px;
     transform: translateX(-50%);
@@ -2234,9 +2235,9 @@ a {
     cursor: pointer;
 }
 
-.description .area:hover {
-    fill: rgb(175, 240, 91);
-}
+/*.description .area:hover {*/
+/*fill: rgb(175, 240, 91);*/
+/*}*/
 
 .description #backButton {
     cursor: pointer;
@@ -2356,4 +2357,59 @@ a {
 .description .story-container.inFocus {
     opacity: 1;
     background-color: #f0f0f0;
+}
+
+.hm {
+    fill: rgb(1, 58, 144);
+    opacity: 1;
+}
+
+.sp {
+    fill: rgb(189, 7, 54);
+    opacity: 1;
+}
+
+.hm.delta {
+    fill: rgb(165, 110, 0)
+}
+
+.hm.huepetuhe {
+    fill: rgb(1, 155, 221)
+}
+
+.hm.smallmines {
+    fill: rgb(1, 58, 144)
+}
+
+.hm.pampa {
+    fill: rgb(104, 104, 172)
+}
+
+.sp.delta {
+    fill: rgb(215, 101, 211)
+}
+
+.sp.huepetuhe {
+    fill: rgb(255, 164, 212)
+}
+
+.sp.smallmines {
+    fill: rgb(189, 7, 54)
+}
+
+.sp.pampas {
+    fill: rgb(164, 148, 255)
+}
+
+.hm:hover,
+.sp:hover,
+.hm.delta:hover,
+.hm.huepetuhe,
+.hm.smallmines,
+.hm.pampa,
+.sp.delta,
+.sp.huepetuhe,
+.sp.smallmines,
+.sp.pampas {
+    opacity: 0.85;
 }

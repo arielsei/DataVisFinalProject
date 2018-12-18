@@ -500,10 +500,22 @@ function loadVisualization() {
                                     toggleBackButton();
                                 });
                         })
+                        .on('mouseover', function (d) {
+                            d3.select(this).attr('opacity', 0.85)
+                        })
+                        .on('mouseout', function (d) {
+                            d3.select(this).attr('opacity', 1)
+                        })
                         .append("title") //Make tooltip
                         .text(function (d) {
                             return d.key.replace("_", " ");
                         });
+                })
+                .on('mouseover', function (d) {
+                    d3.select(this).attr('opacity', 0.85)
+                })
+                .on('mouseout', function (d) {
+                    d3.select(this).attr('opacity', 1)
                 })
                 .append("title") //Make tooltip
                 .text(function (d) {
