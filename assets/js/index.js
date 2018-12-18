@@ -73,7 +73,7 @@ window.onload = () => {
     };
     const customOption1 = L.Control.extend({
         options: {
-            position: "bottomcenter"
+            position: "leftMiddle"
         },
 
         onAdd: function(map) {
@@ -96,7 +96,7 @@ window.onload = () => {
     });
     const customOption2 = L.Control.extend({
         options: {
-            position: "bottomcenter"
+            position: "leftMiddle"
         },
 
         onAdd: function(map) {
@@ -126,9 +126,9 @@ window.onload = () => {
     option2 = L.DomUtil.get("option2");
     const corners = map._controlCorners;
     const container = map._controlContainer;
-    corners["bottomcenter"] = L.DomUtil.create(
+    corners["leftMiddle"] = L.DomUtil.create(
         "div",
-        "leaflet-bottom leaflet-horizontal-center",
+        "leaflet-vertical-center leaflet-horizontal-left",
         container
     );
     map.addControl(new customOption2());
