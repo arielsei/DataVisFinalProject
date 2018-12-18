@@ -2000,6 +2000,14 @@ a {
     -o-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
 }
+.leaflet-horizontal-left {
+    left: 2.5%;
+    transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+}
 
 .leaflet-vertical-center.leaflet-horizontal-center {
     transform: translate(-50%, -50%) !important;
