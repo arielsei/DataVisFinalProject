@@ -1,8 +1,8 @@
 function loadVisualization() {
-    // console.log(document.getElementById('descriptionsOption1').offsetWidth);
+    // console.log(document.getElementById('storyTelling').offsetWidth);
     //Width and height
 
-    let w = document.getElementById("descriptionsOption2").offsetWidth - 45;
+    let w = document.getElementById("storyTelling").offsetWidth - 45;
     let h = 300;
     let padding = 35;
 
@@ -25,7 +25,7 @@ function loadVisualization() {
     let formatTime = d3.timeFormat("%Y");
 
     //Define key function, to be used when binding data
-    let key = function (d) {
+    let key = function(d) {
         return d.key;
     };
 
@@ -39,7 +39,7 @@ function loadVisualization() {
     // console.log(d3);
     d3.request("/assets/data/Visualization.csv")
         .mimeType("text/csv")
-        .get(function (response) {
+        .get(function(response) {
             // DATA PARSING
             // Parse each row of the CSV into an array of string values
             let rows = d3.csvParseRows(response.responseText);
@@ -140,10 +140,10 @@ function loadVisualization() {
             xScale = d3
                 .scaleTime()
                 .domain([
-                    d3.min(dataset, function (d) {
+                    d3.min(dataset, function(d) {
                         return d.date;
                     }),
-                    d3.max(dataset, function (d) {
+                    d3.max(dataset, function(d) {
                         return d.date;
                     })
                 ])
@@ -153,7 +153,7 @@ function loadVisualization() {
                 .scaleLinear()
                 .domain([
                     0,
-                    d3.max(typeDataset, function (d) {
+                    d3.max(typeDataset, function(d) {
                         let sum = 0;
 
                         //Loops once for each row, to calculate
@@ -184,13 +184,13 @@ function loadVisualization() {
             //Define area generator
             area = d3
                 .area()
-                .x(function (d) {
+                .x(function(d) {
                     return xScale(d.data.date);
                 })
-                .y0(function (d) {
+                .y0(function(d) {
                     return yScale(d[0]);
                 })
-                .y1(function (d) {
+                .y1(function(d) {
                     return yScale(d[1]);
                 });
 
@@ -204,7 +204,7 @@ function loadVisualization() {
 
             svg.append("g").attr("id", "Areas_ha");
 
-            let showLeggend = function () {
+            let showLeggend = function() {
                 console.log("TEST!!!!!!");
                 svg.append("text")
                     .attr("id", "types")
@@ -217,7 +217,7 @@ function loadVisualization() {
                         "transform",
                         "translate(" + padding / 2 + "," + h / 2 + ")"
                     ) // text is drawn off the screen top left, move down and out and rotate
-                    .text(function (d) {
+                    .text(function(d) {
                         // console.log(viewType);
                         return d.key;
                     });
@@ -233,7 +233,7 @@ function loadVisualization() {
                 .attr("class", "area")
                 .attr("opacity", 1)
                 .attr("d", area)
-                .attr("fill", function (d) {
+                .attr("fill", function(d) {
                     //Which type is this?
                     let thisType = d.key;
 
@@ -252,7 +252,7 @@ function loadVisualization() {
 
                     return color;
                 })
-                .on("click", function (d) {
+                .on("click", function(d) {
                     showLeggend();
                     //Update view state
                     viewState++;
@@ -263,7 +263,7 @@ function loadVisualization() {
                     let thisType = d.key;
 
                     // Update description
-                    description.text(thisType.capitalize().replace('_', ' '));
+                    description.text(thisType.capitalize().replace("_", " "));
 
                     //Update this for later reference
                     viewType = thisType;
@@ -305,7 +305,7 @@ function loadVisualization() {
                     //Update scale
                     yScale.domain([
                         0,
-                        d3.max(thisTypeDataset, function (d) {
+                        d3.max(thisTypeDataset, function(d) {
                             let sum = 0;
 
                             //Calculate the total (sum) of sales of this type,
@@ -321,7 +321,7 @@ function loadVisualization() {
                     areaTransitions
                         .transition()
                         .delay(200)
-                        .on("start", function () {
+                        .on("start", function() {
                             //Transition axis to new scale concurrently
                             d3.select("g.axis.y")
                                 .transition()
@@ -331,14 +331,14 @@ function loadVisualization() {
                         .duration(1000)
                         .attr("d", area)
                         .transition()
-                        .on("start", function () {
+                        .on("start", function() {
                             //Make areas visible instantly, so
                             //they are revealed when this fades out
                             d3.selectAll("g#Areas_ha path").attr("opacity", 1);
                         })
                         .duration(1000)
                         .attr("opacity", 0)
-                        .on("end", function (d, i) {
+                        .on("end", function(d, i) {
                             //Reveal back button
                             if (i === 0) {
                                 toggleBackButton();
@@ -382,7 +382,7 @@ function loadVisualization() {
                         .attr("class", "area")
                         .attr("opacity", 0)
                         .attr("d", area)
-                        .attr("fill", function (d, i) {
+                        .attr("fill", function(d, i) {
                             //Which area is this?
                             let thisKey = d.key;
 
@@ -409,12 +409,13 @@ function loadVisualization() {
                             let numAreas_ha = keysOfThisType.length;
 
                             //Get a value between 0.0 and 1.0
-                            let normalized = startingPoint + (i / numAreas_ha) * spread;
+                            let normalized =
+                                startingPoint + (i / numAreas_ha) * spread;
 
                             //Get that color on the spectrum
                             return d3.interpolateCool(normalized);
                         })
-                        .on("click", function (d) {
+                        .on("click", function(d) {
                             showLeggend();
 
                             //Update view state
@@ -427,12 +428,14 @@ function loadVisualization() {
                             let thisType = d.key;
 
                             // Update description
-                            description.text(thisType.capitalize().replace('_', ' '));
+                            description.text(
+                                thisType.capitalize().replace("_", " ")
+                            );
 
                             //Fade out all other areas
                             d3.selectAll("g#Areas_ha path")
                                 .classed("unclickable", true) //Prevent future clicks
-                                .filter(function (d) {
+                                .filter(function(d) {
                                     //Filter out 'this' one
                                     if (d.key !== thisType) {
                                         return true;
@@ -445,13 +448,13 @@ function loadVisualization() {
                             //Define area generator that will be used just this one time
                             let singleArea_ha_Area = d3
                                 .area()
-                                .x(function (d) {
+                                .x(function(d) {
                                     return xScale(d.data.date);
                                 })
-                                .y0(function (d) {
+                                .y0(function(d) {
                                     return yScale(0);
                                 }) //Note zero baseline
-                                .y1(function (d) {
+                                .y1(function(d) {
                                     return yScale(d.data[thisType].area_val);
                                 });
                             //Note y1 uses the raw 'sales' value for 'this' area,
@@ -469,7 +472,7 @@ function loadVisualization() {
                             //Update y scale domain, based on the sales for this area only
                             yScale.domain([
                                 0,
-                                d3.max(dataset, function (d) {
+                                d3.max(dataset, function(d) {
                                     return d[thisType].area_val;
                                 })
                             ]);
@@ -479,14 +482,14 @@ function loadVisualization() {
                                 .transition()
                                 .duration(1000)
                                 .attr("d", singleArea_ha_Area)
-                                .on("start", function () {
+                                .on("start", function() {
                                     //Transition axis to new scale concurrently
                                     d3.select("g.axis.y")
                                         .transition()
                                         .duration(1000)
                                         .call(yAxis);
                                 })
-                                .on("end", function () {
+                                .on("end", function() {
                                     //Restore clickability (is that a word?)
                                     d3.select(this).classed(
                                         "unclickable",
@@ -498,13 +501,13 @@ function loadVisualization() {
                                 });
                         })
                         .append("title") //Make tooltip
-                        .text(function (d) {
-                            return d.key.replace('_', ' ');
+                        .text(function(d) {
+                            return d.key.replace("_", " ");
                         });
                 })
                 .append("title") //Make tooltip
-                .text(function (d) {
-                    return d.key.replace('_', ' ');
+                .text(function(d) {
+                    return d.key.replace("_", " ");
                 });
 
             //Create axes
@@ -528,21 +531,27 @@ function loadVisualization() {
                 .attr(
                     "transform",
                     "translate(" +
-                    (w - padding / 2) +
-                    "," +
-                    h / 2 +
-                    ")rotate(-90)"
+                        (w - padding / 2) +
+                        "," +
+                        h / 2 +
+                        ")rotate(-90)"
                 ) // text is drawn off the screen top left, move down and out and rotate
                 .text("Area hm");
 
             // Add title
-            description = svg.append("text")
+            description = svg
+                .append("text")
                 .attr("x", 20)
                 .attr("y", h / 2)
                 // .attr("text-anchor", "middle")
                 .style("font-size", "14px");
 
-            let transform = "translate(" + xScale.range()[0] + "," + yScale.range()[1] + ")";
+            let transform =
+                "translate(" +
+                xScale.range()[0] +
+                "," +
+                yScale.range()[1] +
+                ")";
 
             //Create back button
             let backButton = svg
@@ -568,7 +577,7 @@ function loadVisualization() {
                 .html("&larr; Back");
 
             //Define click behavior
-            backButton.on("click", function () {
+            backButton.on("click", function() {
                 //Hide the back button, as it was just clicked
                 toggleBackButton();
 
@@ -576,7 +585,7 @@ function loadVisualization() {
                     //Go back to default view
 
                     // Update description
-                    description.text('');
+                    description.text("");
 
                     //Update view state
                     viewState--;
@@ -588,7 +597,7 @@ function loadVisualization() {
                         .transition()
                         .duration(250)
                         .attr("opacity", 1)
-                        .on("end", function () {
+                        .on("end", function() {
                             //Remove all Areas_ha once this fades in;
                             //they will be recreated later as needed.
                             d3.selectAll("g#Areas_ha path").remove();
@@ -597,7 +606,7 @@ function loadVisualization() {
                     //Set y scale back to original domain
                     yScale.domain([
                         0,
-                        d3.max(typeDataset, function (d) {
+                        d3.max(typeDataset, function(d) {
                             let sum = 0;
 
                             //Loops once for each row, to calculate
@@ -614,7 +623,7 @@ function loadVisualization() {
                     typeAreaTransitions
                         .transition()
                         .duration(1000)
-                        .on("start", function () {
+                        .on("start", function() {
                             //Transition axis to new scale concurrently
                             d3.select("g.axis.y")
                                 .transition()
@@ -622,7 +631,7 @@ function loadVisualization() {
                                 .call(yAxis);
                         })
                         .attr("d", area)
-                        .on("end", function () {
+                        .on("end", function() {
                             d3.select(this).classed("unclickable", false);
                         });
                 } else if (viewState === 2) {
@@ -634,7 +643,7 @@ function loadVisualization() {
                     //Restore the old y scale
                     yScale.domain([
                         0,
-                        d3.max(thisTypeDataset, function (d) {
+                        d3.max(thisTypeDataset, function(d) {
                             let sum = 0;
 
                             //Calculate the total (sum) of sales of this type
@@ -647,8 +656,13 @@ function loadVisualization() {
                     //Transition the y axis and visible area back into place
                     d3.selectAll("g#Areas_ha path")
                         .transition()
-                        .on("start", function (d, i) {
-                            description.text(d.key.split(' ')[0].capitalize().replace('_', ' '));
+                        .on("start", function(d, i) {
+                            description.text(
+                                d.key
+                                    .split(" ")[0]
+                                    .capitalize()
+                                    .replace("_", " ")
+                            );
 
                             //Transition y axis to new scale concurrently
                             d3.select("g.axis.y")
@@ -661,7 +675,7 @@ function loadVisualization() {
                         .transition()
                         .duration(1000)
                         .attr("opacity", 1) //Fade in all areas
-                        .on("end", function (d, i) {
+                        .on("end", function(d, i) {
                             //Restore clickability
                             d3.select(this).classed("unclickable", false);
 
@@ -682,7 +696,7 @@ function loadVisualization() {
             });
         });
 
-    let toggleBackButton = function () {
+    let toggleBackButton = function() {
         //Select the button
         let backButton = d3.select("#backButton");
 
@@ -695,7 +709,7 @@ function loadVisualization() {
 
             //Set up dynamic button text
             // let buttonText = "&larr; Return ";
-            let buttonText = '&larr; Back ';
+            let buttonText = "&larr; Back ";
             // var buttonTextInfo = "&larr; Current View ";
             //Text varies by mode and type
             // if (viewState === 1) {
@@ -722,12 +736,18 @@ function loadVisualization() {
                     .getBBox().width + 16
             );
 
-            if (rectWidth < document.getElementById("descriptionsOption2").offsetWidth - 25) {
+            if (
+                rectWidth <
+                document.getElementById("storyTelling").offsetWidth - 25
+            ) {
                 backButton.select("rect").attr("width", rectWidth);
             } else {
                 backButton
                     .select("rect")
-                    .attr("width", document.getElementById("descriptionsOption2").offsetWidth - 50);
+                    .attr(
+                        "width",
+                        document.getElementById("storyTelling").offsetWidth - 50
+                    );
             }
 
             //Fade button in
@@ -747,22 +767,27 @@ function loadVisualization() {
     };
 
     function wrap(text, width) {
-        text.each(function () {
+        text.each(function() {
             let text = d3.select(this);
-            let words = text.text().split(/\s+/).reverse();
+            let words = text
+                .text()
+                .split(/\s+/)
+                .reverse();
             let word;
             let line = [];
             let lineNumber = 0;
             let lineHeight = 1.1; // ems
             let y = text.attr("y");
             let dy = parseFloat(text.attr("dy"));
-            let tspan = text.text(null)
+            let tspan = text
+                .text(null)
                 .append("tspan")
                 .attr("x", 0)
                 .attr("y", y)
                 .attr("dy", dy + "em");
 
-            while (word = words.pop()) { // Check this line to be functional
+            while ((word = words.pop())) {
+                // Check this line to be functional
                 line.push(word);
                 tspan.text(line.join(" "));
 

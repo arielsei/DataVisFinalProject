@@ -26,7 +26,7 @@ let firstLoad = true;
 let topoLayer;
 let map;
 let resizeTimeout;
-const introHeight = 950;
+const introHeight = 1000;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
@@ -34,48 +34,34 @@ const highlights = [
     {
         lat: -66.40414471383308,
         long: -10.418888019117534,
-        zoom: 10
+        zoom: 10,
+        year: 1985
     },
     {
         lat: -66.90414471383308,
         long: -10.218888019117534,
-        zoom: 11
+        zoom: 11,
+        year: 1993
     },
     {
         lat: -66.00414471383308,
         long: -10.818888019117534,
-        zoom: 12
+        zoom: 12,
+        year: 2001
     },
     {
         lat: -67.20414471383308,
         long: -11.118888019117534,
-        zoom: 8
+        zoom: 8,
+        year: 2009
     },
     {
         lat: -65.99414471383308,
         long: -10.018888019117534,
-        zoom: 7
+        zoom: 7,
+        year: 2017
     }
 ];
-
-// window.addEventListener(
-//     "resize",
-//     function() {
-//         if (!resizeTimeout) {
-//             resizeTimeout = setTimeout(function() {
-//                 resizeTimeout = null;
-//                 if (option1Selected && !option2Selected) {
-//                     let svggMinerias = document.getElementById("svgMinerias");
-//                     if (svggMinerias) {
-//                         svggMinerias.parentNode.removeChild(svggMinerias);
-//                         test();
-//                     }
-//                 }
-//             }, 250);
-//         }
-//     },
-//     true
-// );
 
 window.onload = () => {
     const maxBounds = [
@@ -94,47 +80,28 @@ window.onload = () => {
     };
     const customOption1 = L.Control.extend({
         options: {
-            position: "bottomcenter"
+            position: "leftMiddle"
         },
 
         onAdd: function (map) {
             let container = L.DomUtil.get("option1");
             container.onclick = () => {
-                option1Selected = !option1Selected;
-
-                if (option1Selected)
-                    document
-                        .getElementById("option1")
-                        .classList.add("selected");
-                else
-                    document
-                        .getElementById("option1")
-                        .classList.remove("selected");
-                setPopupContent();
+                console.log("TODO LINK TO MINING TYPE")
             };
             return container;
         }
     });
     const customOption2 = L.Control.extend({
         options: {
-            position: "bottomcenter"
+            position: "leftMiddle"
         },
 
         onAdd: function (map) {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
-                option2Selected = !option2Selected;
-                if (option2Selected)
-                    document
-                        .getElementById("option2")
-                        .classList.add("selected");
-                else
-                    document
-                        .getElementById("option2")
-                        .classList.remove("selected");
+                console.log("TODO LINK TO MINING TYPE")
 
-                setPopupContent();
             };
             return container;
         }
@@ -147,15 +114,13 @@ window.onload = () => {
     option2 = L.DomUtil.get("option2");
     const corners = map._controlCorners;
     const container = map._controlContainer;
-    corners["bottomcenter"] = L.DomUtil.create(
+    corners["leftMiddle"] = L.DomUtil.create(
         "div",
-        "leaflet-bottom leaflet-horizontal-center",
+        "leaflet-vertical-center leaflet-horizontal-left",
         container
     );
-    map.addControl(new customOption2());
     map.addControl(new customOption1());
-    document.getElementById("option2").classList.add("selected");
-    setPopupContent();
+    map.addControl(new customOption2());
 
     L.TopoJSON = L.GeoJSON.extend({
         addData: function (jsonData) {
@@ -171,7 +136,7 @@ window.onload = () => {
     });
     topoLayer = new L.TopoJSON();
     document
-        .getElementById("descriptionsOption2")
+        .getElementById("storyTelling")
         .addEventListener("scroll", handleScroll);
 
     loadMapFiles();
@@ -185,26 +150,6 @@ window.onload = () => {
     initializeSlider();
     loadVisualization();
 };
-
-function setPopupContent() {
-    if (option1Selected && option2Selected) {
-        document.getElementById("descriptionsCombined").style.display = "block";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    } else if (option1Selected) {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "block";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    } else if (option2Selected) {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "block";
-    } else {
-        document.getElementById("descriptionsCombined").style.display = "none";
-        document.getElementById("descriptionsOption1").style.display = "none";
-        document.getElementById("descriptionsOption2").style.display = "none";
-    }
-}
 
 function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
@@ -226,15 +171,16 @@ function initializeSlider() {
         range: {
             min: 1985,
             max: 2017
-        }
+        },
         // For Scale
-        // pips: {
-        //     mode: 'steps',
-        //     density: 3,
-        //     format: wNumb({
-        //         decimals: 0
-        //     }),
-        // }
+        pips: {
+            mode: "count",
+            values: 5,
+            density: 100,
+            format: wNumb({
+                decimals: 0
+            })
+        }
     });
     sliderElement.noUiSlider.on("update", onSliderUpdate);
 }
@@ -440,6 +386,8 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom
             );
+            // Move to the corresponding year
+            sliderElement.noUiSlider.set(highlights[blockScrolling].year);
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {

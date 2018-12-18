@@ -1984,7 +1984,7 @@ a {
 }
 
 .leaflet-vertical-center {
-    top: 50%;
+    top: calc(50% - 50px);
     transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
@@ -1994,6 +1994,14 @@ a {
 
 .leaflet-horizontal-center {
     left: 50%;
+    transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+}
+.leaflet-horizontal-left {
+    left: 45px;
     transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
@@ -2040,20 +2048,18 @@ a {
 }
 
 #option2 {
-    background-image: url("../static/soil-use-icon.png");
+    background-image: url("../static/pump-icon.png");
 }
 
 #option2:hover {
-    background-image: url("../static/soil-use-icon-hover.png");
+    background-image: url("../static/pump-icon.png");
 }
 
 #option2.selected {
-    background-image: url("../static/soil-use-icon-selected.png");
+    background-image: url("../static/pump-icon.png");
 }
 
-#descriptionsCombined,
-#descriptionsOption1,
-#descriptionsOption2 {
+#storyTelling {
     text-align: justify;
     width: 400px;
     height: 100%;
@@ -2063,7 +2069,6 @@ a {
     right: 0px;
     /*border: 1px solid gray;*/
     z-index: 1000;
-    display: none;
     overflow-y: scroll;
     padding: 15px;
 }
@@ -2076,8 +2081,64 @@ a {
     position: absolute;
     z-index: 2000;
     width: 300px;
-    bottom: 10px;
-    left: 30px;
+    bottom: 50px;
+    cursor: pointer;
+
+    background: none;
+    border-color: #494848;
+    border-width: 1.5px;
+
+    left: 40%;
+    transform: translateX(-40%);
+    -ms-transform: translateX(-40%);
+    -webkit-transform: translateX(-40%);
+    -o-transform: translateX(-40%);
+    -moz-transform: translateX(-40%);
+}
+
+@media screen and (max-width: 1000px) {
+    #slider {
+        left: 10px;
+        transform: translateX(10px);
+        -ms-transform: translateX(10px);
+        -webkit-transform: translateX(10px);
+        -o-transform: translateX(10px);
+        -moz-transform: translateX(10px);
+    }
+}
+
+#slider .noUi-pips-horizontal {
+    padding-top: 5px;
+    height: 40px;
+}
+
+#slider .noUi-pips {
+    color: #494848;
+    font-size: 16px;
+    /* font-weight: bold; */
+}
+
+#slider .noUi-marker {
+    width: 2.5px;
+    background: #494848;
+}
+
+#slider .noUi-handle {
+    border-width: 1.5px;
+    border-color: #494848;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+#slider .noUi-connects {
+    background: white;
+    opacity: 0.5;
+}
+
+#slider .noUi-handle:after,
+#slider .noUi-handle:before {
+    background: #494848;
+    width: 1.7px;
 }
 
 .description * {
