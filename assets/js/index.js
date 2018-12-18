@@ -1,3 +1,26 @@
+let COLORS = {
+    'hm': {
+        'color': '#013a90',
+        'sector': {
+            'delta': '#a56e00',
+            'huepetuhe': '#019bdd',
+            'smallmines': '#013a90',
+            'pampa': '',
+        }
+    },
+    'sp': {
+        'color': '#bd0736',
+        'sector': {
+            'delta': '#d765d3',
+            'huepetuhe': '#ffa4d4',
+            'smallmines': '#bd0736',
+            'pampa': '#a494ff',
+        }
+    }
+};
+
+let option1Selected = false;
+let option2Selected = true;
 let sliderElement;
 let firstLoad = true;
 let topoLayer;
@@ -84,7 +107,7 @@ window.onload = () => {
         }
     });
     L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         layerOptions
     ).addTo(map);
     option1 = L.DomUtil.get("option1");
@@ -261,7 +284,7 @@ function loadMapFiles() {
         topoLayer[3].eachLayer(handleLayer);
         topoLayer[3].addTo(map);
     });
-    readJsonFile("assets/data/grouped_mineria_2009-2017.json", function (text) {
+    readJsonFile("assets/data/simplified_grouped_test.json", function (text) {
         let data = JSON.parse(text);
         topoLayer[4] = new L.TopoJSON();
         topoLayer[4].addData(data);
@@ -271,59 +294,65 @@ function loadMapFiles() {
 }
 
 function handleLayer(layer) {
-    let colorOfLayer;
+    let miningType = (layer.feature.properties.MiningType || 'hm').normText();
+    let sector = (layer.feature.properties.Sector || 'smallmines').normText();
+    let colorOfLayer = COLORS[miningType]['sector'][sector];
     let fillOpacity;
-    switch (layer.feature.properties.MiningType) {
-        case "HM":
-            switch (layer.feature.properties.Sector) {
-                case "Huepetuhe":
-                    colorOfLayer = "#77070B";
-                    fillOpacity = 0;
-                    break;
-                case "SmallMines": {
-                    colorOfLayer = "#FFC000"; //nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Delta": {
-                    colorOfLayer = "#FFFF00"; // nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Pampa": {
-                    colorOfLayer = "#00B050";
-                    fillOpacity = 0;
-                    break;
-                }
-            }
-            break;
-        case "SP":
-            switch (layer.feature.properties.Sector) {
-                case "Huepetuhe":
-                    colorOfLayer = "#002060"; // nada
-                    fillOpacity = 0;
-                    break;
-                case "SmallMines": {
-                    colorOfLayer = "#7030A0"; // nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Delta": {
-                    colorOfLayer = "#808080"; //nada
-                    fillOpacity = 0;
-                    break;
-                }
-                case "Pampa": {
-                    colorOfLayer = "#007AAE";
-                    fillOpacity = 1;
-                    break;
-                }
-            }
-            break;
-        default:
-            colorOfLayer = "#000000";
-            fillOpacity = 1;
-    }
+
+
+    // console.log(layer.feature.properties.Sector);
+    // switch (layer.feature.properties.MiningType) {
+    //
+    //     case "HM":
+    //         switch (layer.feature.properties.Sector) {
+    //             case "Huepetuhe":
+    //                 colorOfLayer = "#77070B";
+    //                 fillOpacity = 0;
+    //                 break;
+    //             case "SmallMines": {
+    //                 colorOfLayer = "#FFC000"; //nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Delta": {
+    //                 colorOfLayer = "#FFFF00"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Pampa": {
+    //                 colorOfLayer = "#00B050";
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //         }
+    //         break;
+    //     case "SP":
+    //         switch (layer.feature.properties.Sector) {
+    //             case "Huepetuhe":
+    //                 colorOfLayer = "#002060"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             case "SmallMines": {
+    //                 colorOfLayer = "#7030A0"; // nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Delta": {
+    //                 colorOfLayer = "#808080"; //nada
+    //                 fillOpacity = 0;
+    //                 break;
+    //             }
+    //             case "Pampa": {
+    //                 colorOfLayer = "#007AAE";
+    //                 fillOpacity = 1;
+    //                 break;
+    //             }
+    //         }
+    //         break;
+    //     default:
+    //         colorOfLayer = "#000000";
+    //         fillOpacity = 1;
+    // }
     layer.setStyle({
         color: colorOfLayer
         // Uncomment this line to see only the ones with fillOpacity = 1
