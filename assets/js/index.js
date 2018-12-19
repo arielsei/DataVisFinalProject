@@ -21,6 +21,8 @@ let COLORS = {
 
 let option1Selected = false;
 let option2Selected = true;
+let hmSelected = false;
+let spSelected = false;
 let sliderElement;
 let firstLoad = true;
 let topoLayer;
@@ -78,45 +80,137 @@ window.onload = () => {
         maxZoom: 13,
         minZoom: 5
     };
+
+    const deltaBtn = L.Control.extend({
+        options: {
+            position: "bottomRight"
+        },
+
+        onAdd: function (map) {
+            let container = L.DomUtil.get("deltaBtn");
+            // container.animate([{ opacity: 1, offset: 0, easing: 'ease-out' },
+            //         { opacity: 0.1, offset: 0.5 ,easing: 'ease-in' },
+            //         { opacity: 0 } ],
+            //     2000);
+
+            container.onclick = () => {
+                console.log("TODO Delta")
+
+            };
+
+            return container;
+        }
+    });
+
+    const huepetuheBtn = L.Control.extend({
+        options: {
+            position: "bottomRight"
+        },
+
+        onAdd: function (map) {
+            let container = L.DomUtil.get('huepetuheBtn');
+
+            container.onclick = () => {
+                console.log("TODO Huepetuhe")
+
+            };
+
+            return container;
+        }
+    });
+
+    const smallMinesBtn = L.Control.extend({
+        options: {
+            position: "bottomRight"
+        },
+
+        onAdd: function (map) {
+            let container = L.DomUtil.get('smallMinesBtn');
+
+            container.onclick = () => {
+                console.log("TODO Small Mines");
+
+            };
+
+            return container;
+        }
+    });
+
+    const pampaBtn = L.Control.extend({
+        options: {
+            position: "bottomRight"
+        },
+
+        onAdd: function (map) {
+            let container = L.DomUtil.get('pampaBtn');
+
+            container.onclick = () => {
+                console.log("TODO Pampa");
+            };
+
+            return container;
+        }
+    });
+
+    let addSectorLeaflet = (map) => {
+        map.addControl(new deltaBtn());
+        map.addControl(new huepetuheBtn());
+        map.addControl(new smallMinesBtn());
+        map.addControl(new pampaBtn());
+    };
+
+    let addSectorBtns = (container) => {
+        let sectors = document.getElementById('sectorBtns').cloneNode(true);
+        container.parentNode.insertBefore(sectors, container);
+    };
+
+
     const customOption1 = L.Control.extend({
         options: {
-            position: "leftMiddle"
+            position: "bottomRight"
         },
 
         onAdd: function (map) {
             let container = L.DomUtil.get("option1");
-            container.onclick = () => {
-                console.log("TODO LINK TO MINING TYPE")
+
+            container.onclick = function () {
+                addSectorBtns(container);
+                map._controlCorners.bottomRight.classList += ' open-hm';
             };
             return container;
         }
     });
+
     const customOption2 = L.Control.extend({
         options: {
-            position: "leftMiddle"
+            position: "bottomRight"
         },
 
         onAdd: function (map) {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
-                console.log("TODO LINK TO MINING TYPE")
-
+                addSectorBtns(container);
+                map._controlCorners.bottomRight.classList += ' open-sp';
             };
             return container;
         }
     });
+
     L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         layerOptions
     ).addTo(map);
+
     option1 = L.DomUtil.get("option1");
     option2 = L.DomUtil.get("option2");
+
     const corners = map._controlCorners;
     const container = map._controlContainer;
-    corners["leftMiddle"] = L.DomUtil.create(
+
+    corners["bottomRight"] = L.DomUtil.create(
         "div",
-        "leaflet-vertical-center leaflet-horizontal-left",
+        "leaflet-horizontal-right",
         container
     );
     map.addControl(new customOption1());
@@ -134,6 +228,7 @@ window.onload = () => {
             }
         }
     });
+
     topoLayer = new L.TopoJSON();
     document
         .getElementById("storyTelling")
@@ -389,11 +484,11 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom,
                 {
-                    animate:true,
-                    duration:highlights[blockScrolling].year===1985 ? 1.2 : 2,
+                    animate: true,
+                    duration: highlights[blockScrolling].year === 1985 ? 1.2 : 2,
                 }
             );
-            
+
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
@@ -406,14 +501,14 @@ function handleScroll(event) {
     }
 }
 
-function animateValue(id, start=0, duration=2000) {
+function animateValue(id, start = 0, duration = 2000) {
     var obj = document.getElementById(id);
     var end = parseFloat(obj.innerHTML);
     var range = end - start;
     var current = start;
-    var increment = end > start? 1 : -1;
+    var increment = end > start ? 1 : -1;
     var stepTime = Math.abs(Math.floor(duration / range));
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
         current += increment;
         obj.innerHTML = current;
         if (current >= end) {
