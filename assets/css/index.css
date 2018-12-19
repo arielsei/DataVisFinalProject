@@ -29,6 +29,16 @@ mark.HM_text {
 }
 
 mark.HM_delta_text {
+    color: #013a90;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+
+mark.HM_delta_text.active {
+    color: #a56e00;
+}
+
+mark.HM_delta_text {
     color: #a56e00;
     background: rgb(229, 226, 226);
     font-weight: bold;
@@ -2096,7 +2106,6 @@ a {
     top: calc(100% - 514px);
 }
 
-
 .leaflet-horizontal-right {
     left: calc(100% - 475px - 40px - 7px);
     height: 100%;
@@ -2136,6 +2145,10 @@ a {
     background-color: white;
     border-radius: 5px;
     text-align: center;
+}
+
+#main > #sectorBtns {
+    display: none;
 }
 
 #deltaBtn,
