@@ -149,7 +149,7 @@ window.onload = () => {
     // });
     initializeSlider();
     loadVisualization();
-    animateValue("value_test", 0, 2000);
+    animateValue("value_counter", 0, 2000);
 };
 
 function readJsonFile(filename, callback) {
