@@ -3,7 +3,7 @@ function loadVisualization() {
     //Width and height
 
     let w = document.getElementById("storyTelling").offsetWidth - 45;
-    let h = 300;
+    let h = 350;
     let padding = 35;
 
     //Tracks view state.  Possible values:
@@ -147,7 +147,7 @@ function loadVisualization() {
                         return d.date;
                     })
                 ])
-                .range([padding, w - padding * 2]);
+                .range([padding, w - padding * 2.5]);
 
             yScale = d3
                 .scaleLinear()
@@ -416,10 +416,18 @@ function loadVisualization() {
 
                             switch (thisType.normText()) {
                                 case "heavymachinery":
+                                    if (sector.normText() === 'huepetue') {
+                                        color = COLORS['hm']['sector']['huepetuhe'];
+                                    } else {
                                         color = COLORS['hm']['sector'][sector.normText()];
+                                    }
                                     break;
                                 case "suctionpumps":
+                                    if (sector.normText() === 'huepetue') {
+                                        color = COLORS['hm']['sector']['huepetuhe'];
+                                    } else {
                                         color = COLORS['hm']['sector'][sector.normText()];
+                                    }
                                     break;
                                 default:
                                     color = COLORS['hm']['color'];
@@ -575,7 +583,7 @@ function loadVisualization() {
 
             svg.append("g")
                 .attr("class", "axis y")
-                .attr("transform", "translate(" + (w - padding * 2) + ",0)")
+                .attr("transform", "translate(" + (w - padding * 2.5) + ",0)")
                 .call(yAxis);
 
             svg.append("text")
@@ -583,7 +591,7 @@ function loadVisualization() {
                 .attr(
                     "transform",
                     "translate(" +
-                    (w - padding / 2) +
+                    (w - padding ) +
                     "," +
                     h / 2 +
                     ")rotate(-90)"
