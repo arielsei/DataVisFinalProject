@@ -4,26 +4,47 @@ let COLORS = {
         'sector': {
             'delta': '#a56e00',
             'huepetuhe': '#019bdd',
-            'smallmines': '#013a90',
-            'pampa': '#6868ac',
+            'smallmines': '#6868ac',
+            'pampa': '#013a90',
         }
     },
     'sp': {
         'color': '#bd0736',
         'sector': {
             'delta': '#d765d3',
-            'huepetuhe': '#ffa4d4',
-            'smallmines': '#bd0736',
+            'huepetuhe': '#bd0736',
+            'smallmines': '#ffa4d4',
             'pampa': '#a494ff',
         }
     }
 };
+let SELECTION = {
+    categoryLevel: 1,
+    hm: {
+        selected: true,
+        sector: {
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
+        }
+    },
+    sp: {
+        selected: true,
+        sector: {
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
+        }
+    }
+}
 
 let option1Selected = false;
 let option2Selected = true;
 let sliderElement;
 let firstLoad = true;
-let topoLayer;
+let topoLayer = [];
 let map;
 let resizeTimeout;
 const introHeight = 1000;
@@ -134,7 +155,6 @@ window.onload = () => {
             }
         }
     });
-    topoLayer = new L.TopoJSON();
     document
         .getElementById("storyTelling")
         .addEventListener("scroll", handleScroll);
@@ -296,7 +316,14 @@ function loadMapFiles() {
 function handleLayer(layer) {
     let miningType = (layer.feature.properties.MiningType || 'hm').normText();
     let sector = (layer.feature.properties.Sector || 'smallmines').normText();
-    let colorOfLayer = COLORS[miningType]['sector'][sector];
+    let colorOfLayer, fillOpacity;
+    if (SELECTION.categoryLevel == 1) {
+        colorOfLayer = COLORS[miningType].color;
+        fillOpacity = SELECTION[miningType].selected ? 1 : 0;
+    } else {
+        colorOfLayer = COLORS[miningType]['sector'][sector];
+        fillOpacity = SELECTION[miningType]['sector'][sector] ? 1 : 0;      
+    }
     // let fillOpacity;
 
 
@@ -354,10 +381,10 @@ function handleLayer(layer) {
     //         fillOpacity = 1;
     // }
     layer.setStyle({
-        color: colorOfLayer
+        color: colorOfLayer,
         // Uncomment this line to see only the ones with fillOpacity = 1
-        // fillOpacity: fillOpacity,
-        // weight: 0
+        fillOpacity: fillOpacity,
+        weight: fillOpacity
     });
 }
 
