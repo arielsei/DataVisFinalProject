@@ -205,7 +205,6 @@ function loadVisualization() {
             svg.append("g").attr("id", "Areas_ha");
 
             let showLeggend = function () {
-                console.log("TEST!!!!!!");
                 svg.append("text")
                     .attr("id", "types")
                     .selectAll("path")
@@ -264,7 +263,6 @@ function loadVisualization() {
                     //Which type was clicked?
                     let thisType = d.key;
 
-                    console.log("type: ",d);
                     // Update description
                     description.text(thisType.capitalize().replace("_", " "));
 
@@ -272,7 +270,7 @@ function loadVisualization() {
                     viewType = thisType;
 
                     // Set the selection variables
-                    typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
+                    let typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
                     SELECTION.categoryLevel = 2;
                     for (let key in SELECTION) {
                         if (key !== 'categoryLevel') {
@@ -447,21 +445,25 @@ function loadVisualization() {
                             );
 
                             // Set the selection variables
-                            typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
-                            sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
+                            let typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
+                            let sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
+                            
                             SELECTION.categoryLevel = 2;
                             for (let key in SELECTION) {
                                 if (key !== 'categoryLevel') {
                                     if (key === typeKey) {
                                         SELECTION[key].selected = true;
                                         for (let secondKey in SELECTION[key].sector) {
-                                            if (sectorKey == secondKey)
-                                            SELECTION[key].sector[sectorKey] = true;
+                                            if (sectorKey === secondKey) {
+                                                SELECTION[key].sector[secondKey] = true;
+                                            } else {
+                                                SELECTION[key].sector[secondKey] = false;
+                                            }
                                         }
                                     } else {
                                         SELECTION[key].selected = false;
-                                        for (let sectorKey in SELECTION[key].sector) {
-                                            SELECTION[key].sector[sectorKey] = false;
+                                        for (let secondKey in SELECTION[key].sector) {
+                                            SELECTION[key].sector[secondKey] = false;
                                         }
                                     }
                                 }
@@ -699,32 +701,38 @@ function loadVisualization() {
                         });
                 } else if (viewState === 2) {
                     //Go back to areas view
-                    // console.log(a);
-                    // // Set the selection variables
-                    // typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
-                    // sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
                     
-                    // SELECTION.categoryLevel = 2;
-                    //         for (let key in SELECTION) {
-                    //             if (key !== 'categoryLevel') {
-                    //                 if (key === typeKey) {
-                    //                     SELECTION[key].selected = true;
-                    //                     for (let secondKey in SELECTION[key].sector) {
-                    //                         if (sectorKey == secondKey)
-                    //                         SELECTION[key].sector[sectorKey] = true;
-                    //                     }
-                    //                 } else {
-                    //                     SELECTION[key].selected = false;
-                    //                     for (let sectorKey in SELECTION[key].sector) {
-                    //                         SELECTION[key].sector[sectorKey] = false;
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                    //         for(let mapLayer of topoLayer) {
-                    //             mapLayer.eachLayer(handleLayer);
-                    //         }
-
+                    // // Set the selection variables
+                    let typeKey;
+                    for (let key in SELECTION) {
+                        if (key !== 'categoryLevel') {
+                            for (let secondKey in SELECTION[key].sector) {
+                                if (SELECTION[key].sector[secondKey]) {
+                                    typeKey = key;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    SELECTION.categoryLevel = 2;
+                    for (let key in SELECTION) {
+                        if (key !== 'categoryLevel') {
+                            if (key === typeKey) {
+                                SELECTION[key].selected = true;
+                                for (let sectorKey in SELECTION[key].sector) {
+                                    SELECTION[key].sector[sectorKey] = true;
+                                }
+                            } else {
+                                SELECTION[key].selected = false;
+                                for (let sectorKey in SELECTION[key].sector) {
+                                    SELECTION[key].sector[sectorKey] = false;
+                                }
+                            }
+                        }
+                    }
+                    for(let mapLayer of topoLayer) {
+                        mapLayer.eachLayer(handleLayer);
+                    }
 
                     //Update view state
                     viewState--;
