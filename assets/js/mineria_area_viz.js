@@ -416,18 +416,10 @@ function loadVisualization() {
 
                             switch (thisType.normText()) {
                                 case "heavymachinery":
-                                    if (sector.normText() === 'huepetue') {
-                                        color = COLORS['hm']['sector']['huepetuhe'];
-                                    } else {
                                         color = COLORS['hm']['sector'][sector.normText()];
-                                    }
                                     break;
                                 case "suctionpumps":
-                                    if (sector.normText() === 'huepetue') {
-                                        color = COLORS['hm']['sector']['huepetuhe'];
-                                    } else {
-                                        color = COLORS['hm']['sector'][sector.normText()];
-                                    }
+                                        color = COLORS['sp']['sector'][sector.normText()];
                                     break;
                                 default:
                                     color = COLORS['hm']['color'];
@@ -548,12 +540,12 @@ function loadVisualization() {
                                     toggleBackButton();
                                 });
                         })
-                        .on('mouseover', function (d) {
-                            d3.select(this).attr('opacity', 0.85)
-                        })
-                        .on('mouseout', function (d) {
-                            d3.select(this).attr('opacity', 1)
-                        })
+                        // .on('mouseover', function (d) {
+                        //     d3.select(this).attr('opacity', 0.85)
+                        // })
+                        // .on('mouseout', function (d) {
+                        //     d3.select(this).attr('opacity', 1)
+                        // })
                         .append("title") //Make tooltip
                         .text(function (d) {
                             return d.key.replace("_", " ");
