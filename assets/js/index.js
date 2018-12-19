@@ -250,7 +250,6 @@ window.onload = () => {
         }
     });
 
-    topoLayer = new L.TopoJSON();
     document
         .getElementById("storyTelling")
         .addEventListener("scroll", handleScroll);
