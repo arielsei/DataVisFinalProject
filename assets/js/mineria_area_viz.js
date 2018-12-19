@@ -270,6 +270,27 @@ function loadVisualization() {
                     //Update this for later reference
                     viewType = thisType;
 
+                    // Set the selection variables
+                    typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
+                    SELECTION.categoryLevel = 2;
+                    for (let key in SELECTION) {
+                        if (key !== 'categoryLevel') {
+                            if (key === typeKey) {
+                                SELECTION[key].selected = true;
+                                for (let sectorKey in SELECTION[key].sector) {
+                                    SELECTION[key].sector[sectorKey] = true;
+                                }
+                            } else {
+                                SELECTION[key].selected = false;
+                                for (let sectorKey in SELECTION[key].sector) {
+                                    SELECTION[key].sector[sectorKey] = false;
+                                }
+                            }
+                        }
+                    }
+                    for(let mapLayer of topoLayer) {
+                        mapLayer.eachLayer(handleLayer);
+                    }
                     //Generate a new data set with all-zero values,
                     //except for this type's data
                     thisTypeDataset = [];
@@ -432,6 +453,30 @@ function loadVisualization() {
                                 thisType.capitalize().replace("_", " ")
                             );
 
+                            // Set the selection variables
+                            typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
+                            sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
+                            SELECTION.categoryLevel = 2;
+                            for (let key in SELECTION) {
+                                if (key !== 'categoryLevel') {
+                                    if (key === typeKey) {
+                                        SELECTION[key].selected = true;
+                                        for (let secondKey in SELECTION[key].sector) {
+                                            if (sectorKey == secondKey)
+                                            SELECTION[key].sector[sectorKey] = true;
+                                        }
+                                    } else {
+                                        SELECTION[key].selected = false;
+                                        for (let sectorKey in SELECTION[key].sector) {
+                                            SELECTION[key].sector[sectorKey] = false;
+                                        }
+                                    }
+                                }
+                            }
+                            for(let mapLayer of topoLayer) {
+                                mapLayer.eachLayer(handleLayer);
+                            }
+                            
                             //Fade out all other areas
                             d3.selectAll("g#Areas_ha path")
                                 .classed("unclickable", true) //Prevent future clicks
@@ -589,13 +634,26 @@ function loadVisualization() {
                 .html("&larr; Back");
 
             //Define click behavior
-            backButton.on("click", function () {
+            backButton.on("click", function (a) {
                 //Hide the back button, as it was just clicked
                 toggleBackButton();
 
                 if (viewState === 1) {
                     //Go back to default view
-
+                    
+                    // Set the selection variables
+                    SELECTION.categoryLevel = 1;
+                    for (let key in SELECTION) {
+                        if (key !== 'categoryLevel') {
+                            SELECTION[key].selected = true;
+                            for (let sectorKey in SELECTION[key].sector) {
+                                SELECTION[key].sector[sectorKey] = false;
+                            }
+                        }
+                    }
+                    for(let mapLayer of topoLayer) {
+                        mapLayer.eachLayer(handleLayer);
+                    }
                     // Update description
                     description.text("");
 
@@ -648,6 +706,32 @@ function loadVisualization() {
                         });
                 } else if (viewState === 2) {
                     //Go back to areas view
+                    // console.log(a);
+                    // // Set the selection variables
+                    // typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
+                    // sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
+                    
+                    // SELECTION.categoryLevel = 2;
+                    //         for (let key in SELECTION) {
+                    //             if (key !== 'categoryLevel') {
+                    //                 if (key === typeKey) {
+                    //                     SELECTION[key].selected = true;
+                    //                     for (let secondKey in SELECTION[key].sector) {
+                    //                         if (sectorKey == secondKey)
+                    //                         SELECTION[key].sector[sectorKey] = true;
+                    //                     }
+                    //                 } else {
+                    //                     SELECTION[key].selected = false;
+                    //                     for (let sectorKey in SELECTION[key].sector) {
+                    //                         SELECTION[key].sector[sectorKey] = false;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         }
+                    //         for(let mapLayer of topoLayer) {
+                    //             mapLayer.eachLayer(handleLayer);
+                    //         }
+
 
                     //Update view state
                     viewState--;
