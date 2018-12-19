@@ -2080,7 +2080,7 @@ a {
 }
 
 .leaflet-horizontal-right.open-hm, .leaflet-horizontal-right.open-sp {
-    left: calc(100% - 400px - 45px - 7px - 20px);
+    left: calc(100% - 475px - 45px - 7px - 20px);
     float: right;
 }
 
@@ -2098,7 +2098,7 @@ a {
 
 
 .leaflet-horizontal-right {
-    left: calc(100% - 400px - 40px - 7px);
+    left: calc(100% - 475px - 40px - 7px);
     height: 100%;
     padding-bottom: 7px;
     transform: translateX(-50%);
