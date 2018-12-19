@@ -3,7 +3,7 @@ function loadVisualization() {
     //Width and height
 
     let w = document.getElementById("storyTelling").offsetWidth - 45;
-    let h = 300;
+    let h = 350;
     let padding = 35;
 
     //Tracks view state.  Possible values:
@@ -147,7 +147,7 @@ function loadVisualization() {
                         return d.date;
                     })
                 ])
-                .range([padding, w - padding * 2]);
+                .range([padding, w - padding * 2.5]);
 
             yScale = d3
                 .scaleLinear()
@@ -264,32 +264,12 @@ function loadVisualization() {
                     //Which type was clicked?
                     let thisType = d.key;
 
-                    console.log("type: ",d);
                     // Update description
                     description.text(thisType.capitalize().replace("_", " "));
 
                     //Update this for later reference
                     viewType = thisType;
-                    typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
-                    SELECTION.categoryLevel = 2;
-                    for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
-                            if (key === typeKey) {
-                                SELECTION[key].selected = true;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = true;
-                                }
-                            } else {
-                                SELECTION[key].selected = false;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = false;
-                                }
-                            }
-                        }
-                    }
-                    for(let mapLayer of topoLayer) {
-                        mapLayer.eachLayer(handleLayer);
-                    }
+
                     //Generate a new data set with all-zero values,
                     //except for this type's data
                     thisTypeDataset = [];
@@ -416,10 +396,18 @@ function loadVisualization() {
 
                             switch (thisType.normText()) {
                                 case "heavymachinery":
+                                    if (sector.normText() === 'huepetue') {
+                                        color = COLORS['hm']['sector']['huepetuhe'];
+                                    } else {
                                         color = COLORS['hm']['sector'][sector.normText()];
+                                    }
                                     break;
                                 case "suctionpumps":
+                                    if (sector.normText() === 'huepetue') {
+                                        color = COLORS['hm']['sector']['huepetuhe'];
+                                    } else {
                                         color = COLORS['hm']['sector'][sector.normText()];
+                                    }
                                     break;
                                 default:
                                     color = COLORS['hm']['color'];
@@ -439,7 +427,6 @@ function loadVisualization() {
                             //Which area was clicked?
                             let thisType = d.key;
 
-                            console.log("section: ",d);
                             // Update description
                             description.text(
                                 thisType.capitalize().replace("_", " ")
@@ -548,7 +535,7 @@ function loadVisualization() {
 
             svg.append("g")
                 .attr("class", "axis y")
-                .attr("transform", "translate(" + (w - padding * 2) + ",0)")
+                .attr("transform", "translate(" + (w - padding * 2.5) + ",0)")
                 .call(yAxis);
 
             svg.append("text")
@@ -556,7 +543,7 @@ function loadVisualization() {
                 .attr(
                     "transform",
                     "translate(" +
-                    (w - padding / 2) +
+                    (w - padding ) +
                     "," +
                     h / 2 +
                     ")rotate(-90)"
@@ -608,18 +595,7 @@ function loadVisualization() {
 
                 if (viewState === 1) {
                     //Go back to default view
-                    SELECTION.categoryLevel = 1;
-                    for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
-                            SELECTION[key].selected = true;
-                            for (let sectorKey in SELECTION[key].sector) {
-                                SELECTION[key].sector[sectorKey] = false;
-                            }
-                        }
-                    }
-                    for(let mapLayer of topoLayer) {
-                        mapLayer.eachLayer(handleLayer);
-                    }
+
                     // Update description
                     description.text("");
 
