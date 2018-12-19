@@ -35,11 +35,11 @@ mark.HM_huepetuhe_text {
     background: rgb(229, 226, 226);
 }
 mark.HM_smallmines_text {
-    color:#013a90;
+    color:#6868ac;
     background: rgb(229, 226, 226);
 }
 mark.HM_pampa_text {
-    color:#6868ac;
+    color:#013a90;
     background: rgb(229, 226, 226);
 }
 
@@ -52,11 +52,11 @@ mark.SP_delta_text {
     background: rgb(229, 226, 226);
 }
 mark.SP_huepetuhe_text {
-    color:#ffa4d4;
+    color:#bd0736;
     background: rgb(229, 226, 226);
 }
 mark.SP_smallmines_text {
-    color:#bd0736;
+    color:#ffa4d4;
     background: rgb(229, 226, 226);
 }
 mark.SP_pampa_text {
