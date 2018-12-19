@@ -169,8 +169,7 @@ window.onload = () => {
     // });
     initializeSlider();
     loadVisualization();
-    animateValue("value_counter_0", 0,10, 2000);
-
+    animateValue("value_counter_0", 0, 10, 2000);
 };
 
 function readJsonFile(filename, callback) {
@@ -324,7 +323,7 @@ function handleLayer(layer) {
         fillOpacity = SELECTION[miningType].selected ? 1 : 0;
     } else {
         colorOfLayer = COLORS[miningType]['sector'][sector];
-        fillOpacity = SELECTION[miningType]['sector'][sector] ? 1 : 0;      
+        fillOpacity = SELECTION[miningType]['sector'][sector] ? 1 : 0;
     }
     // let fillOpacity;
 
@@ -415,22 +414,23 @@ function handleScroll(event) {
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
             switch (highlights[blockScrolling].year) {
                 case 1985:
-                    animateValue("value_counter_1", 0, 2000);
+                    animateValue("value_counter_1", 0, 1, 2000);
                     break;
                 case 1993:
-                    animateValue("value_counter_2", 0, 2000);
+                    animateValue("value_counter_2", 0, 1, 2000);
                     break;
                 case 2001:
-                    animateValue("value_counter_3", 0, 2000);
+                    animateValue("value_counter_3", 0, 1, 2000);
                     break;
                 case 2009:
-                    animateValue("value_counter_4", 0, 2000);
+                    animateValue("value_counter_4", 0, 5, 2000);
                     break;
                 case 2017:
-                    animateValue("value_counter_5", 0, 2000);
+                    animateValue("value_counter_5", 0, 7, 2000);
                     break;
                 default:
                     console.log("animate default!!");
+
 
                     break;
             }
@@ -448,6 +448,10 @@ function handleScroll(event) {
             );
 
         }
+        else {
+            animateValue("value_counter_0", 0, 10, 2000);
+
+        }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
             elements[i].classList.remove("inFocus");
@@ -459,7 +463,7 @@ function handleScroll(event) {
     }
 }
 
-function animateValue(id, start = 0, step =1, duration = 2000) {
+function animateValue(id, start = 0, step = 1, duration = 2000) {
     var obj = document.getElementById(id);
     var end = parseFloat(obj.innerHTML);
     var range = end - start;
