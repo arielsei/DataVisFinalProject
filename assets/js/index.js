@@ -4,20 +4,41 @@ let COLORS = {
         'sector': {
             'delta': '#a56e00',
             'huepetuhe': '#019bdd',
-            'smallmines': '#013a90',
-            'pampa': '#6868ac',
+            'smallmines': '#6868ac',
+            'pampa': '#013a90',
         }
     },
     'sp': {
         'color': '#bd0736',
         'sector': {
             'delta': '#d765d3',
-            'huepetuhe': '#ffa4d4',
-            'smallmines': '#bd0736',
+            'huepetuhe': '#bd0736',
+            'smallmines': '#ffa4d4',
             'pampa': '#a494ff',
         }
     }
 };
+let SELECTION = {
+    categoryLevel: 1,
+    hm: {
+        selected: true,
+        sector: {
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
+        }
+    },
+    sp: {
+        selected: true,
+        sector: {
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
+        }
+    }
+}
 
 let option1Selected = false;
 let option2Selected = true;
@@ -25,7 +46,7 @@ let hmSelected = false;
 let spSelected = false;
 let sliderElement;
 let firstLoad = true;
-let topoLayer;
+let topoLayer = [];
 let map;
 let resizeTimeout;
 const introHeight = 1000;
@@ -244,7 +265,7 @@ window.onload = () => {
     // });
     initializeSlider();
     loadVisualization();
-    animateValue("value_counter", 0, 2000);
+    animateValue("value_counter_0", 0, 10, 2000);
 };
 
 function readJsonFile(filename, callback) {
@@ -392,7 +413,14 @@ function loadMapFiles() {
 function handleLayer(layer) {
     let miningType = (layer.feature.properties.MiningType || 'hm').normText();
     let sector = (layer.feature.properties.Sector || 'smallmines').normText();
-    let colorOfLayer = COLORS[miningType]['sector'][sector];
+    let colorOfLayer, fillOpacity;
+    if (SELECTION.categoryLevel == 1) {
+        colorOfLayer = COLORS[miningType].color;
+        fillOpacity = SELECTION[miningType].selected ? 1 : 0;
+    } else {
+        colorOfLayer = COLORS[miningType]['sector'][sector];
+        fillOpacity = SELECTION[miningType]['sector'][sector] ? 1 : 0;
+    }
     // let fillOpacity;
 
 
@@ -450,10 +478,10 @@ function handleLayer(layer) {
     //         fillOpacity = 1;
     // }
     layer.setStyle({
-        color: colorOfLayer
+        color: colorOfLayer,
         // Uncomment this line to see only the ones with fillOpacity = 1
-        // fillOpacity: fillOpacity,
-        // weight: 0
+        fillOpacity: fillOpacity,
+        weight: fillOpacity
     });
 }
 
@@ -466,17 +494,43 @@ function handleScroll(event) {
         event.srcElement.scrollHeight - event.srcElement.clientHeight
     ) {
         blockScrolling = highlights.length - 1;
+
     } else {
         if (blockScrolling < 0) {
             blockScrolling = 0;
+
         } else {
             blockScrolling = parseInt(blockScrolling / blockHeight) + 1;
+
         }
     }
     if (blockScrolling != currentBlock) {
         if (highlights[blockScrolling]) {
             // Move to the corresponding year
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
+            switch (highlights[blockScrolling].year) {
+                case 1985:
+                    animateValue("value_counter_1", 0, 1, 2000);
+                    break;
+                case 1993:
+                    animateValue("value_counter_2", 0, 1, 2000);
+                    break;
+                case 2001:
+                    animateValue("value_counter_3", 0, 1, 2000);
+                    break;
+                case 2009:
+                    animateValue("value_counter_4", 0, 5, 2000);
+                    break;
+                case 2017:
+                    animateValue("value_counter_5", 0, 7, 2000);
+                    break;
+                default:
+                    console.log("animate default!!");
+
+
+                    break;
+            }
+
             map.flyTo(
                 [
                     highlights[blockScrolling].long,
@@ -488,6 +542,9 @@ function handleScroll(event) {
                     duration: highlights[blockScrolling].year === 1985 ? 1.2 : 2,
                 }
             );
+
+        } else {
+            animateValue("value_counter_0", 0, 10, 2000);
 
         }
         elements = document.getElementsByClassName("story-container");
@@ -501,12 +558,12 @@ function handleScroll(event) {
     }
 }
 
-function animateValue(id, start = 0, duration = 2000) {
+function animateValue(id, start = 0, step = 1, duration = 2000) {
     var obj = document.getElementById(id);
     var end = parseFloat(obj.innerHTML);
     var range = end - start;
     var current = start;
-    var increment = end > start ? 1 : -1;
+    var increment = end > start ? step : -1;
     var stepTime = Math.abs(Math.floor(duration / range));
     var timer = setInterval(function () {
         current += increment;

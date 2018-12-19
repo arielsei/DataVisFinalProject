@@ -25,11 +25,13 @@ body {
 mark.HM_text {
     color: #013a90;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.HM_delta_text {
     color: #a56e00;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.HM_huepetuhe_text {
@@ -38,38 +40,45 @@ mark.HM_huepetuhe_text {
 }
 
 mark.HM_smallmines_text {
-    color: #013a90;
+    color: #6868ac;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.HM_pampa_text {
-    color: #6868ac;
+    color: #013a90;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_text {
     color: #bd0736;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_delta_text {
     color: #d765d3;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_huepetuhe_text {
-    color: #ffa4d4;
+    color: #bd0736;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_smallmines_text {
-    color: #bd0736;
+    color: #ffa4d4;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_pampa_text {
     color: #a494ff;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 article,
@@ -2027,12 +2036,12 @@ a {
 }
 
 /*.leaflet-tile {*/
-    /*filter: blur(10px);*/
+/*filter: blur(10px);*/
 /*}*/
 
 /*.leaflet-tile.leaflet-tile-loaded {*/
-    /*filter: blur(0);*/
-    /*transition: .6s all ease-in;*/
+/*filter: blur(0);*/
+/*transition: .6s all ease-in;*/
 /*}*/
 
 .leaflet-bottom,
@@ -2184,7 +2193,7 @@ a {
 
 #storyTelling {
     text-align: justify;
-    width: 400px;
+    width: 480px;
     height: 100%;
     background: rgba(255, 255, 255, 0.7);
     position: absolute;
@@ -2310,8 +2319,8 @@ a {
 
 .description h2 {
     /* margin-top: 30px; */
-    margin-left: 20px;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .description p {
@@ -2471,6 +2480,7 @@ a {
 .description .story-container.inFocus {
     opacity: 1;
     background-color: #f0f0f0;
+    padding-bottom: 10px;
 }
 
 .hm {
