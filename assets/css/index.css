@@ -25,10 +25,12 @@ body {
 mark.HM_text {
     color:#013a90;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.HM_delta_text {
     color:#a56e00;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.HM_huepetuhe_text {
     color:#019bdd;
@@ -37,31 +39,38 @@ mark.HM_huepetuhe_text {
 mark.HM_smallmines_text {
     color:#013a90;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.HM_pampa_text {
     color:#6868ac;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 mark.SP_text {
     color:#bd0736;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.SP_delta_text {
     color:#d765d3;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.SP_huepetuhe_text {
     color:#ffa4d4;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.SP_smallmines_text {
     color:#bd0736;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 mark.SP_pampa_text {
     color:#a494ff;
     background: rgb(229, 226, 226);
+    font-weight: bold;
 }
 
 article,

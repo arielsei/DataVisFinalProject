@@ -149,7 +149,8 @@ window.onload = () => {
     // });
     initializeSlider();
     loadVisualization();
-    animateValue("value_counter", 0, 2000);
+    animateValue("value_counter_0", 0,10, 2000);
+
 };
 
 function readJsonFile(filename, callback) {
@@ -371,17 +372,42 @@ function handleScroll(event) {
         event.srcElement.scrollHeight - event.srcElement.clientHeight
     ) {
         blockScrolling = highlights.length - 1;
+
     } else {
         if (blockScrolling < 0) {
             blockScrolling = 0;
+
         } else {
             blockScrolling = parseInt(blockScrolling / blockHeight) + 1;
+
         }
     }
     if (blockScrolling != currentBlock) {
         if (highlights[blockScrolling]) {
             // Move to the corresponding year
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
+            switch (highlights[blockScrolling].year) {
+                case 1985:
+                    animateValue("value_counter_1", 0, 2000);
+                    break;
+                case 1993:
+                    animateValue("value_counter_2", 0, 2000);
+                    break;
+                case 2001:
+                    animateValue("value_counter_3", 0, 2000);
+                    break;
+                case 2009:
+                    animateValue("value_counter_4", 0, 2000);
+                    break;
+                case 2017:
+                    animateValue("value_counter_5", 0, 2000);
+                    break;
+                default:
+                    console.log("animate default!!");
+
+                    break;
+            }
+
             map.flyTo(
                 [
                     highlights[blockScrolling].long,
@@ -389,11 +415,11 @@ function handleScroll(event) {
                 ],
                 highlights[blockScrolling].zoom,
                 {
-                    animate:true,
-                    duration:highlights[blockScrolling].year===1985 ? 1.2 : 2,
+                    animate: true,
+                    duration: highlights[blockScrolling].year === 1985 ? 1.2 : 2,
                 }
             );
-            
+
         }
         elements = document.getElementsByClassName("story-container");
         for (let i = 0; i < elements.length; i++) {
@@ -406,14 +432,14 @@ function handleScroll(event) {
     }
 }
 
-function animateValue(id, start=0, duration=2000) {
+function animateValue(id, start = 0, step =1, duration = 2000) {
     var obj = document.getElementById(id);
     var end = parseFloat(obj.innerHTML);
     var range = end - start;
     var current = start;
-    var increment = end > start? 1 : -1;
+    var increment = end > start ? step : -1;
     var stepTime = Math.abs(Math.floor(duration / range));
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
         current += increment;
         obj.innerHTML = current;
         if (current >= end) {
