@@ -22,60 +22,107 @@ body {
     height: 100%;
 }
 
-mark.HM_text {
+mark.hm_text {
     color: #013a90;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.HM_delta_text {
+mark.hm_text.delta {
+    color: #013a90;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+
+mark.hm_text.delta.active {
     color: #a56e00;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.HM_huepetuhe_text {
-    color: #019bdd;
+mark.hm_text.huepetuhe {
+    color: #013a90;
     background: rgb(229, 226, 226);
 }
 
-mark.HM_smallmines_text {
+mark.hm_text.huepetuhe.active {
+    color: #019bdd;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+
+mark.hm_text.smallmines {
+    color: #013a90;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+mark.hm_text.smallmines.active {
     color: #6868ac;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.HM_pampa_text {
+mark.hm_text.pampa {
     color: #013a90;
     background: rgb(229, 226, 226);
-    font-weight: bold;
 }
 
-mark.SP_text {
+mark.hm_text.pampa.active {
+    color: #013a90;
+    background: rgb(229, 226, 226);
+}
+
+
+mark.sp_text {
     color: #bd0736;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.SP_delta_text {
+mark.sp_text.delta {
+    color: #bd0736;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+
+
+mark.sp_text.delta.active {
     color: #d765d3;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.SP_huepetuhe_text {
+mark.sp_text.huepetuhe {
     color: #bd0736;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.SP_smallmines_text {
-    color: #ffa4d4;
+mark.mark.sp_text.huepetuhe.active {
+    
+    color: #bd0736;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
 
-mark.SP_pampa_text {
+mark.sp_text.smallmines {
+    color: #bd0736;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+
+mark.sp_text.smallmines.active {
+
+    color: #ffa4d4;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+mark.sp_text.pampa {
+    color: #bd0736;
+    background: rgb(229, 226, 226);
+    font-weight: bold;
+}
+mark.sp_text.pampa.active {
     color: #a494ff;
     background: rgb(229, 226, 226);
     font-weight: bold;
