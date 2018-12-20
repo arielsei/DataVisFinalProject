@@ -2423,6 +2423,16 @@ a {
     padding-top: 70px;
 }
 
+.description .space-at-the-bottom a {
+    color: blue;
+    cursor: pointer;
+}
+
+.description .space-at-the-bottom a:hover {
+    color: darkblue;
+    cursor: pointer;
+}
+
 .description .image-container {
     /* margin + padding = imageContainerMargin in script.js */
     /* Important for scrolling! */
