@@ -271,9 +271,8 @@ function loadVisualization() {
 
                     // Set the selection variables
                     let typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
-                    SELECTION.categoryLevel = 2;
+                    SELECTION[typeKey].categoryLevel = 2;
                     for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
                             if (key === typeKey) {
                                 SELECTION[key].selected = true;
                                 for (let sectorKey in SELECTION[key].sector) {
@@ -285,7 +284,7 @@ function loadVisualization() {
                                     SELECTION[key].sector[sectorKey] = false;
                                 }
                             }
-                        }
+                        
                     }
                     for(let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
@@ -456,9 +455,8 @@ function loadVisualization() {
                             let typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
                             let sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
                             
-                            SELECTION.categoryLevel = 2;
+                            SELECTION[typeKey].categoryLevel = 2;
                             for (let key in SELECTION) {
-                                if (key !== 'categoryLevel') {
                                     if (key === typeKey) {
                                         SELECTION[key].selected = true;
                                         for (let secondKey in SELECTION[key].sector) {
@@ -474,7 +472,7 @@ function loadVisualization() {
                                             SELECTION[key].sector[secondKey] = false;
                                         }
                                     }
-                                }
+                                
                             }
                             for(let mapLayer of topoLayer) {
                                 mapLayer.eachLayer(handleLayer);
@@ -645,9 +643,9 @@ function loadVisualization() {
                     //Go back to default view
                     
                     // Set the selection variables
-                    SELECTION.categoryLevel = 1;
+                    SELECTION.hm.categoryLevel = 1;
+                    SELECTION.sp.categoryLevel = 1;
                     for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
                             SELECTION[key].selected = true;
                             for (let sectorKey in SELECTION[key].sector) {
                                 SELECTION[key].sector[sectorKey] = false;
@@ -655,7 +653,6 @@ function loadVisualization() {
                             for(let x of  document.getElementsByClassName(key + '_text')) {
                                 x.classList.remove('active');
                             }
-                        }
                     }
                     for(let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
@@ -719,18 +716,15 @@ function loadVisualization() {
                     // // Set the selection variables
                     let typeKey;
                     for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
                             for (let secondKey in SELECTION[key].sector) {
                                 if (SELECTION[key].sector[secondKey]) {
                                     typeKey = key;
                                     break;
                                 }
                             }
-                        }
                     }
-                    SELECTION.categoryLevel = 2;
+                    SELECTION[typeKey].categoryLevel = 2;
                     for (let key in SELECTION) {
-                        if (key !== 'categoryLevel') {
                             if (key === typeKey) {
                                 SELECTION[key].selected = true;
                                 for (let sectorKey in SELECTION[key].sector) {
@@ -742,7 +736,6 @@ function loadVisualization() {
                                     SELECTION[key].sector[sectorKey] = false;
                                 }
                             }
-                        }
                     }
                     for(let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
