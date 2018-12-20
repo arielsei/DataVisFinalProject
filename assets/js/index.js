@@ -43,8 +43,8 @@ let SELECTION = {
 
 let option1Selected = false;
 let option2Selected = true;
-let hmSelected = false;
-let spSelected = false;
+let hmSelected = true;
+let spSelected = true;
 let sliderElement;
 let firstLoad = true;
 let topoLayer = [];
@@ -227,8 +227,8 @@ window.onload = () => {
         layerOptions
     ).addTo(map);
 
-    option1 = L.DomUtil.get("option1");
-    option2 = L.DomUtil.get("option2");
+    let option1 = L.DomUtil.get("option1");
+    let option2 = L.DomUtil.get("option2");
 
     const corners = map._controlCorners;
     const container = map._controlContainer;
@@ -240,6 +240,12 @@ window.onload = () => {
     );
     map.addControl(new customOption1());
     map.addControl(new customOption2());
+
+    addSectorBtns(option1, 'hm');
+    map._controlCorners.bottomRight.classList.add('open-hm');
+    addSectorBtns(option2, 'sp');
+    map._controlCorners.bottomRight.classList.add('open-sp');
+
 
     L.TopoJSON = L.GeoJSON.extend({
         addData: function (jsonData) {
