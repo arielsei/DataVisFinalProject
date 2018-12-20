@@ -290,6 +290,14 @@ function loadVisualization() {
                     for(let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
+                    //this is for changing the text of the class on the html
+                    
+                    for(let x of  document.getElementsByClassName(typeKey + '_text')) {
+                        x.classList.add('active');
+                    }
+                    
+
+
                     //Generate a new data set with all-zero values,
                     //except for this type's data
                     thisTypeDataset = [];
@@ -644,11 +652,17 @@ function loadVisualization() {
                             for (let sectorKey in SELECTION[key].sector) {
                                 SELECTION[key].sector[sectorKey] = false;
                             }
+                            for(let x of  document.getElementsByClassName(key + '_text')) {
+                                x.classList.remove('active');
+                            }
                         }
                     }
                     for(let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
+                    
+                    
+
                     // Update description
                     description.text("");
 
