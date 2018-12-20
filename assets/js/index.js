@@ -119,6 +119,9 @@ window.onload = () => {
                 let sector = this.getAttribute('data-sector');
                 let type = this.getAttribute('data-type');
                 console.log(type + ' ' + sector);
+                for(let x of  document.getElementsByClassName(type + '_text')) {
+                    x.classList.add('active');
+                }
             });
         });
     };
@@ -142,6 +145,9 @@ window.onload = () => {
                 }
 
                 hmSelected = !hmSelected;
+                for(let x of  document.getElementsByClassName('hm' + '_text')) {
+                    x.classList.remove('active');
+                }
             };
             return container;
         }
@@ -162,6 +168,9 @@ window.onload = () => {
                 } else {
                     addSectorBtns(container, 'sp');
                     map._controlCorners.bottomRight.classList.add('open-sp');
+                }
+                for(let x of  document.getElementsByClassName('sp' + '_text')) {
+                    x.classList.remove('active');
                 }
 
                 spSelected = !spSelected;
