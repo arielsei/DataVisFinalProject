@@ -477,15 +477,18 @@ function handleScroll(event) {
                     break;
                 case 1993:
                     animateValue("value_counter_2", 0, 1, 2000);
-                    break;
-                case 2001:
                     animateValue("value_counter_3", 0, 1, 2000);
                     break;
+                case 2001:
+                    animateValue("value_counter_4", 0, 1, 2000);
+                    break;
                 case 2009:
-                    animateValue("value_counter_4", 0, 5, 2000);
+                    animateValue("value_counter_5", 0, 5, 2000);
+                    animateValue("value_counter_6", 0, 6, 2000);
                     break;
                 case 2017:
-                    animateValue("value_counter_5", 0, 7, 2000);
+                    animateValue("value_counter_7", 0, 7, 2000);
+                    animateValue("value_counter_8", 0, 8, 2000);
                     break;
                 default:
                     console.log("animate default!!");
