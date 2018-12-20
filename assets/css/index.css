@@ -1,6 +1,7 @@
 /* W3.CSS 4.12 Novemberr 2018 by Jan Egil and Borge Refsnes */
 html {
     box-sizing: border-box;
+    font-family: "Roboto", sans-serif
 }
 
 *,
@@ -330,9 +331,10 @@ textarea {
 /* End extract */
 html,
 body {
-    font-family: Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    letter-spacing: 1px;
 }
 
 html {
