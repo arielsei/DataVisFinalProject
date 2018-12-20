@@ -23,20 +23,20 @@ let SELECTION = {
         categoryLevel: 1,
         selected: true,
         sector: {
-            delta: true,
-            huepetuhe: true,
-            smallmines: true,
-            pampa: true
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
         }
     },
     sp: {
         categoryLevel: 1,
         selected: true,
         sector: {
-            delta: true,
-            huepetuhe: true,
-            smallmines: true,
-            pampa: true
+            delta: false,
+            huepetuhe: false,
+            smallmines: false,
+            pampa: false
         }
     }
 };
