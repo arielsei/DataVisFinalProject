@@ -19,23 +19,24 @@ let COLORS = {
     }
 };
 let SELECTION = {
-    categoryLevel: 1,
     hm: {
+        categoryLevel: 1,
         selected: true,
         sector: {
-            delta: false,
-            huepetuhe: false,
-            smallmines: false,
-            pampa: false
+            delta: true,
+            huepetuhe: true,
+            smallmines: true,
+            pampa: true
         }
     },
     sp: {
+        categoryLevel: 1,
         selected: true,
         sector: {
-            delta: false,
-            huepetuhe: false,
-            smallmines: false,
-            pampa: false
+            delta: true,
+            huepetuhe: true,
+            smallmines: true,
+            pampa: true
         }
     }
 }
@@ -131,6 +132,28 @@ window.onload = () => {
                 for(let x of  document.getElementsByClassName(type + '_text')) {
                     x.classList.add('active');
                 }
+                
+                // Update colors in the map
+                SELECTION[type].categoryLevel = 2;
+                SELECTION[type].sector[sector] = !SELECTION[type].sector[sector];
+                goBackCategory = true;
+                for (let key in SELECTION) {
+                        if (key === type) {
+                            for (let secondKey in SELECTION[key].sector) {
+                                if (SELECTION[key].sector[secondKey]) {
+                                    goBackCategory = false;
+                                    break;
+                                }
+                            }
+                        }
+                }
+                if (goBackCategory) {
+                    SELECTION[type].categoryLevel = 1;
+                    SELECTION[type].selected = true;
+                }
+                for(let mapLayer of topoLayer) {
+                    mapLayer.eachLayer(handleLayer);
+                }
             });
         });
     };
@@ -156,6 +179,12 @@ window.onload = () => {
                 hmSelected = !hmSelected;
                 for(let x of  document.getElementsByClassName('hm' + '_text')) {
                     x.classList.remove('active');
+                }
+
+                // Update colors in the map
+                SELECTION.hm.selected = hmSelected;
+                for(let mapLayer of topoLayer) {
+                    mapLayer.eachLayer(handleLayer);
                 }
             };
             return container;
@@ -183,6 +212,11 @@ window.onload = () => {
                 }
 
                 spSelected = !spSelected;
+                // Update colors in the map
+                SELECTION.sp.selected = spSelected;
+                for(let mapLayer of topoLayer) {
+                    mapLayer.eachLayer(handleLayer);
+                }
             };
             return container;
         }
@@ -383,7 +417,7 @@ function handleLayer(layer) {
     let miningType = (layer.feature.properties.MiningType || 'hm').normText();
     let sector = (layer.feature.properties.Sector || 'smallmines').normText();
     let colorOfLayer, fillOpacity;
-    if (SELECTION.categoryLevel == 1) {
+    if (SELECTION[miningType].categoryLevel == 1) {
         colorOfLayer = COLORS[miningType].color;
         fillOpacity = SELECTION[miningType].selected ? 1 : 0;
     } else {
