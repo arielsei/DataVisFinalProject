@@ -2578,12 +2578,12 @@ div[data-type='hm'][data-sector='huepetuhe'].selected {
 
 div[data-type='hm'][data-sector='smallmines']:hover,
 div[data-type='hm'][data-sector='smallmines'].selected {
-    background-color: rgb(1, 58, 144);
+    background-color: #6868ac
 }
 
 div[data-type='hm'][data-sector='pampa']:hover,
 div[data-type='hm'][data-sector='pampa'].selected {
-    background-color: rgb(104, 104, 172);
+    background-color: #013a90;
 }
 
 div[data-type='sp'][data-sector='delta']:hover,
@@ -2593,12 +2593,12 @@ div[data-type='sp'][data-sector='delta'].selected {
 
 div[data-type='sp'][data-sector='huepetuhe']:hover,
 div[data-type='sp'][data-sector='huepetuhe'].selected {
-    background-color: rgb(255, 164, 212);
+    background-color: #bd0736;
 }
 
 div[data-type='sp'][data-sector='smallmines']:hover,
 div[data-type='sp'][data-sector='smallmines'].selected {
-    background-color: rgb(189, 7, 54);
+    background-color: #ffa4d4;
 }
 
 div[data-type='sp'][data-sector='pampa']:hover,

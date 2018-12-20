@@ -171,9 +171,11 @@ window.onload = () => {
                 if (hmSelected) {
                     map._controlCorners.bottomRight.classList.remove('open-hm');
                     document.getElementById('sectorBtnshm').remove();
+                    container.classList.remove('selected');
                 } else {
                     addSectorBtns(container, 'hm');
                     map._controlCorners.bottomRight.classList.add('open-hm');
+                    container.classList.add('selected');
                 }
 
                 hmSelected = !hmSelected;
@@ -203,10 +205,13 @@ window.onload = () => {
                 if (spSelected) {
                     map._controlCorners.bottomRight.classList.remove('open-sp');
                     document.getElementById('sectorBtnssp').remove();
+                    container.classList.remove('selected');
                 } else {
                     addSectorBtns(container, 'sp');
                     map._controlCorners.bottomRight.classList.add('open-sp');
+                    container.classList.add('selected');
                 }
+
                 for(let x of  document.getElementsByClassName('sp' + '_text')) {
                     x.classList.remove('active');
                 }
