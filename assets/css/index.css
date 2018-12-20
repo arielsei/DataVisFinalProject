@@ -2129,24 +2129,20 @@ a {
 }
 
 .leaflet-horizontal-right.open-hm, .leaflet-horizontal-right.open-sp {
-    left: calc(100% - 475px - 45px - 7px - 20px);
+    left: calc(100% - 475px - 89px - 7px - 20px);
     float: right;
 }
 
-.leaflet-horizontal-right.open-hm * {
-    top: calc(100% - 314px);
-}
-
-.leaflet-horizontal-right.open-sp * {
-    top: calc(100% - 314px);
+.leaflet-horizontal-right.open-hm *, .leaflet-horizontal-right.open-sp * {
+    top: calc(100% - 340px);
 }
 
 .leaflet-horizontal-right.open-sp.open-hm * {
-    top: calc(100% - 514px);
+    top: calc(100% - 566px);
 }
 
 .leaflet-horizontal-right {
-    left: calc(100% - 475px - 40px - 7px);
+    left: calc(100% - 475px - 107px - 7px);
     height: 100%;
     padding-bottom: 7px;
     transform: translateX(-50%);
@@ -2179,6 +2175,7 @@ a {
 }
 
 .button {
+    font-weight: bold;
     padding: 10px;
     cursor: pointer !important;
     background-color: white;
@@ -2205,15 +2202,21 @@ a {
 #option2 {
     z-index: 1000;
     padding: 0px 5px;
-    color: blue;
     background-size: 60px 60px;
     margin-bottom: 10px;
+    width: 180px;
 }
+
+#option1 *,
+#option2 * {
+    vertical-align: middle;
+}
+
 
 #option1 .image,
 #option2 .image {
+    display: inline-block;
     z-index: 1000;
-    color: blue;
     width: 45px;
     height: 45px;
     background-size: 45px 45px;
