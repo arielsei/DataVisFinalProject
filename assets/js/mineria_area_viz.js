@@ -37,7 +37,7 @@ function loadVisualization() {
 
     //Load in data
     // console.log(d3);
-    d3.request("/assets/data/Visualization.csv")
+    d3.request("./assets/data/area.csv")
         .mimeType("text/csv")
         .get(function (response) {
             // DATA PARSING
