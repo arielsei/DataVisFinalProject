@@ -4,12 +4,12 @@
 <head>
     <title>Amazonicos Pro-Agua</title>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="stylesheet" href="assets/css/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.1.0/nouislider.min.css" />
+    <link rel="stylesheet" href="assets/css/index.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.1.0/nouislider.min.css"/>
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.1.0/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
@@ -20,71 +20,69 @@
     <script src="assets/js/helpers.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="#"/>
 </head>
 
 <body>
-    <!-- Navbar (sit on top) -->
-    <div class="w3-top">
-        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="#home" class="w3-bar-item w3-button">
-                <b>PRO-AGUA</b>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+    <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+        <a href="#home" class="w3-bar-item w3-button">
+            <b>PRO-AGUA</b>
+        </a>
+        <!-- Float links to the right. Hide them on small screens -->
+        <div class="w3-right w3-hide-small">
+            <a href="#timeline" class="w3-bar-item w3-button">
+                Timeline
             </a>
-            <!-- Float links to the right. Hide them on small screens -->
-            <div class="w3-right w3-hide-small">
-                <a href="#timeline" class="w3-bar-item w3-button">
-                    Timeline
-                </a>
-                <a href="#about" class="w3-bar-item w3-button">About</a>
-                <a href="#help" class="w3-bar-item w3-button">Help</a>
-            </div>
+            <a href="#about" class="w3-bar-item w3-button">About</a>
+            <a href="#help" class="w3-bar-item w3-button">Help</a>
         </div>
     </div>
+</div>
 
-    <div id="main">
-        <div id="map"></div>
+<div id="main">
+    <div id="map"></div>
 
-        <div id="option1" class="button options leaflet-control type" data-type="hm">
-            <div class="image">
-            </div>
+    <div id="option1" class="button options leaflet-control type" data-type="hm">
+        <div class="image">
         </div>
         <label>
             Heavy Machinery
         </label>
     </div>
 
-        <div id="option2" class="button options leaflet-control type" data-type="sp">
-            <div class="image">
-            </div>
+    <div id="option2" class="button options leaflet-control type" data-type="sp">
+        <div class="image">
         </div>
         <label>
             Suction Pumps
         </label>
     </div>
 
-        <div id='sectorBtns' class="sector leaflet-control">
-            <div id="deltaBtn" class="button options leaflet-control" data-sector="delta">
-                Delta
-            </div>
-
-            <div id="huepetuheBtn" class="button options leaflet-control" data-sector="huepetuhe">
-                Huepetuhe
-            </div>
-
-            <div id="smallMinesBtn" class="button options leaflet-control" data-sector="smallmines">
-                Small Mines
-            </div>
-
-            <div id="pampaBtn" class="button options leaflet-control" data-sector="pampa">
-                Pampa
-            </div>
+    <div id='sectorBtns' class="sector leaflet-control">
+        <div id="deltaBtn" class="button options leaflet-control" data-sector="delta">
+            Delta
         </div>
 
-        <div id="storyTelling" class="description">
-            <h1 class="mainTitle">
-                Amazonic Rain Forest Mining Activity
-            </h1>
-            <div id="container0" class="intro-container story-container inFocus">
+        <div id="huepetuheBtn" class="button options leaflet-control" data-sector="huepetuhe">
+            Huepetuhe
+        </div>
+
+        <div id="smallMinesBtn" class="button options leaflet-control" data-sector="smallmines">
+            Small Mines
+        </div>
+
+        <div id="pampaBtn" class="button options leaflet-control" data-sector="pampa">
+            Pampa
+        </div>
+    </div>
+
+    <div id="storyTelling" class="description">
+        <h1 class="mainTitle">
+            Amazonic Rain Forest Mining Activity
+        </h1>
+        <div id="container0" class="intro-container story-container inFocus">
                 <h2>Introduction</h2>
                 <p>
                     The Amazon rainforest plays a vital role not just to
@@ -234,21 +232,21 @@
                     machinery and a total of 3362.3 ha.
                 </p>
             </div>
-            <div class="space-at-the-bottom">
-                <a id="back-to-top">
-                    <small>Go Back to the Top</small>
-                </a>
-            </div>
-
-            <div id="footer">
-                <p>
-                    <strong>Source:</strong> Data was provided by PRO-AGUA
-                    project in collaboration with Standford
-                </p>
-            </div>
+        <div class="space-at-the-bottom">
+            <a href="#space-at-the-top"><i class="fa fa-chevron-up"></i><br/>
+                <small>Go Back to the Top</small>
+            </a>
         </div>
-        <div id="slider"></div>
+
+        <div id="footer">
+            <p>
+                <strong>Source:</strong> Data was provided by PRO-AGUA
+                project in collaboration with Standford
+            </p>
+        </div>
     </div>
+    <div id="slider"></div>
+</div>
 </body>
 
 </html>

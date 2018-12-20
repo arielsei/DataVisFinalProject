@@ -1,3 +1,21 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ @AndresMontero Sign out
+3
+0 0 arielsei/DataVisFinalProject
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
+DataVisFinalProject/assets/css/index.css
+9964440  10 minutes ago
+@arielsei arielsei Button texts
+@AndresMontero @eliasmpw @arielsei
+      
+2594 lines (2131 sloc)  40.3 KB
 /* W3.CSS 4.12 Novemberr 2018 by Jan Egil and Borge Refsnes */
 html {
     box-sizing: border-box;
@@ -2465,16 +2483,6 @@ a {
     padding-top: 70px;
 }
 
-.description .space-at-the-bottom a {
-    color: blue;
-    cursor: pointer;
-}
-
-.description .space-at-the-bottom a:hover {
-    color: darkblue;
-    cursor: pointer;
-}
-
 .description .image-container {
     /* margin + padding = imageContainerMargin in script.js */
     /* Important for scrolling! */
@@ -2602,3 +2610,16 @@ a {
 .sp.pampas {
     opacity: 0.85;
 }
+© 2018 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
