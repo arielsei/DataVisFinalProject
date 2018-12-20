@@ -95,7 +95,10 @@ window.onload = () => {
         center: [-12.8, -69.5],
         zoom: 9,
         maxBounds: maxBounds,
-        maxBoundsViscosity: 1.0
+        maxBoundsViscosity: 1.0,
+        zoomSnap: 1,
+        zoomDelta: 1,
+		wheelPxPerZoomLevel: 150
     });
     const layerOptions = {
         maxZoom: 13,
@@ -214,7 +217,7 @@ window.onload = () => {
     document
         .getElementById("storyTelling")
         .addEventListener("scroll", handleScroll);
-
+    document.getElementById("back-to-top").addEventListener("click", goBackToTop);
     loadMapFiles();
 
     // readJsonFile("assets/data/simplified_grouped_mineria_1985.geojson", function(text){
@@ -516,6 +519,11 @@ function handleScroll(event) {
             .classList.add("inFocus");
         currentBlock = blockScrolling;
     }
+}
+
+function goBackToTop(event) {
+    document
+        .getElementById("storyTelling").scrollTop = 0;
 }
 
 function animateValue(id, start = 0, step = 1, duration = 2000) {
