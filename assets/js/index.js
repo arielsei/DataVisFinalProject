@@ -102,87 +102,25 @@ window.onload = () => {
         minZoom: 5
     };
 
-    const deltaBtn = L.Control.extend({
-        options: {
-            position: "bottomRight"
-        },
-
-        onAdd: function (map) {
-            let container = L.DomUtil.get("deltaBtn");
-            // container.animate([{ opacity: 1, offset: 0, easing: 'ease-out' },
-            //         { opacity: 0.1, offset: 0.5 ,easing: 'ease-in' },
-            //         { opacity: 0 } ],
-            //     2000);
-
-            container.onclick = () => {
-                console.log("TODO Delta")
-
-            };
-
-            return container;
-        }
-    });
-
-    const huepetuheBtn = L.Control.extend({
-        options: {
-            position: "bottomRight"
-        },
-
-        onAdd: function (map) {
-            let container = L.DomUtil.get('huepetuheBtn');
-
-            container.onclick = () => {
-                console.log("TODO Huepetuhe")
-
-            };
-
-            return container;
-        }
-    });
-
-    const smallMinesBtn = L.Control.extend({
-        options: {
-            position: "bottomRight"
-        },
-
-        onAdd: function (map) {
-            let container = L.DomUtil.get('smallMinesBtn');
-
-            container.onclick = () => {
-                console.log("TODO Small Mines");
-
-            };
-
-            return container;
-        }
-    });
-
-    const pampaBtn = L.Control.extend({
-        options: {
-            position: "bottomRight"
-        },
-
-        onAdd: function (map) {
-            let container = L.DomUtil.get('pampaBtn');
-
-            container.onclick = () => {
-                console.log("TODO Pampa");
-            };
-
-            return container;
-        }
-    });
-
-    let addSectorLeaflet = (map) => {
-        map.addControl(new deltaBtn());
-        map.addControl(new huepetuheBtn());
-        map.addControl(new smallMinesBtn());
-        map.addControl(new pampaBtn());
-    };
-
-    let addSectorBtns = (container) => {
+    let addSectorBtns = (container, type) => {
         let sectors = document.getElementById('sectorBtns').cloneNode(true);
+        sectors.id = 'sectorBtns' + type;
+
+        let buttons = sectors.children;
+
+        for (let button of buttons) {
+            button.setAttribute('data-type', type);
+        }
+
         container.parentNode.insertBefore(sectors, container);
+
+        sectors.querySelectorAll('.button').forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                let sector = this.getAttribute('data-sector');
+                let type = this.getAttribute('data-type');
+                console.log(type + ' ' + sector);
+            });
+        });
     };
 
 
@@ -195,8 +133,15 @@ window.onload = () => {
             let container = L.DomUtil.get("option1");
 
             container.onclick = function () {
-                addSectorBtns(container);
-                map._controlCorners.bottomRight.classList += ' open-hm';
+                if (hmSelected) {
+                    map._controlCorners.bottomRight.classList.remove('open-hm');
+                    document.getElementById('sectorBtnshm').remove();
+                } else {
+                    addSectorBtns(container, 'hm');
+                    map._controlCorners.bottomRight.classList.add('open-hm');
+                }
+
+                hmSelected = !hmSelected;
             };
             return container;
         }
@@ -211,8 +156,15 @@ window.onload = () => {
             let container = L.DomUtil.get("option2");
 
             container.onclick = () => {
-                addSectorBtns(container);
-                map._controlCorners.bottomRight.classList += ' open-sp';
+                if (spSelected) {
+                    map._controlCorners.bottomRight.classList.remove('open-sp');
+                    document.getElementById('sectorBtnssp').remove();
+                } else {
+                    addSectorBtns(container, 'sp');
+                    map._controlCorners.bottomRight.classList.add('open-sp');
+                }
+
+                spSelected = !spSelected;
             };
             return container;
         }
