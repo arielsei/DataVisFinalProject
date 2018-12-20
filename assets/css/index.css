@@ -57,6 +57,7 @@ mark.hm_text.smallmines {
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
+
 mark.hm_text.smallmines.active {
     color: #6868ac;
     background: rgb(229, 226, 226);
@@ -100,7 +101,7 @@ mark.sp_text.huepetuhe {
 }
 
 mark.mark.sp_text.huepetuhe.active {
-    
+
     color: #bd0736;
     background: rgb(229, 226, 226);
     font-weight: bold;
@@ -118,11 +119,13 @@ mark.sp_text.smallmines.active {
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
+
 mark.sp_text.pampa {
     color: #bd0736;
     background: rgb(229, 226, 226);
     font-weight: bold;
 }
+
 mark.sp_text.pampa.active {
     color: #a494ff;
     background: rgb(229, 226, 226);
@@ -2129,7 +2132,6 @@ a {
 }
 
 .leaflet-horizontal-right.open-hm, .leaflet-horizontal-right.open-sp {
-    /*left: calc(100% - 480px - 111px);*/
     float: right;
 }
 
@@ -2664,4 +2666,10 @@ div[data-type='sp'][data-sector='pampa'].selected {
 .sp.smallmines,
 .sp.pampas {
     opacity: 0.85;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    background: #CCC;
 }

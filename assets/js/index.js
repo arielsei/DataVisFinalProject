@@ -39,7 +39,7 @@ let SELECTION = {
             pampa: true
         }
     }
-}
+};
 
 let option1Selected = false;
 let option2Selected = true;
@@ -99,11 +99,51 @@ window.onload = () => {
         maxBoundsViscosity: 1.0,
         zoomSnap: 1,
         zoomDelta: 1,
-		wheelPxPerZoomLevel: 150
+        wheelPxPerZoomLevel: 150
     });
     const layerOptions = {
         maxZoom: 13,
         minZoom: 5
+    };
+
+    let sectorClkEvent = function (e) {
+        // var boxOne = document.getElementsByClassName('box')[0];
+        // boxOne.classList.add('horizTranslate');
+        if (this.classList.contains('selected')) {
+            this.classList.remove('selected');
+        } else {
+            this.classList.add('selected');
+        }
+
+        let sector = this.getAttribute('data-sector');
+        let type = this.getAttribute('data-type');
+        console.log(type + ' ' + sector);
+        for (let x of  document.getElementsByClassName(type + '_text')) {
+            x.classList.add('active');
+        }
+
+        // Update colors in the map
+        SELECTION[type].categoryLevel = 2;
+        SELECTION[type].sector[sector] = !SELECTION[type].sector[sector];
+        goBackCategory = true;
+        for (let key in SELECTION) {
+            if (key === type) {
+                for (let secondKey in SELECTION[key].sector) {
+                    if (SELECTION[key].sector[secondKey]) {
+                        goBackCategory = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (goBackCategory) {
+            SELECTION[type].categoryLevel = 1;
+            SELECTION[type].selected = true;
+        }
+
+        for (let mapLayer of topoLayer) {
+            mapLayer.eachLayer(handleLayer);
+        }
     };
 
     let addSectorBtns = (container, type) => {
@@ -119,42 +159,12 @@ window.onload = () => {
         container.parentNode.insertBefore(sectors, container);
 
         sectors.querySelectorAll('.button').forEach(function (button) {
-            button.addEventListener('click', function (e) {
-                if (this.classList.contains('selected')) {
-                    this.classList.remove('selected');
-                } else {
-                    this.classList.add('selected');
-                }
-
-                let sector = this.getAttribute('data-sector');
-                let type = this.getAttribute('data-type');
-                console.log(type + ' ' + sector);
-                for(let x of  document.getElementsByClassName(type + '_text')) {
-                    x.classList.add('active');
-                }
-                
-                // Update colors in the map
-                SELECTION[type].categoryLevel = 2;
-                SELECTION[type].sector[sector] = !SELECTION[type].sector[sector];
-                goBackCategory = true;
-                for (let key in SELECTION) {
-                        if (key === type) {
-                            for (let secondKey in SELECTION[key].sector) {
-                                if (SELECTION[key].sector[secondKey]) {
-                                    goBackCategory = false;
-                                    break;
-                                }
-                            }
-                        }
-                }
-                if (goBackCategory) {
-                    SELECTION[type].categoryLevel = 1;
-                    SELECTION[type].selected = true;
-                }
-                for(let mapLayer of topoLayer) {
-                    mapLayer.eachLayer(handleLayer);
-                }
-            });
+            let sector = button.getAttribute('data-sector');
+            if ((type === 'hm' && sector === 'pampa') || (type === 'sp' && sector === 'huepetuhe')) {
+                button.classList.add('disabled')
+            } else {
+                button.addEventListener('click', sectorClkEvent);
+            }
         });
     };
 
@@ -169,23 +179,31 @@ window.onload = () => {
 
             container.onclick = function () {
                 if (hmSelected) {
+                    // let groups = document.getElementById('sectorBtnshm');
+                    // groups.style.opacity = '0';
+
                     map._controlCorners.bottomRight.classList.remove('open-hm');
                     document.getElementById('sectorBtnshm').remove();
                     container.classList.remove('selected');
+
+
                 } else {
                     addSectorBtns(container, 'hm');
                     map._controlCorners.bottomRight.classList.add('open-hm');
                     container.classList.add('selected');
+
+                    // let groups = document.getElementById('sectorBtnshm');
+                    // groups.style.opacity = '1';
                 }
 
                 hmSelected = !hmSelected;
-                for(let x of  document.getElementsByClassName('hm' + '_text')) {
+                for (let x of  document.getElementsByClassName('hm' + '_text')) {
                     x.classList.remove('active');
                 }
 
                 // Update colors in the map
                 SELECTION.hm.selected = hmSelected;
-                for(let mapLayer of topoLayer) {
+                for (let mapLayer of topoLayer) {
                     mapLayer.eachLayer(handleLayer);
                 }
             };
@@ -203,6 +221,9 @@ window.onload = () => {
 
             container.onclick = () => {
                 if (spSelected) {
+                    // let groups = document.getElementById('sectorBtnssp');
+                    // groups.style.opacity = '0';
+
                     map._controlCorners.bottomRight.classList.remove('open-sp');
                     document.getElementById('sectorBtnssp').remove();
                     container.classList.remove('selected');
@@ -210,16 +231,19 @@ window.onload = () => {
                     addSectorBtns(container, 'sp');
                     map._controlCorners.bottomRight.classList.add('open-sp');
                     container.classList.add('selected');
+
+                    // let groups = document.getElementById('sectorBtnshm');
+                    // groups.style.opacity = '0';
                 }
 
-                for(let x of  document.getElementsByClassName('sp' + '_text')) {
+                for (let x of  document.getElementsByClassName('sp' + '_text')) {
                     x.classList.remove('active');
                 }
 
                 spSelected = !spSelected;
                 // Update colors in the map
                 SELECTION.sp.selected = spSelected;
-                for(let mapLayer of topoLayer) {
+                for (let mapLayer of topoLayer) {
                     mapLayer.eachLayer(handleLayer);
                 }
             };
@@ -424,11 +448,33 @@ function loadMapFiles() {
     });
 }
 
+function handleButtons() {
+    let buttons = document.querySelectorAll('.leaflet-horizontal-right .button');
+
+    for (let button of buttons) {
+        let sector = button.getAttribute('data-sector');
+        let miningType = button.getAttribute('data-type');
+        let isSelected = false;
+
+        if (SELECTION[miningType].categoryLevel === 1) {
+            isSelected = SELECTION[miningType].selected;
+        } else {
+            isSelected = SELECTION[miningType]['sector'][sector];
+        }
+
+        if (isSelected) {
+            button.classList.add('selected');
+        } else {
+            button.classList.remove('selected');
+        }
+    }
+}
+
 function handleLayer(layer) {
     let miningType = (layer.feature.properties.MiningType || 'hm').normText();
     let sector = (layer.feature.properties.Sector || 'smallmines').normText();
     let colorOfLayer, fillOpacity;
-    if (SELECTION[miningType].categoryLevel == 1) {
+    if (SELECTION[miningType].categoryLevel === 1) {
         colorOfLayer = COLORS[miningType].color;
         fillOpacity = SELECTION[miningType].selected ? 1 : 0;
     } else {
@@ -504,7 +550,7 @@ function handleScroll(event) {
     let blockScrolling = scroll - introHeight;
 
     if (
-        scroll ==
+        scroll ===
         event.srcElement.scrollHeight - event.srcElement.clientHeight
     ) {
         blockScrolling = highlights.length - 1;
@@ -518,7 +564,7 @@ function handleScroll(event) {
 
         }
     }
-    if (blockScrolling != currentBlock) {
+    if (blockScrolling !== currentBlock) {
         if (highlights[blockScrolling]) {
             // Move to the corresponding year
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
@@ -581,13 +627,13 @@ function goBackToTop(event) {
 }
 
 function animateValue(id, start = 0, step = 1, duration = 2000) {
-    var obj = document.getElementById(id);
-    var end = parseFloat(obj.innerHTML);
-    var range = end - start;
-    var current = start;
-    var increment = end > start ? step : -1;
-    var stepTime = Math.abs(Math.floor(duration / range));
-    var timer = setInterval(function () {
+    let obj = document.getElementById(id);
+    let end = parseFloat(obj.innerHTML);
+    let range = end - start;
+    let current = start;
+    let increment = end > start ? step : -1;
+    let stepTime = Math.abs(Math.floor(duration / range));
+    let timer = setInterval(function () {
         current += increment;
         obj.innerHTML = current;
         if (current >= end) {

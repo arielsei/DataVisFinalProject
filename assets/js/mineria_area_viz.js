@@ -273,28 +273,27 @@ function loadVisualization() {
                     let typeKey = thisType.match(/[A-Z]/g).join('').toLowerCase();
                     SELECTION[typeKey].categoryLevel = 2;
                     for (let key in SELECTION) {
-                            if (key === typeKey) {
-                                SELECTION[key].selected = true;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = true;
-                                }
-                            } else {
-                                SELECTION[key].selected = false;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = false;
-                                }
+                        if (key === typeKey) {
+                            SELECTION[key].selected = true;
+                            for (let sectorKey in SELECTION[key].sector) {
+                                SELECTION[key].sector[sectorKey] = true;
                             }
-                        
+                        } else {
+                            SELECTION[key].selected = false;
+                            for (let sectorKey in SELECTION[key].sector) {
+                                SELECTION[key].sector[sectorKey] = false;
+                            }
+                        }
+
                     }
-                    for(let mapLayer of topoLayer) {
+                    for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
                     //this is for changing the text of the class on the html
-                    
-                    for(let x of  document.getElementsByClassName(typeKey + '_text')) {
+
+                    for (let x of  document.getElementsByClassName(typeKey + '_text')) {
                         x.classList.add('active');
                     }
-                    
 
 
                     //Generate a new data set with all-zero values,
@@ -423,10 +422,10 @@ function loadVisualization() {
 
                             switch (thisType.normText()) {
                                 case "heavymachinery":
-                                        color = COLORS['hm']['sector'][sector.normText()];
+                                    color = COLORS['hm']['sector'][sector.normText()];
                                     break;
                                 case "suctionpumps":
-                                        color = COLORS['sp']['sector'][sector.normText()];
+                                    color = COLORS['sp']['sector'][sector.normText()];
                                     break;
                                 default:
                                     color = COLORS['hm']['color'];
@@ -454,30 +453,33 @@ function loadVisualization() {
                             // Set the selection variables
                             let typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
                             let sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
-                            
+
                             SELECTION[typeKey].categoryLevel = 2;
                             for (let key in SELECTION) {
-                                    if (key === typeKey) {
-                                        SELECTION[key].selected = true;
-                                        for (let secondKey in SELECTION[key].sector) {
-                                            if (sectorKey === secondKey) {
-                                                SELECTION[key].sector[secondKey] = true;
-                                            } else {
-                                                SELECTION[key].sector[secondKey] = false;
-                                            }
-                                        }
-                                    } else {
-                                        SELECTION[key].selected = false;
-                                        for (let secondKey in SELECTION[key].sector) {
+                                if (key === typeKey) {
+                                    SELECTION[key].selected = true;
+                                    for (let secondKey in SELECTION[key].sector) {
+                                        if (sectorKey === secondKey) {
+                                            SELECTION[key].sector[secondKey] = true;
+                                        } else {
                                             SELECTION[key].sector[secondKey] = false;
                                         }
                                     }
-                                
+                                } else {
+                                    SELECTION[key].selected = false;
+                                    for (let secondKey in SELECTION[key].sector) {
+                                        SELECTION[key].sector[secondKey] = false;
+                                    }
+                                }
+
                             }
-                            for(let mapLayer of topoLayer) {
+
+                            // handleButtons();
+
+                            for (let mapLayer of topoLayer) {
                                 mapLayer.eachLayer(handleLayer);
                             }
-                            
+
                             //Fade out all other areas
                             d3.selectAll("g#Areas_ha path")
                                 .classed("unclickable", true) //Prevent future clicks
@@ -589,7 +591,7 @@ function loadVisualization() {
                 .attr(
                     "transform",
                     "translate(" +
-                    (w - padding ) +
+                    (w - padding) +
                     "," +
                     h / 2 +
                     ")rotate(-90)"
@@ -641,24 +643,23 @@ function loadVisualization() {
 
                 if (viewState === 1) {
                     //Go back to default view
-                    
+
                     // Set the selection variables
                     SELECTION.hm.categoryLevel = 1;
                     SELECTION.sp.categoryLevel = 1;
                     for (let key in SELECTION) {
-                            SELECTION[key].selected = true;
-                            for (let sectorKey in SELECTION[key].sector) {
-                                SELECTION[key].sector[sectorKey] = false;
-                            }
-                            for(let x of  document.getElementsByClassName(key + '_text')) {
-                                x.classList.remove('active');
-                            }
+                        SELECTION[key].selected = true;
+                        for (let sectorKey in SELECTION[key].sector) {
+                            SELECTION[key].sector[sectorKey] = false;
+                        }
+                        for (let x of  document.getElementsByClassName(key + '_text')) {
+                            x.classList.remove('active');
+                        }
                     }
-                    for(let mapLayer of topoLayer) {
+                    for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
-                    
-                    
+
 
                     // Update description
                     description.text("");
@@ -712,32 +713,32 @@ function loadVisualization() {
                         });
                 } else if (viewState === 2) {
                     //Go back to areas view
-                    
+
                     // // Set the selection variables
                     let typeKey;
                     for (let key in SELECTION) {
-                            for (let secondKey in SELECTION[key].sector) {
-                                if (SELECTION[key].sector[secondKey]) {
-                                    typeKey = key;
-                                    break;
-                                }
+                        for (let secondKey in SELECTION[key].sector) {
+                            if (SELECTION[key].sector[secondKey]) {
+                                typeKey = key;
+                                break;
                             }
+                        }
                     }
                     SELECTION[typeKey].categoryLevel = 2;
                     for (let key in SELECTION) {
-                            if (key === typeKey) {
-                                SELECTION[key].selected = true;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = true;
-                                }
-                            } else {
-                                SELECTION[key].selected = false;
-                                for (let sectorKey in SELECTION[key].sector) {
-                                    SELECTION[key].sector[sectorKey] = false;
-                                }
+                        if (key === typeKey) {
+                            SELECTION[key].selected = true;
+                            for (let sectorKey in SELECTION[key].sector) {
+                                SELECTION[key].sector[sectorKey] = true;
                             }
+                        } else {
+                            SELECTION[key].selected = false;
+                            for (let sectorKey in SELECTION[key].sector) {
+                                SELECTION[key].sector[sectorKey] = false;
+                            }
+                        }
                     }
-                    for(let mapLayer of topoLayer) {
+                    for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
 
