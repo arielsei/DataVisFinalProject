@@ -119,6 +119,12 @@ window.onload = () => {
 
         sectors.querySelectorAll('.button').forEach(function (button) {
             button.addEventListener('click', function (e) {
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                } else {
+                    this.classList.add('selected');
+                }
+
                 let sector = this.getAttribute('data-sector');
                 let type = this.getAttribute('data-type');
                 console.log(type + ' ' + sector);
