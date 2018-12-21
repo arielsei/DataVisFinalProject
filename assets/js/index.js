@@ -50,7 +50,7 @@ let firstLoad = true;
 let topoLayer = [];
 let map;
 let resizeTimeout;
-const introHeight = 1000;
+const introHeight = 900;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
@@ -78,6 +78,12 @@ const highlights = [
         long: -12.839984,
         zoom: 12,
         year: 2009
+    },
+    {
+        lat: -69.605402,
+        long: -12.772980,
+        zoom: 9.5,
+        year: 2017
     },
     {
         lat: -69.605402,
@@ -252,12 +258,6 @@ window.onload = () => {
     document.getElementById("back-to-top").addEventListener("click", goBackToTop);
     loadMapFiles();
 
-    // readJsonFile("assets/data/simplified_grouped_mineria_1985.geojson", function(text){
-    //     console.log(text);
-    //     var data = JSON.parse(text);
-    //     console.log(data);
-    //     L.geoJSON(data).addTo(map);
-    // });
     initializeSlider();
     loadVisualization();
     animateValue("value_counter_0", 0, 20, 2000);
@@ -293,8 +293,6 @@ function addSectorBtns(container, type) {
 
 
 function sectorClkEvent() {
-    // var boxOne = document.getElementsByClassName('box')[0];
-    // boxOne.classList.add('horizTranslate');
     if (this.classList.contains('selected')) {
         this.classList.remove('selected');
     } else {
@@ -550,62 +548,6 @@ function handleLayer(layer) {
         colorOfLayer = COLORS[miningType]['sector'][sector];
         fillOpacity = SELECTION[miningType]['sector'][sector] ? 1 : 0;
     }
-    // let fillOpacity;
-
-
-    // console.log(layer.feature.properties.Sector);
-    // switch (layer.feature.properties.MiningType) {
-    //
-    //     case "HM":
-    //         switch (layer.feature.properties.Sector) {
-    //             case "Huepetuhe":
-    //                 colorOfLayer = "#77070B";
-    //                 fillOpacity = 0;
-    //                 break;
-    //             case "SmallMines": {
-    //                 colorOfLayer = "#FFC000"; //nada
-    //                 fillOpacity = 0;
-    //                 break;
-    //             }
-    //             case "Delta": {
-    //                 colorOfLayer = "#FFFF00"; // nada
-    //                 fillOpacity = 0;
-    //                 break;
-    //             }
-    //             case "Pampa": {
-    //                 colorOfLayer = "#00B050";
-    //                 fillOpacity = 0;
-    //                 break;
-    //             }
-    //         }
-    //         break;
-    //     case "SP":
-    //         switch (layer.feature.properties.Sector) {
-    //             case "Huepetuhe":
-    //                 colorOfLayer = "#002060"; // nada
-    //                 fillOpacity = 0;
-    //                 break;
-    //             case "SmallMines": {
-    //                 colorOfLayer = "#7030A0"; // nada
-    //                 fillOpacity = 0;
-    //                 break;
-    //             }
-    //             case "Delta": {
-    //                 colorOfLayer = "#808080"; //nada
-    //                 fillOpacity = 0;
-    //                 break;
-    //             }
-    //             case "Pampa": {
-    //                 colorOfLayer = "#007AAE";
-    //                 fillOpacity = 1;
-    //                 break;
-    //             }
-    //         }
-    //         break;
-    //     default:
-    //         colorOfLayer = "#000000";
-    //         fillOpacity = 1;
-    // }
     layer.setStyle({
         color: colorOfLayer,
         // Uncomment this line to see only the ones with fillOpacity = 1
@@ -633,6 +575,7 @@ function handleScroll(event) {
 
         }
     }
+    blockScrolling = Math.min(blockScrolling, highlights.length - 1);
     if (blockScrolling !== currentBlock) {
         if (highlights[blockScrolling]) {
             // Move to the corresponding year
