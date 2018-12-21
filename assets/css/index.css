@@ -2393,7 +2393,6 @@ a {
 }
 
 .description #footer p {
-    margin-top: 50px;
     margin-bottom: 0;
     font-size: 10px;
     line-height: 14px;
@@ -2426,7 +2425,9 @@ a {
 }
 
 .description #backButton rect {
-    fill: rgb(175, 240, 91);
+    fill: white;
+    stroke-width:1;
+    stroke:rgb(0,0,0)
 }
 
 .description #backButton text {
@@ -2437,7 +2438,7 @@ a {
 }
 
 .description #backButton:hover rect {
-    fill: rgb(26, 199, 194);
+    fill: #4a4a4a;
 }
 
 .description #backButton:hover text {
@@ -2466,7 +2467,7 @@ a {
     height: 300px;
     margin: 0px;
     text-align: center;
-    padding-top: 70px;
+    padding-top: 150px;
 }
 
 .description .space-at-the-bottom a {
@@ -2477,6 +2478,20 @@ a {
 .description .space-at-the-bottom a:hover {
     color: darkblue;
     cursor: pointer;
+}
+
+.description .space-at-the-bottom #back-to-top {
+    padding: 0 10px;
+    cursor: pointer !important;
+    background-color: white;
+    border-radius: 5px;
+    border-width: 1px;
+    text-align: center;
+    color: #152C55;
+}
+
+.description .space-at-the-bottom #back-to-top:hover {
+    color: #4D658D;
 }
 
 .description .image-container {
@@ -2676,10 +2691,10 @@ div[data-type='sp'][data-sector='pampa'].selected {
 }
 
 .scroll-tooltip {
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
     font-weight: bold;
-    color: orange;
+    color: #ffebcd;
     text-shadow: -1px 0 grey, 0 1px black, 1px 0 black, 0 -1px black;
 
 }
@@ -2694,5 +2709,5 @@ div[data-type='sp'][data-sector='pampa'].selected {
 }
 
 #container6{
-    height: 425px;
+    height: 400px;
 }
