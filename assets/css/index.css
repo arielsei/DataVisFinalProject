@@ -2136,11 +2136,11 @@ a {
 }
 
 .leaflet-horizontal-right.open-hm *, .leaflet-horizontal-right.open-sp * {
-    top: calc(100% - 335px);
+    top: calc(100% - 335px + 33px);
 }
 
 .leaflet-horizontal-right.open-sp.open-hm * {
-    top: calc(100% - 560px);
+    top: calc(100% - 560px + 66px);
 }
 
 .leaflet-horizontal-right {
