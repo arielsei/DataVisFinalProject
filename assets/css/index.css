@@ -2684,3 +2684,7 @@ div[data-type='sp'][data-sector='pampa'].selected {
     padding-bottom: 5px !important;
     padding-top: 5px !important;
 }
+
+#container6{
+    height: 425px;
+}
