@@ -4,6 +4,28 @@
 In order to start the http server, you will need to have python installed.
 Please follow the instuctions found in https://www.python.org/downloads/
 
+To run preprocessing scripts you need to have PyShp, geojson, transform, MapShaper 
+and topojson installed
+
+You can follow the instructions on each github page:
+
+ - PyShp : https://github.com/GeospatialPython/pyshp
+ - GeoJson : https://github.com/frewsxcv/python-geojson
+ - Transform :  
+ - MapShaper : https://github.com/mbloch/mapshaper
+ - TopoJSON : https://github.com/topojson/topojson
+
+## Preprocessing
+To run preprocessing scripts first you have to run the following commands:
+```bash
+python preprocessing.py
+```
+This will generate GeoJSON files from shp files on data folder in the root.
+Then to simplify the spatial file an convert it to TopoJSON execute:
+```bash
+sh topojson.sh
+```
+
 ## Starting the http server
 You can start the http server by running the `start.sh` script.
 In a console opened at the directory of the project files, run the following command
@@ -32,6 +54,8 @@ Those will be displayed as buttons above its mining type, try to use them to fil
 Alongside this buttons, a slider is presented to display the evolution of mining types and sectors across the years Data available is from 1985 to 2017, slider uses 8 years interval to show map layers.
 
 At the right side there is a storytelling content element where the user can scroll and watch the major insight of each interval. There are also a few animations and visualization charts linking maps with the storytelling, to make it easier to understand for any user.
+
+## Contact
 
 For any question or further information do not hesitate to contact us by our emails:
 - Ariel Alba: ariel.albarios@epfl.ch

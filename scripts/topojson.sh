@@ -3,7 +3,7 @@
 #install nodejs http://nodejs.org/
 #install npm https://npmjs.org/doc/README.html
 #run npm install -g topojson in your command prompt
-# Install mapshaper and topsimplify
+# Install mapshaper and toposimplify
 
 cd ../data/geojson
 # Grouping geojson
