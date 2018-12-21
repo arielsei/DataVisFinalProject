@@ -4,7 +4,7 @@ function loadVisualization() {
     // console.log(document.getElementById('storyTelling').offsetWidth);
     //Width and height
 
-    let w = document.getElementById("storyTelling").offsetWidth - 45;
+    let w = document.getElementById("storyTelling").offsetWidth - 50;
     let h = 350;
     let padding = 35;
 

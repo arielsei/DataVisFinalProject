@@ -105,7 +105,8 @@ window.onload = () => {
         maxBoundsViscosity: 1.0,
         zoomSnap: 1,
         zoomDelta: 1,
-        wheelPxPerZoomLevel: 150
+        wheelPxPerZoomLevel: 150,
+        attributionControl: false
     });
     const layerOptions = {
         maxZoom: 13,
@@ -260,7 +261,7 @@ window.onload = () => {
 
     initializeSlider();
     loadVisualization();
-    animateValue("value_counter_0", 0, 20, 2000);
+    animateValue("value_counter_0", 0, 50, 1000);
 };
 
 
@@ -582,22 +583,29 @@ function handleScroll(event) {
             sliderElement.noUiSlider.set(highlights[blockScrolling].year);
             switch (highlights[blockScrolling].year) {
                 case 1985:
-                    animateValue("value_counter_1", 0, 1, 2000);
+                    animateValue("value_counter_11", 0, 1, 1000);
+                    animateValue("value_counter_12", 0, 1, 1000);
                     break;
                 case 1993:
-                    animateValue("value_counter_2", 0, 5, 2000);
-                    animateValue("value_counter_3", 0, 5, 2000);
+                    animateValue("value_counter_21", 0, 50, 1000);
+                    animateValue("value_counter_22", 0, 40, 1000);
+                    animateValue("value_counter_23", 0, 40, 1000);
+                    animateValue("value_counter_24", 0, 60, 1000);
                     break;
                 case 2001:
-                    animateValue("value_counter_4", 0, 1, 2000);
+                    animateValue("value_counter_31", 0, 1, 1000);
+                    animateValue("value_counter_32", 0, 4, 1000);
+                    animateValue("value_counter_33", 0, 1, 1000);
+                    animateValue("value_counter_34", 0, 10, 1000);
                     break;
                 case 2009:
-                    animateValue("value_counter_5", 0, 5, 2000);
-                    animateValue("value_counter_6", 0, 5, 2000);
+                    animateValue("value_counter_41", 0, 90, 1000);
+                    animateValue("value_counter_42", 0, 50, 1000);
+                    animateValue("value_counter_43", 0, 80, 1000);
                     break;
                 case 2017:
-                    animateValue("value_counter_7", 0, 20, 2000);
-                    animateValue("value_counter_8", 0, 8, 2000);
+                    animateValue("value_counter_51", 0, 100, 1000);
+                    animateValue("value_counter_52", 0, 90, 1000);
                     break;
                 default:
                     console.log("animate default!!");
@@ -619,7 +627,7 @@ function handleScroll(event) {
             );
 
         } else {
-            animateValue("value_counter_0", 0, 10, 2000);
+            animateValue("value_counter_0", 0, 100, 1000);
 
         }
         elements = document.getElementsByClassName("story-container");

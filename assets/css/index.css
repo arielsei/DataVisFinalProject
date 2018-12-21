@@ -2463,7 +2463,7 @@ a {
 }
 
 .description .space-at-the-bottom {
-    height: 350px;
+    height: 300px;
     margin: 0px;
     text-align: center;
     padding-top: 70px;
@@ -2675,6 +2675,14 @@ div[data-type='sp'][data-sector='pampa'].selected {
     background: #CCC;
 }
 
+.scroll-tooltip {
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    color: orange;
+    text-shadow: -1px 0 grey, 0 1px black, 1px 0 black, 0 -1px black;
+
+}
 .chart-footer {
     font-size: 10px;
 }
@@ -2683,4 +2691,8 @@ div[data-type='sp'][data-sector='pampa'].selected {
     font-size: 10px !important;
     padding-bottom: 5px !important;
     padding-top: 5px !important;
+}
+
+#container6{
+    height: 425px;
 }
