@@ -587,10 +587,10 @@ function handleScroll(event) {
                     animateValue("value_counter_12", 0, 1, 1000);
                     break;
                 case 1993:
-                    animateValue("value_counter_21", 0, 50, 1000);
-                    animateValue("value_counter_22", 0, 40, 1000);
-                    animateValue("value_counter_23", 0, 40, 1000);
-                    animateValue("value_counter_24", 0, 60, 1000);
+                    animateValue("value_counter_21", 0, 10, 1000);
+                    animateValue("value_counter_22", 0, 10, 1000);
+                    animateValue("value_counter_23", 0, 10, 1000);
+                    animateValue("value_counter_24", 0, 10, 1000);
                     break;
                 case 2001:
                     animateValue("value_counter_31", 0, 1, 1000);
@@ -599,9 +599,9 @@ function handleScroll(event) {
                     animateValue("value_counter_34", 0, 10, 1000);
                     break;
                 case 2009:
-                    animateValue("value_counter_41", 0, 90, 1000);
-                    animateValue("value_counter_42", 0, 50, 1000);
-                    animateValue("value_counter_43", 0, 80, 1000);
+                    animateValue("value_counter_41", 0, 20, 1000);
+                    animateValue("value_counter_42", 0, 20, 1000);
+                    animateValue("value_counter_43", 0, 20, 1000);
                     break;
                 case 2017:
                     animateValue("value_counter_51", 0, 100, 1000);
