@@ -50,7 +50,7 @@ let firstLoad = true;
 let topoLayer = [];
 let map;
 let resizeTimeout;
-const introHeight = 1000;
+const introHeight = 900;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
@@ -78,6 +78,12 @@ const highlights = [
         long: -12.839984,
         zoom: 12,
         year: 2009
+    },
+    {
+        lat: -69.605402,
+        long: -12.772980,
+        zoom: 9.5,
+        year: 2017
     },
     {
         lat: -69.605402,
@@ -633,6 +639,7 @@ function handleScroll(event) {
 
         }
     }
+    blockScrolling = Math.min(blockScrolling, highlights.length - 1);
     if (blockScrolling !== currentBlock) {
         if (highlights[blockScrolling]) {
             // Move to the corresponding year
