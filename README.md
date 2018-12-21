@@ -11,7 +11,7 @@ You can follow the instructions on each github page:
 
  - PyShp : https://github.com/GeospatialPython/pyshp
  - GeoJson : https://github.com/frewsxcv/python-geojson
- - Transform :  
+ - PyProj : https://github.com/jswhit/pyproj 
  - MapShaper : https://github.com/mbloch/mapshaper
  - TopoJSON : https://github.com/topojson/topojson
 
@@ -33,7 +33,10 @@ In a console opened at the directory of the project files, run the following com
 bash start.sh
 ```
 
-Now open your web browser (preferably Google Chrome) and in the address bar enter: `localhost:8000`.
+Now open your web browser (preferably Google Chrome with a resolution of 1920x108p) 
+and in the address bar enter: `localhost:8000`.
+
+
 
 ## Map Interactions
 
