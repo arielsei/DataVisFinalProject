@@ -77,7 +77,6 @@ function loadVisualization() {
                         mining_type: mining_type,
                         sector: sector,
                         area_val: area_val
-                        // "coords": coords
                     };
                 }
             }
@@ -87,10 +86,6 @@ function loadVisualization() {
 
             //	TYPE DATA SERIES
 
-            // The goal here is to make a totally separate data set that
-            // includes just monthly totals for each `type` (Heavy_Machinery, Suction_Pumps).
-
-            // Make typeDataset an empty array, so we can start adding values
             let typeDataset = [];
 
             //Loop once for each row of the CSV, starting at row 3,
@@ -213,11 +208,11 @@ function loadVisualization() {
                     .data(typeSeries, key)
                     .enter()
                     .append("path")
-                    .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+                    .attr("text-anchor", "middle") 
                     .attr(
                         "transform",
                         "translate(" + padding / 2 + "," + h / 2 + ")"
-                    ) // text is drawn off the screen top left, move down and out and rotate
+                    ) 
                     .text(function (d) {
                         // console.log(viewType);
                         return d.key;
@@ -260,9 +255,7 @@ function loadVisualization() {
                     //Update view state
                     viewState++;
 
-                    // TYPES
 
-                    //Which type was clicked?
                     let thisType = d.key;
 
                     // Update description
@@ -320,7 +313,6 @@ function loadVisualization() {
 
                     // console.log(thisTypeDataset);
 
-                    //Stack the data (even though there's now just one "layer") and log it out
                     let thisTypeSeries = typeStack(thisTypeDataset);
                     // console.log(thisTypeSeries);
 
@@ -330,10 +322,6 @@ function loadVisualization() {
                         .data(thisTypeSeries, key)
                         .classed("unclickable", true);
 
-                    //Transition areas into new positions (i.e., thisType's area
-                    //will go to a zero baseline; all others will flatten out).
-                    //
-                    //Store this transition in a new variable for later reference.
                     let areaTransitions = paths
                         .transition()
                         .duration(1000)
@@ -514,9 +502,7 @@ function loadVisualization() {
                                 .y1(function (d) {
                                     return yScale(d.data[thisType].area_val);
                                 });
-                            //Note y1 uses the raw 'sales' value for 'this' area,
-                            //not the stacked data values (e.g., d[0] or d[1]).
-
+                            
                             //Use this new area generator to transition the area downward,
                             //to have a flat (zero) baseline.
                             let thisAreaTransition = d3
@@ -596,7 +582,7 @@ function loadVisualization() {
                 .call(yAxis);
 
             svg.append("text")
-                .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+                .attr("text-anchor", "middle") 
                 .attr(
                     "transform",
                     "translate(" +
@@ -604,7 +590,7 @@ function loadVisualization() {
                     "," +
                     h / 2 +
                     ")rotate(-90)"
-                ) // text is drawn off the screen top left, move down and out and rotate
+                ) 
                 .text("Area hm");
 
             // Add title
@@ -679,7 +665,6 @@ function loadVisualization() {
                     //Update view state
                     viewState--;
 
-                    //Re-bind type data and fade in types
                     let typeAreaTransitions = d3
                         .selectAll("g#types path")
                         .data(typeSeries, key)
@@ -724,7 +709,6 @@ function loadVisualization() {
                             d3.select(this).classed("unclickable", false);
                         });
                 } else if (viewState === 2) {
-                    //Go back to areas view
 
                     // Set the selection variables
                     let typeKey = lastSecondLevelSelection;
@@ -780,14 +764,14 @@ function loadVisualization() {
                                     .replace("_", " ")
                             );
 
-                            //Transition y axis to new scale concurrently
+                            //Transition y axis
                             d3.select("g.axis.y")
                                 .transition()
                                 .duration(1000)
                                 .call(yAxis);
                         })
                         .duration(1000)
-                        .attr("d", area) //Effectively changes only the selected area
+                        .attr("d", area) //changes only the selected area
                         .transition()
                         .duration(1000)
                         .attr("opacity", 1) //Fade in all areas
@@ -801,14 +785,7 @@ function loadVisualization() {
                             }
                         });
                 }
-                // ADD LEGEND
-                // svg.append("text")
-                //     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-                //     .attr("transform", "translate("+ (padding/2) +","+(h/2)+")")  // text is drawn off the screen top left, move down and out and rotate
-                //     .text(function(d) {
-                //         // console.log(viewType);
-                //         return viewType;
-                //     });
+                
             });
         });
 
@@ -826,23 +803,9 @@ function loadVisualization() {
             //Set up dynamic button text
             // let buttonText = "&larr; Return ";
             let buttonText = "&larr; Back ";
-            // var buttonTextInfo = "&larr; Current View ";
-            //Text varies by mode and type
-            // if (viewState === 1) {
-            //     buttonText += "types of mining HM - SP";
-            //     // buttonTextInfo += "all types";
-            // } else if (viewState === 2) {
-            //     buttonText += "Mining Type " + viewType + " by sectors";
-            //     // buttonTextInfo += "all " + viewType + " Areas_ha"
-            // }
-
+            
             //Set text
             backButton.select("text").html(buttonText);
-            // backButtonIz.select("text").html(buttonTextInfo);
-
-            // backButton
-            //     .selectAll("text")
-            //     .call(wrap, 200);
 
             // Resize button depending on text width
             let rectWidth = Math.round(
