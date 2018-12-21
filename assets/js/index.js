@@ -106,69 +106,6 @@ window.onload = () => {
         minZoom: 5
     };
 
-    let sectorClkEvent = function (e) {
-        // var boxOne = document.getElementsByClassName('box')[0];
-        // boxOne.classList.add('horizTranslate');
-        if (this.classList.contains('selected')) {
-            this.classList.remove('selected');
-        } else {
-            this.classList.add('selected');
-        }
-
-        let sector = this.getAttribute('data-sector');
-        let type = this.getAttribute('data-type');
-        console.log(type + ' ' + sector);
-        for (let x of  document.getElementsByClassName(type + '_text')) {
-            x.classList.add('active');
-        }
-
-        // Update colors in the map
-        SELECTION[type].categoryLevel = 2;
-        SELECTION[type].sector[sector] = !SELECTION[type].sector[sector];
-        goBackCategory = true;
-        for (let key in SELECTION) {
-            if (key === type) {
-                for (let secondKey in SELECTION[key].sector) {
-                    if (SELECTION[key].sector[secondKey]) {
-                        goBackCategory = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (goBackCategory) {
-            SELECTION[type].categoryLevel = 1;
-            SELECTION[type].selected = true;
-        }
-
-        for (let mapLayer of topoLayer) {
-            mapLayer.eachLayer(handleLayer);
-        }
-    };
-
-    let addSectorBtns = (container, type) => {
-        let sectors = document.getElementById('sectorBtns').cloneNode(true);
-        sectors.id = 'sectorBtns' + type;
-
-        let buttons = sectors.children;
-
-        for (let button of buttons) {
-            button.setAttribute('data-type', type);
-        }
-
-        container.parentNode.insertBefore(sectors, container);
-
-        sectors.querySelectorAll('.button').forEach(function (button) {
-            let sector = button.getAttribute('data-sector');
-            if ((type === 'hm' && sector === 'pampa') || (type === 'sp' && sector === 'huepetuhe')) {
-                button.classList.add('disabled')
-            } else {
-                button.addEventListener('click', sectorClkEvent);
-            }
-        });
-    };
-
-
     const customOption1 = L.Control.extend({
         options: {
             position: "bottomRight"
@@ -191,9 +128,11 @@ window.onload = () => {
                     addSectorBtns(container, 'hm');
                     map._controlCorners.bottomRight.classList.add('open-hm');
                     container.classList.add('selected');
+                    
 
                     // let groups = document.getElementById('sectorBtnshm');
                     // groups.style.opacity = '1';
+
                 }
 
                 hmSelected = !hmSelected;
@@ -202,6 +141,16 @@ window.onload = () => {
                 }
 
                 // Update colors in the map
+                sectorSelected = false;
+                for (let key in SELECTION.hm.sector) {
+                    if (SELECTION.hm.sector[key]) {
+                        sectorSelected = true;
+                        break;
+                    }
+                } 
+                SELECTION.hm.selected = spSelected;
+                SELECTION.hm.categoryLevel = spSelected ? (sectorSelected ? 2 : 1) : 1;
+                
                 SELECTION.hm.selected = hmSelected;
                 for (let mapLayer of topoLayer) {
                     mapLayer.eachLayer(handleLayer);
@@ -242,7 +191,15 @@ window.onload = () => {
 
                 spSelected = !spSelected;
                 // Update colors in the map
+                sectorSelected = false;
+                for (let key in SELECTION.sp.sector) {
+                    if (SELECTION.sp.sector[key]) {
+                        sectorSelected = true;
+                        break;
+                    }
+                } 
                 SELECTION.sp.selected = spSelected;
+                SELECTION.sp.categoryLevel = spSelected ? (sectorSelected ? 2 : 1) : 1;
                 for (let mapLayer of topoLayer) {
                     mapLayer.eachLayer(handleLayer);
                 }
@@ -305,6 +262,75 @@ window.onload = () => {
     loadVisualization();
     animateValue("value_counter_0", 0, 10, 2000);
 };
+
+
+
+function addSectorBtns(container, type) {
+    let sectors = document.getElementById('sectorBtns').cloneNode(true);
+    sectors.id = 'sectorBtns' + type;
+
+    let buttons = sectors.children;
+
+    for (let button of buttons) {
+        button.setAttribute('data-type', type);
+    }
+
+    container.parentNode.insertBefore(sectors, container);
+
+    sectors.querySelectorAll('.button').forEach(function (button) {
+        let sector = button.getAttribute('data-sector');
+        if ((type === 'hm' && sector === 'pampa') || (type === 'sp' && sector === 'huepetuhe')) {
+            button.classList.add('disabled')
+        } else {
+            button.addEventListener('click', sectorClkEvent);
+            if (SELECTION[type].sector[sector]) {
+                button.classList.add('selected');
+            }
+        }
+    });
+}
+
+
+
+function sectorClkEvent() {
+    // var boxOne = document.getElementsByClassName('box')[0];
+    // boxOne.classList.add('horizTranslate');
+    if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+    } else {
+        this.classList.add('selected');
+    }
+
+    let sector = this.getAttribute('data-sector');
+    let type = this.getAttribute('data-type');
+    console.log(type + ' ' + sector);
+    for (let x of  document.getElementsByClassName(type + '_text')) {
+        x.classList.add('active');
+    }
+
+    // Update colors in the map
+    SELECTION[type].categoryLevel = 2;
+    SELECTION[type].sector[sector] = !SELECTION[type].sector[sector];
+    goBackCategory = true;
+    for (let key in SELECTION) {
+        if (key === type) {
+            for (let secondKey in SELECTION[key].sector) {
+                if (SELECTION[key].sector[secondKey]) {
+                    goBackCategory = false;
+                    break;
+                }
+            }
+        }
+    }
+    if (goBackCategory) {
+        SELECTION[type].categoryLevel = 1;
+        SELECTION[type].selected = true;
+    }
+
+    for (let mapLayer of topoLayer) {
+        mapLayer.eachLayer(handleLayer);
+    }
+}
 
 function readJsonFile(filename, callback) {
     let rawFile = new XMLHttpRequest();
@@ -448,24 +474,67 @@ function loadMapFiles() {
     });
 }
 
-function handleButtons() {
+function updateButtonColors() {
+    let sectorHm = document.getElementById('sectorBtnshm');
+    let sectorSp = document.getElementById('sectorBtnssp');
+
+    console.log(sectorHm);
+    console.log(SELECTION.hm.selected);
+    if (sectorHm && !SELECTION.hm.selected) {
+        map._controlCorners.bottomRight.classList.remove('open-hm');
+        document.getElementById('sectorBtnshm').remove();
+    }
+    if (!sectorHm && SELECTION.hm.selected) {
+        addSectorBtns(L.DomUtil.get("option1"), 'hm');
+        map._controlCorners.bottomRight.classList.add('open-hm');
+    }
+    if (sectorSp && !SELECTION.sp.selected) {
+        map._controlCorners.bottomRight.classList.remove('open-sp');
+        document.getElementById('sectorBtnssp').remove();
+    }
+    if (!sectorSp && SELECTION.sp.selected) {
+        addSectorBtns(L.DomUtil.get("option2"), 'sp');
+        map._controlCorners.bottomRight.classList.add('open-sp');
+    }
+
     let buttons = document.querySelectorAll('.leaflet-horizontal-right .button');
 
     for (let button of buttons) {
         let sector = button.getAttribute('data-sector');
         let miningType = button.getAttribute('data-type');
-        let isSelected = false;
+        console.log(sector, "and", miningType);
 
-        if (SELECTION[miningType].categoryLevel === 1) {
-            isSelected = SELECTION[miningType].selected;
-        } else {
-            isSelected = SELECTION[miningType]['sector'][sector];
-        }
+        if(sector) {
+            if (SELECTION[miningType]['sector'][sector]) {
+                button.classList.add('selected');
+            } else {
 
-        if (isSelected) {
-            button.classList.add('selected');
+                button.classList.remove('selected');
+            }
         } else {
-            button.classList.remove('selected');
+            if(SELECTION[miningType].selected) {
+                switch(miningType) {
+                    case 'hm':     
+                        document.getElementById('option1').classList.add('selected');
+                        hmSelected = true;
+                    break;
+                    case 'sp':
+                        document.getElementById('option2').classList.add('selected');
+                        spSelected = true;
+                    break;
+                }
+            } else {
+                switch(miningType) {
+                    case 'hm':     
+                        document.getElementById('option1').classList.remove('selected');
+                        hmSelected = false;
+                    break;
+                    case 'sp':
+                        document.getElementById('option2').classList.remove('selected');
+                        spSelected = false;
+                    break;
+                }
+            }
         }
     }
 }

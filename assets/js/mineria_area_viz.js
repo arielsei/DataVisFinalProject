@@ -1,3 +1,5 @@
+let lastSecondLevelSelection;
+
 function loadVisualization() {
     // console.log(document.getElementById('storyTelling').offsetWidth);
     //Width and height
@@ -276,7 +278,11 @@ function loadVisualization() {
                         if (key === typeKey) {
                             SELECTION[key].selected = true;
                             for (let sectorKey in SELECTION[key].sector) {
+                                if (((key === 'hm' && sectorKey === 'pampa') || (key === 'sp' && sectorKey === 'huepetuhe')) ) {
+                                    SELECTION[key].sector[sectorKey] = false;
+                                } else {
                                 SELECTION[key].sector[sectorKey] = true;
+                                }
                             }
                         } else {
                             SELECTION[key].selected = false;
@@ -286,6 +292,9 @@ function loadVisualization() {
                         }
 
                     }
+
+                    updateButtonColors();
+
                     for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
@@ -453,7 +462,7 @@ function loadVisualization() {
                             // Set the selection variables
                             let typeKey = thisType.substr(0, thisType.indexOf(" ")).match(/[A-Z]/g).join('').toLowerCase();
                             let sectorKey = thisType.substr(thisType.indexOf(" ") + 1).replace(" ", "").toLowerCase();
-
+                            lastSecondLevelSelection = typeKey;
                             SELECTION[typeKey].categoryLevel = 2;
                             for (let key in SELECTION) {
                                 if (key === typeKey) {
@@ -474,7 +483,7 @@ function loadVisualization() {
 
                             }
 
-                            // handleButtons();
+                            updateButtonColors();
 
                             for (let mapLayer of topoLayer) {
                                 mapLayer.eachLayer(handleLayer);
@@ -656,6 +665,9 @@ function loadVisualization() {
                             x.classList.remove('active');
                         }
                     }
+
+                    updateButtonColors();
+
                     for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }
@@ -714,22 +726,18 @@ function loadVisualization() {
                 } else if (viewState === 2) {
                     //Go back to areas view
 
-                    // // Set the selection variables
-                    let typeKey;
-                    for (let key in SELECTION) {
-                        for (let secondKey in SELECTION[key].sector) {
-                            if (SELECTION[key].sector[secondKey]) {
-                                typeKey = key;
-                                break;
-                            }
-                        }
-                    }
+                    // Set the selection variables
+                    let typeKey = lastSecondLevelSelection;
                     SELECTION[typeKey].categoryLevel = 2;
                     for (let key in SELECTION) {
                         if (key === typeKey) {
                             SELECTION[key].selected = true;
                             for (let sectorKey in SELECTION[key].sector) {
-                                SELECTION[key].sector[sectorKey] = true;
+                                if (((key === 'hm' && sectorKey === 'pampa') || (key === 'sp' && sectorKey === 'huepetuhe')) ) {
+                                    SELECTION[key].sector[sectorKey] = false;
+                                } else {
+                                    SELECTION[key].sector[sectorKey] = true;
+                                }
                             }
                         } else {
                             SELECTION[key].selected = false;
@@ -738,6 +746,9 @@ function loadVisualization() {
                             }
                         }
                     }
+
+                    updateButtonColors();
+
                     for (let mapLayer of topoLayer) {
                         mapLayer.eachLayer(handleLayer);
                     }

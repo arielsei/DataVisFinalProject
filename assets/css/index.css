@@ -2183,6 +2183,7 @@ a {
     background-color: white;
     border-radius: 5px;
     text-align: center;
+    opacity: 0.90;
 }
 
 #main > #sectorBtns {
@@ -2196,7 +2197,7 @@ a {
     color: black;
     width: 110px;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -2278,7 +2279,7 @@ a {
     border-color: #393838;
     border-width: 1.5px;
 
-    left: 40%;
+    left: 33%;
     transform: translateX(-40%);
     -ms-transform: translateX(-40%);
     -webkit-transform: translateX(-40%);
