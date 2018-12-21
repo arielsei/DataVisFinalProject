@@ -50,7 +50,7 @@ let firstLoad = true;
 let topoLayer = [];
 let map;
 let resizeTimeout;
-const introHeight = 900;
+const introHeight = 800;
 const blockHeight = 350;
 let currentBlock = 0;
 const highlights = [
