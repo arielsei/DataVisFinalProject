@@ -8,14 +8,16 @@ from pprint import pprint
 from matplotlib import pyplot
 
 
-LU_CLASS = {1: 'Bosque inundable', 2: 'Bosque no inundable', 3: 'Vegetacion secundaria',
-            4: 'Humedales', 5: 'Sabana humedales', 6: 'Sabana', 7: 'Herbazal', 8: 'Pasto-Herbazal',
+LU_CLASS = {1: 'Bosque_inundable', 2: 'Bosque_no_inundable', 3: 'Vegetacion_secundaria',
+            4: 'Humedales', 5: 'Sabana_humedales', 6: 'Sabana', 7: 'Herbazal', 8: 'Pasto-Herbazal',
             9: 'Pasto', 10: 'Pasto-Agricultura', 11: 'Agricultura', 12: 'Agua', 13: 'Urbano', 14: 'Mineria',
-            15: 'Suelo desnudo', 16: 'Aguajales'}
+            15: 'Suelo_desnudo', 16: 'Aguajal', 17: 'Bosque_montano', 18: 'Glaciar', 19: 'Matorral',
+            20: 'Pajonal_andino', 21: 'Pedregales', 22: 'Carreteras_no_pavimentadas', 23: 'Carreteras_pavimentadas'}
 
 DATA_FOLDER = '../data/'
 TIF_FOLDER = '{}tif/'.format(DATA_FOLDER)
-with rasterio.open('{}LU_MAP_final_rec01.tif'.format(TIF_FOLDER)) as src:
+
+with rasterio.open('{}LU_LC_REGION_MAP_final.tif'.format(TIF_FOLDER)) as src:
     # Read the dataset's valid data mask as a ndarray.
     mask = src.dataset_mask()
     array = src.read()

@@ -471,6 +471,23 @@ function loadMapFiles() {
         topoLayer[4].eachLayer(handleLayer);
         topoLayer[4].addTo(map);
     });
+
+    // readJsonFile("assets/data/simplified_topo_simplified_geo_LU_Agua.json", function (text) {
+    //     let data = JSON.parse(text);
+    //     topoLayer[0] = new L.TopoJSON();
+    //     topoLayer[0].addData(data);
+    //     topoLayer[0].eachLayer(handleLayer);
+    //     topoLayer[0].addTo(map);
+    // });
+
+    // readJsonFile("assets/data/simplified_topo_simplified_geo_LU_Bosque_no_inundable.json", function (text) {
+    //     let data = JSON.parse(text);
+    //     topoLayer[1] = new L.TopoJSON();
+    //     topoLayer[1].addData(data);
+    //     topoLayer[1].eachLayer(handleLayer);
+    //     topoLayer[1].addTo(map);
+    // });
+
 }
 
 function updateButtonColors() {

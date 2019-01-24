@@ -6,6 +6,7 @@
 # Install mapshaper and toposimplify
 
 cd ../data/geojson
+
 # Grouping geojson
 for mineria in mineria_*
 do
